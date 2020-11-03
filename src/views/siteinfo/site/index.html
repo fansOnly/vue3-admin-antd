@@ -1,0 +1,57 @@
+<div class="container">
+    <a-tabs type="card" @change="val => tabActiveKey = val">
+        <a-tab-pane tab="基本设置" key="base">
+            <a-row :gutter="24">
+                <a-col :span="14">
+                    <a-form ref="baseForm" :colon="colon" :layout="layout">
+                        <a-form-item label="站点名称" v-bind="validateBaseInfos.name">
+                            <a-input v-model:value="formRef[tabActiveKey].name" placeholder="请输入站点名称" />
+                        </a-form-item>
+                        <a-form-item label="联系方式" v-bind="validateBaseInfos.phone">
+                            <a-input v-model:value="formRef[tabActiveKey].phone" :maxLength="11" placeholder="请输入联系方式">
+                                <template #addonBefore>
+                                    <a-select defaultValue="86" style="width: 70px">
+                                        <a-select-option value="86">+86</a-select-option>
+                                        <a-select-option value="87">+87</a-select-option>
+                                    </a-select>
+                                </template>
+                            </a-input>
+                        </a-form-item>
+                        <a-form-item label="联系邮箱" v-bind="validateBaseInfos.email">
+                            <a-input v-model:value="formRef[tabActiveKey].email" placeholder="请输入联系邮箱" />
+                        </a-form-item>
+                        <a-form-item label="版权信息">
+                            <a-input v-model:value="formRef[tabActiveKey].copyright" placeholder="请输入版权信息" />
+                        </a-form-item>
+                        <a-form-item label="站点备注">
+                            <a-textarea v-model:value="formRef[tabActiveKey].content" :rows="4" placeholder="请输入站点备注" />
+                        </a-form-item>
+                        <a-button type="primary" :loading="submiting" @click="handleSubmit('baseForm', $event)">保存</a-button>
+                    </a-form>
+                </a-col>
+            </a-row>
+        </a-tab-pane>
+        <a-tab-pane tab="高级设置" key="advance">
+        </a-tab-pane>
+        <a-tab-pane tab="SEO设置" key="seo">
+            <a-row :gutter="24">
+                <a-col :span="14">
+                    <a-form ref="seoForm" :colon="colon" :layout="layout">
+                        <a-form-item label="SEO标题" v-bind="validateSeoInfos.title">
+                            <a-textarea v-model:value="formRef[tabActiveKey].title" :rows="2" placeholder="请输入SEO标题" />
+                        </a-form-item>
+                        <a-form-item label="SEO关键字" v-bind="validateSeoInfos.keywords">
+                            <a-textarea v-model:value="formRef[tabActiveKey].keywords" :rows="2" placeholder="请输入SEO关键字" />
+                        </a-form-item>
+                        <a-form-item label="SEO描述" v-bind="validateSeoInfos.description">
+                            <a-textarea v-model:value="formRef[tabActiveKey].description" :rows="4" placeholder="请输入SEO描述" />
+                        </a-form-item>
+                        <a-button type="primary" :loading="submiting" @click="handleSubmit('seoForm', $event)">保存</a-button>
+                    </a-form>
+                </a-col>
+            </a-row>
+        </a-tab-pane>
+        <a-tab-pane tab="搜索热词" key="hotwords"></a-tab-pane>
+    </a-tabs>
+</div>
+

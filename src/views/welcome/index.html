@@ -1,0 +1,192 @@
+<div class="welcome-wrapper">
+    <!-- 数据统计板块 -->
+    <a-row type="flex" :gutter="24">
+        <a-col :span="6">
+            <div class="echart-card">
+                <div class="echart-card_label flex">
+                    <div class="echart-card_title">总销售额</div>
+                    <a-tooltip title="总销售额"><InfoCircleOutlined /></a-tooltip>
+                </div>
+                <div class="echart-card_total">¥ {{toThousandFilter(126560)}}</div>
+                <div class="echart-card_data flex" style="align-items: flex-end;padding-bottom: 5px;">
+                    <div class="week-data flex">周同比<span class="number">12%</span><CaretUpOutlined style="color:#f5222d;" /></div>
+                    <div class="day-data flex">日同比<span class="number">5%</span><CaretDownOutlined style="color:#52c41a;" /></div>
+                </div>
+                <div class="echart-card_footer flex">日销售额<span class="number">￥{{toThousandFilter(12423)}}</span></div>
+            </div>
+        </a-col>
+        <a-col :span="6">
+            <div class="echart-card">
+                <div class="echart-card_label flex">
+                    <div class="echart-card_title">总访问量</div>
+                    <a-tooltip title="周访问量"><InfoCircleOutlined /></a-tooltip>
+                </div>
+                <div class="echart-card_total">{{visitTotal}}</div>
+                <div id='visitEchart' class="echart-card_data"></div>
+                <div class="echart-card_footer flex">日访问量<span class="number">{{toThousandFilter(dayVisit)}}</span></div>
+            </div>
+        </a-col>
+        <a-col :span="6">
+            <div class="echart-card">
+                <div class="echart-card_label flex">
+                    <div class="echart-card_title">支付笔数</div>
+                    <a-tooltip title="支付笔数"><InfoCircleOutlined /></a-tooltip>
+                </div>
+                <div class="echart-card_total">{{toThousandFilter(payTotal)}}</div>
+                <div id='payEchart' class="echart-card_data"></div>
+                <div class="echart-card_footer flex">转化率<span class="number">60%</span></div>
+            </div>
+        </a-col>
+        <a-col :span="6">
+            <div class="echart-card">
+                <div class="echart-card_label flex">
+                    <div class="echart-card_title">运营活动效果</div>
+                    <a-tooltip title="运营活动效果"><InfoCircleOutlined /></a-tooltip>
+                </div>
+                <div class="echart-card_total">78%</div>
+                <div class="echart-card_data" style="padding-top: 20px;">
+                    <a-progress :percent="percent" status="active" :showInfo="false" strokeLinecap="square"
+                        strokeColor="rgb(19, 194, 194)" />
+                </div>
+                <div class="echart-card_footer flex">
+                    <div class="week-data flex">周同比<span class="number">12%</span><CaretUpOutlined style="color:#f5222d;" /></div>
+                    <div class="day-data flex">日同比<span class="number">5%</span><CaretDownOutlined style="color:#52c41a;" /></div>
+                </div>
+            </div>
+        </a-col>
+    </a-row>
+    <!-- 信息展示板块一 -->
+    <div style="margin-top: 24px;">
+        <a-row type="flex" :gutter="24">
+            <a-col :span="12">
+                <a-card title="热门搜索" :bordered="false">
+                    <template #extra><router-link to=""><EllipsisOutlined /></router-link></template>
+                    <a-row type="flex" :gutter="16">
+                        <a-col :span="12">
+                            <div class="search-card">
+                                <div class="search-card_label flex">
+                                    <div class="search-card_title">搜索用户数</div>
+                                    <a-tooltip title="搜索用户数"><InfoCircleOutlined /></a-tooltip>
+                                </div>
+                                <div class="search-card_total flex">
+                                    <div class="search-card_total_number">{{toThousandFilter(searchTotal)}}</div>
+                                    <div class="search-card_total_yoy">
+                                        <span class="number">12.1</span>
+                                        <CaretUpOutlined style="color:#f5222d;" />
+                                    </div>
+                                </div>
+                                <div id="searchTotalEchart" class="search-card_echart"></div>
+                            </div>
+                        </a-col>
+                        <a-col :span="12">
+                            <div class="search-card">
+                                <div class="search-card_label flex">
+                                    <div class="search-card_title">人均搜索次数</div>
+                                    <a-tooltip title="人均搜索次数"><InfoCircleOutlined /></a-tooltip>
+                                </div>
+                                <div class="search-card_total flex">
+                                    <div class="search-card_total_number">{{toThousandFilter(searchAvg)}}</div>
+                                    <div class="search-card_total_yoy">
+                                        <span class="number">26.2</span>
+                                        <CaretDownOutlined style="color:#52c41a;" />
+                                    </div>
+                                </div>
+                                <div id="searchAvgEchart" class="search-card_echart"></div>
+                            </div>
+                        </a-col>
+                    </a-row>
+                    <div class="search-table">
+                        <a-table rowKey='id' :columns="searchHotColumns" :dataSource="searchList" :pagination="pagination" size="small" @change="handleTableChange">
+                            <!-- <template #title="{ text }">
+                                <a href="javascript:;">{{text}}</a>
+                            </template>
+                            <template #status="{ text, record, index }">
+                                <span>{{text}}%</span>
+                                <CaretUpOutlined v-if="record.status == 1" style="color:#f5222d;" />
+                                <CaretDownOutlined v-else style="color:#52c41a;" />
+                            </template> -->
+                        </a-table>
+                    </div>
+                </a-card>
+            </a-col>
+            <a-col :span="12">
+                <a-card title="销售额类别占比" :bordered="false">
+                    <template #extra>
+                        <a-radio-group defaultValue="all" style="margin-right: 10px;" @change="switchSalesType">
+                            <a-radio-button value="all">全部</a-radio-button>
+                            <a-radio-button value="online">线上</a-radio-button>
+                            <a-radio-button value="offline">门店</a-radio-button>
+                        </a-radio-group>
+                    </template>
+                    <div class="sales-data_area flex">
+                        <div class="sales-data_echart">
+                            <div id='salesEchart' class="sales-data_echart_canvas"></div>
+                            <div class="sales-data_total">
+                                <div class="sales-data_total_label">销售额</div>
+                                <div class="sales-data_total_money">¥ {{toThousandFilter(totalSales)}}</div>
+                            </div>
+                        </div>
+                        <div class="sales-data_list">
+                            <template v-for="item, index in salesList">
+                                <div class="sales-data_list_item flex">
+                                    <div class="sales-data_list_item_dot" :style="{backgroundColor: item[3]}"></div>
+                                    <div class="sales-data_list_item_name">{{item[0]}}</div>
+                                    <a-divider type="vertical" />
+                                    <div class="sales-data_list_item_percent">{{item[2]}}</div>
+                                    <div class="sales-data_list_item_sales">¥ {{item[1]}}</div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </a-card>
+            </a-col>
+        </a-row>
+    </div>
+    <!-- 信息展示板块二 -->
+    <div style="margin-top: 24px;">
+        <a-row type="flex" :gutter="24">
+            <a-col :span="12">
+                <a-card title="最新留言" :bordered="false">
+                    <template #extra><router-link to=""><EllipsisOutlined /></router-link></template>
+                    <!-- <a-list itemLayout="horizontal" :dataSource="messageList">
+                        <a-list-item slot="renderItem" slot-scope="item, index">
+                            <a-comment :author="item.nickname">
+                                <template #avatar>
+                                    <a-avatar shape="square" size="large">{{item.nickname}}</a-avatar>
+                                </template>
+                                <template #actions>
+                                    <router-link :to="{name:'messageView', params: {id: item.id}}"><a-icon type="link" /> {{$t('GLOBAL.TEXT_VIEW')}}</router-link>
+                                </template>
+                                <template #content>{{item.content}}</template>
+                                <a-tooltip #datetime :title="item.create_time">
+                                    <span>{{dayjs(item.create_time).from()}}</span>
+                                </a-tooltip>
+                            </a-comment>
+                        </a-list-item>
+                    </a-list> -->
+                </a-card>
+            </a-col>
+            <a-col :span="12">
+                <a-card title="热点产品" :bordered="false">
+                    <template #extra>
+                        <router-link to="">
+                            <EllipsisOutlined />
+                        </router-link>
+                    </template>
+                    <a-list itemLayout="horizontal" :dataSource="newsList">
+                        <template #renderItem="{item, index}">
+                            <a-list-item>
+                                <template #actions><EyeOutlined /> {{item.views}}</template>
+                                <a-list-item-meta description="">
+                                    <template #title>
+                                        <router-link to="">{{index+1}}. {{item.title}}</router-link>
+                                    </template>
+                                </a-list-item-meta>
+                            </a-list-item>
+                        </template>
+                    </a-list>
+                </a-card>
+            </a-col>
+        </a-row>
+    </div>
+</div>

@@ -1,0 +1,71 @@
+<div class="container">
+    <a-form ref="uploadForm" :colon="colon" :layout="layout">
+        <a-row :gutter="24">
+            <a-col :span="16">
+                <a-form-item label="最大同时上传文件数" v-bind="validateInfos.max_files">
+                    <a-input v-model:value.number="formRef.max_files" placeholder="最大同时上传文件数" />
+                </a-form-item>
+                <a-form-item label="文件分块上传分块大小" v-bind="validateInfos.chunk_size">
+                    <a-input v-model:value.number="formRef.chunk_size" placeholder="文件分块上传分块大小" />
+                </a-form-item>
+                <a-form-item label="图片文件">
+                    <a-row :gutter="24">
+                        <a-col :span="12" >
+                            <a-form-item v-bind="validateInfos.image_max_filesize">
+                                <a-input v-model:value.number="formRef.image_max_filesize" placeholder="文件大小" />
+                            </a-form-item>
+                        </a-col>
+                        <a-col :span="12">
+                            <a-form-item v-bind="validateInfos.image_extensions">
+                                <a-input v-model:value="formRef.image_extensions" placeholder="文件格式" />
+                            </a-form-item>
+                        </a-col>
+                    </a-row>
+                </a-form-item>
+                <a-form-item label="视频文件">
+                    <a-row :gutter="24">
+                        <a-col :span="12">
+                            <a-form-item v-bind="validateInfos.video_max_filesize">
+                                <a-input v-model:value.number="formRef.video_max_filesize" placeholder="文件大小" />
+                            </a-form-item>
+                        </a-col>
+                        <a-col :span="12">
+                            <a-form-item v-bind="validateInfos.video_extensions">
+                                <a-input v-model:value="formRef.video_extensions" placeholder="文件格式" />
+                            </a-form-item>
+                        </a-col>
+                    </a-row>
+                </a-form-item>
+                <a-form-item label="音频文件">
+                    <a-row :gutter="24">
+                        <a-col :span="12">
+                            <a-form-item v-bind="validateInfos.audio_max_filesize">
+                                <a-input v-model:value.number="formRef.audio_max_filesize" placeholder="文件大小" />
+                            </a-form-item>
+                        </a-col>
+                        <a-col :span="12">
+                            <a-form-item v-bind="validateInfos.audio_extensions">
+                                <a-input v-model:value="formRef.audio_extensions" placeholder="文件格式" />
+                            </a-form-item>
+                        </a-col>
+                    </a-row>
+                </a-form-item>
+                <a-form-item label="附件">
+                    <a-row :gutter="24">
+                        <a-col :span="12">
+                            <a-form-item v-bind="validateInfos.file_max_filesize">
+                                <a-input v-model:value.number="formRef.file_max_filesize" placeholder="文件大小" />
+                            </a-form-item>
+                        </a-col>
+                        <a-col :span="12">
+                            <a-form-item v-bind="validateInfos.file_extensions">
+                                <a-input v-model:value="formRef.file_extensions" placeholder="文件格式" />
+                            </a-form-item>
+                        </a-col>
+                    </a-row>
+                </a-form-item>
+                <a-button type="primary" :loading="submiting" @click="handleSubmit">保存</a-button>
+            </a-col>
+        </a-row>
+    </a-form>
+</div>
