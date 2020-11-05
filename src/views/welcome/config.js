@@ -1,5 +1,3 @@
-import { toThousandFilter } from "@/utils/util"
-
 const tooltipBase = {
     trigger: 'axis',
     axisPointer: {

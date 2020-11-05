@@ -66,7 +66,7 @@ export default {
                 showBreadcrumb.value = to.meta.depth > 1
                 showBackbtn.value = to.meta.depth > 2
                 selectedKey.value = to.matched[to.matched.length - 1].meta.key
-                openKey.value = to.matched.filter(item => item.meta.depth == 1)[0].name
+                openKey.value = to.matched.filter(item => item.meta.depth == 1)[0]?.name
                 routes.value = updateBreadcrumbRoutes(to)
             },
             {

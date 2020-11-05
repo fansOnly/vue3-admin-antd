@@ -13,24 +13,24 @@
         <!-- 渲染筛选条件 -->
         <template #filterAfterSlot="{ filterValues }">
             <a-col v-if="filterList.FILTER_USER_NAME" :span="6">
-                <a-form-model-item :label="$t('GLOBAL.USER_NAME')">
+                <a-form-item :label="$t('GLOBAL.USER_NAME')">
                     <a-input v-model="filterValues.fadminusername" :placeholder="$t('GLOBAL.OPTION_INPUT') + $t('GLOBAL.USER_NAME')" />
-                </a-form-model-item>
+                </a-form-item>
             </a-col>
             <a-col v-if="filterList.FILTER_NICK_NAME" :span="6">
-                <a-form-model-item :label="$t('GLOBAL.NICK_NAME')">
+                <a-form-item :label="$t('GLOBAL.NICK_NAME')">
                     <a-input v-model="filterValues.fadminnickname" :placeholder="$t('GLOBAL.OPTION_INPUT') + $t('GLOBAL.NICK_NAME')" />
-                </a-form-model-item>
+                </a-form-item>
             </a-col>
             <a-col v-if="filterList.FILTER_PCLASS" :span="6">
-                <a-form-model-item :label="$t('GLOBAL.DATA_PARENT')">
+                <a-form-item :label="$t('GLOBAL.DATA_PARENT')">
                     <a-select v-model="filterValues.fparent" :placeholder="$t('GLOBAL.OPTION_SELECT') + $t('GLOBAL.DATA_PARENT')">
                         <a-select-option value="">{{$t('GLOBAL.TEXT_ALL')}}</a-select-option>
                         <template v-for="(item, index) in roleList" :key="index">
                             <a-select-option :value="item.id+''">{{item.name}}</a-select-option>
                         </template>
                     </a-select>
-                </a-form-model-item>
+                </a-form-item>
             </a-col>
         </template>
         <!-- 渲染数据 -->
@@ -42,7 +42,7 @@
                 <span slot="actionSlot" slot-scope="action, record">
                     <a-button size="small" @click="routePage('edit', record.id)">{{$t('GLOBAL.TEXT_EDIT')}}</a-button>
                     <span>&nbsp;</span>
-                    <a-popconfirm :title="$t('GLOBAL.OPTION_DELETE_CONFIRM')" @confirm="() => delItem(record.id)">
+                    <a-popconfirm :title="$t('GLOBAL.OPTION_DELETE_CONFIRM')" @confirm="delItem(record.id)">
                         <a-button size="small" type="danger" >{{$t('GLOBAL.TEXT_DELETE')}}</a-button>
                     </a-popconfirm>
                 </span> -->
@@ -53,7 +53,7 @@
 
 <script>
     import PageSkeleton from 'components/PageSkeleton.vue'
-    import { getRoleList, getAdminList as getDataList, deleteAdmin as deleteDataList } from '@/api/admin'
+    import { getRoleList, getAdminList as getDataList, deleteAdmin as deleteData } from '@/api/admin'
     import config from './config'
 
 

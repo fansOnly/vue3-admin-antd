@@ -10,28 +10,22 @@
 
 <script>
 export default {
-    name: 'Modal',
+    name: 'modal',
     props: {
         visible: {
             type: Boolean,
-            default: function () {
-                return false;
-            }
+            default: false
         },
         width: {
             type: String,
-            default: function () {
-                return '520px';
-            }
+            default: '520px'
         },
         modalTitle: {
             type: String,
         },
         submitDisabled: {
             type: Boolean,
-            default: function () {
-                return false
-            }
+            default: false
         },
     },
 }

@@ -1,44 +1,64 @@
 import Mock from 'mockjs';
-import { getUrlParams } from 'utils/util';
 
 /**
  * 获取文章分类列表
  */
-const getSectionIndex = () => {
+const getArticleClassIndex = () => {
     const success = true;
     let _data = [
         {
             'id': '1',
-            'admin_id': '@id',
+            'adminid': '@id',
             'sortnum': 10,
             'parent_id': '0',
             'path': '0-1',
             'name': '一级分类A',
-            'en_name': '一级分类A',
-            'thumbnail': '@image(100x100)',
+            'en_name': 'class A',
+            'photos': [{
+                'uid': '@id',
+                'path': 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+                'name': '@ctitle',
+                'type': 'image/png',
+                'size': 18888,
+                'status': 'done',
+                'width': 100,
+                'height': 100,
+                'state': 1
+            }],
             'create_time': '@datetime',
             'url': '@url',
             'content': '@cparagraph(1)',
             'children': [{
                 'id': '3',
-                'admin_id': '@id',
+                'adminid': '@id',
                 'sortnum': 30,
                 'parent_id': '1',
                 'path': '0-1-3',
                 'name': '二级分类A-1',
-                'en_name': 'er级分类A-1',
-                'thumbnail': '@image(100x100)',
+                'en_name': 'class A-1',
+                'photos': [{
+                    'uid': '@id',
+                    'path': 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+                    'name': '@ctitle',
+                    'type': 'image/png',
+                    'size': 18888,
+                    'status': 'done',
+                    'width': 100,
+                    'height': 100,
+                    'state': 1
+                }],
                 'create_time': '@datetime',
                 'url': '@url',
                 'content': '@cparagraph(1)',
                 'children': [{
                     'id': '5',
-                    'admin_id': '@id',
+                    'adminid': '@id',
                     'sortnum': 50,
                     'parent_id': '3',
                     'path': '0-1-3-5',
                     'name': '三级分类A-1-1',
-                    'thumbnail': '@image(100x100)',
+                    'en_name': 'class A-1-1',
+                    'photos': [],
                     'create_time': '@datetime',
                     'url': '@url',
                     'content': '@cparagraph(1)',
@@ -46,50 +66,60 @@ const getSectionIndex = () => {
             },]
         }, {
             'id': '2',
-            'admin_id': '@id',
+            'adminid': '@id',
             'sortnum': 20,
             'parent_id': '0',
             'path': '0-2',
             'name': '一级分类B',
-            'en_name': '一级分类A',
-            'thumbnail': '@image(100x100)',
+            'en_name': 'class B',
+            'photos': [{
+                'uid': '@id',
+                'path': 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+                'name': '@ctitle',
+                'type': 'image/png',
+                'size': 18888,
+                'status': 'done',
+                'width': 100,
+                'height': 100,
+                'state': 1
+            }],
             'create_time': '@datetime',
             'url': '@url',
             'content': '@cparagraph(1)',
             'children': [{
                 'id': '4',
-                'admin_id': '@id',
+                'adminid': '@id',
                 'sortnum': 40,
                 'parent_id': '2',
                 'path': '0-2-4',
                 'name': '二级分类B-1',
-                'en_name': '一级分类A',
-                'thumbnail': '@image(100x100)',
+                'en_name': 'class B-1',
+                'photos': [],
                 'create_time': '@datetime',
                 'url': '@url',
                 'content': '@cparagraph(1)',
             }, {
                 'id': '7',
-                'admin_id': '@id',
+                'adminid': '@id',
                 'sortnum': 40,
                 'parent_id': '2',
                 'path': '0-2-7',
                 'name': '二级分类B-2',
-                'en_name': '一级分类A',
-                'thumbnail': '@image(100x100)',
+                'en_name': 'class B-2',
+                'photos': [],
                 'create_time': '@datetime',
                 'url': '@url',
                 'content': '@cparagraph(1)',
             },]
         }, {
             'id': '6',
-            'admin_id': '@id',
+            'adminid': '@id',
             'sortnum': 60,
             'parent_id': '0',
             'path': '0-6',
             'name': '一级分类C',
-            'en_name': '一级分类A',
-            'thumbnail': '@image(100x100)',
+            'en_name': 'class C',
+            'photos': [],
             'create_time': '@datetime',
             'url': '@url',
             'content': '@cparagraph(1)',
@@ -103,29 +133,30 @@ const getSectionIndex = () => {
     })
 }
 
-Mock.mock(/\/article\/section\/index/, /get|post/i, getSectionIndex);
+Mock.mock(/\/article\/class\/index/, /get|post/i, getArticleClassIndex);
 
 /**
  * 获取文章分类详情
- * @param {String} id
+ * @param {string} id
  */
-const getSectionDetail = config => {
-    const params = getUrlParams(config.url);
+const getArticleClassDetail = config => {
+    const params = JSON.parse(config.body);
     const { id } = params;
     const success = id;
 
     let _data = {
         'id': '@id',
         'sortnum': 10,
-        'admin_id': 1,
+        'adminid': '@id',
         'parent_id': '0',
         'path': '0-1',
         'name': '@ctitle',
-        'en_name': '一级分类A',
+        'en_name': 'class A',
         'content': '@cparagraph(1)',
         'create_time': '@datetime',
         'url': '@url',
-        'thumbnail': {
+        'photos': [{
+            'id': '@id',
             'uid': '@id',
             'url': 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
             'name': '@ctitle',
@@ -133,8 +164,10 @@ const getSectionDetail = config => {
             'size': 18888,
             'status': 'done',
             'width': 200,
-            'height': 200
-        },
+            'height': 200,
+            'state': 1
+        }],
+        'state': 1
     };
 
     return Mock.mock({
@@ -144,36 +177,35 @@ const getSectionDetail = config => {
     })
 }
 
-Mock.mock(/\/article\/section\/detail/, /get|post/i, getSectionDetail);
+Mock.mock(/\/article\/class\/detail/, /get|post/i, getArticleClassDetail);
 
 /**
  * 新增文章分类
- * @param {String} title
- * @param {String} adminid
+ * @param {string} title
  * @param {*} others
  */
-const addSection = config => {
-    const { title, adminid } = JSON.parse(config.body);
-    const success = title && adminid;
+const addArticleClass = config => {
+    const { title = '' } = JSON.parse(config.body) ?? {};
+    const success = title;
 
     return Mock.mock({
         'code': success ? '200' : '400',
         'msg': success ? 'sucesss' : '缺少参数',
+        'id': '@id'
     })
 }
 
-Mock.mock(/\/article\/section\/add/, /get|post/i, addSection);
+Mock.mock(/\/article\/class\/add/, /get|post/i, addArticleClass);
 
 /**
  * 更新文章分类
- * @param {String} id
- * @param {String} title
- * @param {String} adminid
+ * @param {string} id
+ * @param {string} title
  * @param {*} others
  */
-const updateSection = config => {
-    const { id, title, adminid } = JSON.parse(config.body);
-    const success = id && title && adminid;
+const updateArticleClass = config => {
+    const { id = '', title = '' } = JSON.parse(config.body) ?? {};
+    const success = id && title;
 
     return Mock.mock({
         'code': success ? '200' : '400',
@@ -181,15 +213,14 @@ const updateSection = config => {
     })
 }
 
-Mock.mock(/\/article\/section\/update/, /get|post/i, updateSection);
+Mock.mock(/\/article\/class\/update/, /get|post/i, updateArticleClass);
 
 /**
  * 删除文章分类
  * @param {Array} ids
  */
-const deleteSection = config => {
-    const params = JSON.parse(config.body);
-    const { ids } = params;
+const deleteArticleClass = config => {
+    const { ids = [] } = JSON.parse(config.body) ?? {};
     const success = ids.length;
 
     return Mock.mock({
@@ -198,12 +229,12 @@ const deleteSection = config => {
     })
 }
 
-Mock.mock(/\/article\/section\/delete/, /get|post/i, deleteSection);
+Mock.mock(/\/article\/class\/delete/, /get|post/i, deleteArticleClass);
 
 /**
  * 获取文章分类树
  */
-const getSectionTree = () => {
+const getArticleClassTree = () => {
     const success = true;
     let _data = [{
         'id': '-1',
@@ -254,15 +285,14 @@ const getSectionTree = () => {
     })
 }
 
-Mock.mock(/\/article\/section\/tree/, /get|post/i, getSectionTree);
+Mock.mock(/\/article\/class\/tree/, /get|post/i, getArticleClassTree);
 
 
 /**
  * 获取文章列表
  */
 const getArticleList = config => {
-    const params = getUrlParams(config.url);
-    const { page, pageSize, state, delete_time } = params;
+    const { page = 1, pageSize = 99, state = '', delete_time = '' } = JSON.parse(config.body) ?? {};
     const randomLen = 170;
     const len = randomLen - pageSize * (page - 1) < pageSize ? randomLen - pageSize * (page - 1) : pageSize;
     const states = ['0', '1', '2', '3'];
@@ -272,14 +302,37 @@ const getArticleList = config => {
             _data.push(
                 Mock.mock({
                     'id': '@id',
-                    'admin_id': '@id',
-                    'sortnum': pageSize * (pageSize * (Number(page) - 1) + i + 1),
-                    'classid': page,
+                    'adminid': '@id',
+                    'sortnum': 10 * (pageSize * (page - 1) + i + 1),
+                    'classid': '@id',
                     'title': '@ctitle',
-                    'thumbnail': '@image(100x100)',
+                    'views': ~~(Math.random() * 9999),
+                    'thumbnail': [{
+                        'uid': '@id',
+                        'path': 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+                        'name': '@ctitle',
+                        'type': 'image/png',
+                        'size': 18888,
+                        'status': 'done',
+                        'width': 100,
+                        'height': 100,
+                        'state': 1
+                    }],
+                    'publish_time': '@datetime',
                     'create_time': '@datetime',
                     'delete_time': function () {
                         return delete_time == 0 ? 0 : Mock.mock('@datetime');
+                    },
+                    'tags': function () {
+                        const arr = ['热点', '技术', '分享', '生活', '教程'];
+                        const random = Math.min(Math.floor(Math.random() * arr.length), 3);
+                        let _data = [];
+                        for (var i = 0; i < arr.length; i++) {
+                            if (i <= random) {
+                                _data.push(arr[i]);
+                            }
+                        }
+                        return _data;
                     },
                     'state': function () {
                         const random = Math.floor(Math.random() * states.length);
@@ -307,16 +360,15 @@ Mock.mock(/\/article\/list/, /get|post/i, getArticleList);
 
 /**
  * 获取文章详情
- * @param {String} id
+ * @param {string} id
  */
-const getInfoDetail = config => {
-    const params = getUrlParams(config.url);
-    const { id } = params;
+const getArticleDetail = config => {
+    const { id = '' } = JSON.parse(config.body) ?? {};
     const success = id;
 
     let _data = {
         'id': '1',
-        'parent_id': function () {
+        'parentid': function () {
             const arr = ['1', '2', '3', '4', '5', '6', '7'];
             const random = Math.floor(Math.random() * arr.length);
             let _res = [];
@@ -331,53 +383,55 @@ const getInfoDetail = config => {
         'title': '@ctitle',
         'intro': '@cparagraph(1)',
         'content': '@cparagraph(3)',
+        'views': ~~(Math.random() * 9999),
+        'publish_time': '@datetime',
         'create_time': '@datetime',
         'delete_time': 0,
         'url': '@url',
         'thumbnail': [{
             'uid': '@id',
-            'url': 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+            'path': 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
             'name': '@ctitle',
             'type': 'image/png',
             'size': 18888,
             'status': 'done',
-            'width': 200,
-            'height': 200
+            'width': 100,
+            'height': 100,
+            'state': 1
         }],
         'file': [{
             'uid': '@id',
-            'url': 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+            'path': 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
             'name': '@ctitle',
-            'type': 'file/txt',
+            'type': 'text/txt',
             'size': 18888,
             'status': 'done',
-            'width': 200,
-            'height': 200
+            'state': 1
         }],
         'photos': [{
             'uid': '@id',
-            'url': 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+            'path': 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
             'name': '@ctitle',
             'type': 'image/png',
             'size': 18888,
             'status': 'done',
             'width': 200,
-            'height': 200
-        },
-        {
+            'height': 200,
+            'state': 1
+        }, {
             'uid': '@id',
-            'url': '@image(100x100)',
+            'path': 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
             'name': '@ctitle',
             'type': 'image/png',
             'size': 18888,
             'status': 'done',
             'width': 200,
-            'height': 200
-        }
-        ],
+            'height': 200,
+            'state': 1
+        }],
         'tags': function () {
-            const arr = ['new', 'hot', 'sale'];
-            const random = Math.floor(Math.random() * arr.length);
+            const arr = ['热点', '技术', '分享', '生活', '教程'];
+            const random = Math.min(Math.floor(Math.random() * arr.length), 3);
             let _data = [];
             for (var i = 0; i < arr.length; i++) {
                 if (i <= random) {
@@ -396,22 +450,22 @@ const getInfoDetail = config => {
     })
 }
 
-Mock.mock(/\/article\/detail/, /get|post/i, getInfoDetail);
+Mock.mock(/\/article\/detail/, /get|post/i, getArticleDetail);
 
 /**
  * 新增文章
- * @param {String} title
- * @param {String} adminid
- * @param {String} classid
+ * @param {string} title
+ * @param {string} classid
  * @param {*} others
  */
 const addArticle = config => {
-    const { title, adminid, classid } = JSON.parse(config.body);
-    const success = title && adminid && classid;
+    const { title = '', classid = '' } = JSON.parse(config.body) ?? {};
+    const success = title && classid;
 
     return Mock.mock({
         'code': success ? '200' : '400',
         'msg': success ? 'sucesss' : '缺少参数',
+        'id': '@id'
     })
 }
 
@@ -419,15 +473,14 @@ Mock.mock(/\/article\/add/, /get|post/i, addArticle);
 
 /**
  * 更新文章
- * @param {String} id
- * @param {String} title
- * @param {String} adminid
- * @param {String} classid
+ * @param {string} id
+ * @param {string} title
+ * @param {string} classid
  * @param {*} others
  */
 const updateArticle = config => {
-    const { id, title, adminid, classid } = JSON.parse(config.body);
-    const success = id && title && adminid && classid;
+    const { id = '', title = '', classid = '' } = JSON.parse(config.body) ?? {};
+    const success = id && title && classid;
 
     return Mock.mock({
         'code': success ? '200' : '400',
@@ -440,10 +493,9 @@ Mock.mock(/\/article\/update/, /get|post/i, updateArticle);
 /**
  * 获取文章回收站列表
  */
-const getInfoRecycleList = config => {
-    const params = getUrlParams(config.url);
-    const { page, pageSize, state, delete_time } = params;
-    const randomLen = 170;
+const getArticleRecycleList = config => {
+    const { page = 1, pageSize = 99, state = '' } = JSON.parse(config.body) ?? {};
+    const randomLen = 57;
     const len = randomLen - pageSize * (page - 1) < pageSize ? randomLen - pageSize * (page - 1) : pageSize;
     const states = ['0', '1', '2', '3'];
     let _data = [];
@@ -452,15 +504,23 @@ const getInfoRecycleList = config => {
             _data.push(
                 Mock.mock({
                     'id': '@id',
-                    'admin_id': '@id',
-                    'sortnum': pageSize * (pageSize * (Number(page) - 1) + i + 1),
-                    'classid': page,
+                    'adminid': '@id',
+                    'sortnum': 10 * (pageSize * (page - 1) + i + 1),
+                    'classid': '@id',
                     'title': '@ctitle',
-                    'thumbnail': '@image(100x100)',
+                    'photos': [{
+                        'uid': '@id',
+                        'path': 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+                        'name': '@ctitle',
+                        'type': 'image/png',
+                        'size': 18888,
+                        'status': 'done',
+                        'width': 200,
+                        'height': 200,
+                        'state': 1
+                    }],
                     'create_time': '@datetime',
-                    'delete_time': function () {
-                        return delete_time == 0 ? 0 : Mock.mock('@datetime');
-                    },
+                    'delete_time': '@datetime',
                     'state': function () {
                         const random = Math.floor(Math.random() * states.length);
                         return states[typeof state !== 'undefined' && state != '' ? states.indexOf(state) : random];
@@ -483,49 +543,14 @@ const getInfoRecycleList = config => {
     })
 }
 
-Mock.mock(/\/article\/recycle/, /get|post/i, getInfoRecycleList);
-
-/**
- * 删除文章
- * @param {Array} ids
- */
-const deleteInfo = config => {
-    const params = JSON.parse(config.body);
-    const { ids } = params;
-    const success = ids.length;
-
-    return Mock.mock({
-        'code': success ? '200' : '400',
-        'msg': success ? 'sucesss' : '缺少参数',
-    })
-}
-
-Mock.mock(/\/article\/delete/, /get|post/i, deleteInfo);
-
-/**
- * 还原文章
- * @param {Array} ids
- */
-const restoreInfo = config => {
-    const params = JSON.parse(config.body);
-    const { ids } = params;
-    const success = ids.length;
-
-    return Mock.mock({
-        'code': success ? '200' : '400',
-        'msg': success ? 'sucesss' : '缺少参数',
-    })
-}
-
-Mock.mock(/\/article\/restore/, /get|post/i, restoreInfo);
+Mock.mock(/\/article\/recycle/, /get|post/i, getArticleRecycleList);
 
 /**
  * 彻底清除文章
  * @param {Array} ids
  */
-const clearInfo = config => {
-    const params = JSON.parse(config.body);
-    const { ids } = params;
+const clearArticle = config => {
+    const { ids = [] } = JSON.parse(config.body) ?? {};
     const success = ids.length;
 
     return Mock.mock({
@@ -534,4 +559,34 @@ const clearInfo = config => {
     })
 }
 
-Mock.mock(/\/article\/clear/, /get|post/i, clearInfo);
+Mock.mock(/\/article\/clear/, /get|post/i, clearArticle);
+
+/**
+ * 还原文章
+ * @param {Array} ids
+ */
+const restoreArticle = config => {
+    const { ids = [] } = JSON.parse(config.body) ?? {};
+    const success = ids.length;
+
+    return Mock.mock({
+        'code': success ? '200' : '400',
+        'msg': success ? 'sucesss' : '缺少参数',
+    })
+}
+
+Mock.mock(/\/article\/restore/, /get|post/i, restoreArticle);
+
+/**
+ * 清空回收站
+ * @param {Array} ids
+ */
+const clearAllArticle = () => {
+    const success = true
+    return Mock.mock({
+        'code': success ? '200' : '400',
+        'msg': success ? 'sucesss' : '缺少参数',
+    })
+}
+
+Mock.mock(/\/article\/clearAll/, /get|post/i, clearAllArticle);

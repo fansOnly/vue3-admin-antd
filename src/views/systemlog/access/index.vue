@@ -12,16 +12,16 @@
         <!-- 渲染筛选条件 -->
         <template #filterBeforeSlot="{ filterValues }">
             <a-col v-if="filterList.FILTER_MEMBER_NICK_NAME" :span="6">
-                    <a-form-model-item :label="$t('GLOBAL.NICK_NAME')">
+                    <a-form-item :label="$t('GLOBAL.NICK_NAME')">
                         <a-input v-model="filterValues.fmembernickname" :placeholder="$t('GLOBAL.OPTION_INPUT') + $t('GLOBAL.NICK_NAME')" />
-                    </a-form-model-item>
+                    </a-form-item>
                 </a-col>
         </template>
         <!-- 渲染数据 -->
         <template v-slot:tableSlot>
             <!-- <a-table row-key="id" :loading="loading" :columns="columnList" :data-source="dataList" :pagination="pagination" :row-selection="rowSelection" bordered @change="handleTableChange" >
                 <span slot="actionSlot" slot-scope="action, record">
-                    <a-popconfirm :title="$t('GLOBAL.OPTION_DELETE_CONFIRM')" @confirm="() => delItem(record.id)">
+                    <a-popconfirm :title="$t('GLOBAL.OPTION_DELETE_CONFIRM')" @confirm="delItem(record.id)">
                         <a-button size="small" type="danger" >{{$t('GLOBAL.TEXT_DELETE')}}</a-button>
                     </a-popconfirm>
                 </span>
@@ -33,7 +33,7 @@
 <script>
     import PageSkeleton from 'components/PageSkeleton.vue'
 
-    import { getAccesslogList as getDataList, deleteAccesslog as deleteDataList } from '@/api/systemlog'
+    import { getAccesslogList as getDataList, deleteAccesslog as deleteData } from '@/api/systemlog'
     import config from './config'
     import { pluck } from 'utils/util'
 

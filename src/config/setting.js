@@ -1,5 +1,3 @@
-import i18n from '@/i18n'
-
 /**
  * 全局表单配置项
  * @formLeftLayout 左侧表单项布局
@@ -26,10 +24,10 @@ export const FORM_CONFIG = {
 			sm: { span: 18 }
 		}
     },
-    layout: 'horizontal',
-    colon: true,
-    hideRequiredMark: false,
-    labelAlign: 'left',
+    // layout: 'horizontal',
+    // colon: true,
+    // hideRequiredMark: false,
+    // labelAlign: 'right'
 };
 
 /**
@@ -47,8 +45,8 @@ export const PAGINATION = {
     pageSizeOptions: ['10', '20', '30', '40', '50'],
     showSizeChanger: true,
     showQuickJumper: true,
-    // showTotal: total => `共 ${total} 条信息`,
-    showTotal: total => i18n.t('GLOBAL.PAGE_SHOW_TOTAL', [total])
+    showTotal: total => `共 ${total} 条信息`
+    // showTotal: total => i18n.t('GLOBAL.PAGE_SHOW_TOTAL', [total])
 }
 
 /**
@@ -60,9 +58,6 @@ export const FILTER_ITEMS = {
     FILTER_CREATE_TIME: true,  // 根据创建时间按筛选
     FILTER_STATE: true, // 根据数据状态筛选
     FILTER_PCLASS: false, // 根据父级分类筛选
-    FILTER_ADMIN_ID: false, // 根据发布管理员筛选
-    FILTER_PHONE: false, // 根据手机号筛选
-    FILTER_NAME: false,  // 根据用户名称筛选
 }
 
 /**
@@ -89,6 +84,9 @@ export const MEMBER_STATUS = ['已冻结', '待审核', '已审核'];
 // 文章状态管理  article
 export const INFO_STATUS = ['已下架', '待审核', '已审核', '已置顶'];
 
+// 文章分类状态管理  articleCLass
+export const INFO_CLASS_STATUS = ['禁用', '正常'];
+
 // 留言状态管理  message
 export const MESSAGE_STATUS = ['未查看', '已查看', '已回复', '已置顶'];
 
@@ -102,13 +100,13 @@ export const ARTICLE_TAGS = ['热点', '技术', '分享', '生活', '教程'];
 export const PRODUCT_TAGS = ['新品', '热销', '折扣'];
 
 // 性别定义
-export const GENDER_ITEMS = ['男', '女'];
+export const GENDER_GROUP = ['男', '女'];
 
 // 窗口打开方式
-export const BLANK_ITEMS = ['当前窗口', '新窗口'];
+export const WINDOW_OPEN_GROUP = ['当前窗口', '新窗口'];
 
 // 操作日志类型
-export const OPERATION_ITEMS = ['新增', '更新', '删除', '还原', '清空', '上传', '回复', '登录','登出'];
+export const OPERATION_GROUP = ['新增', '更新', '删除', '还原', '清空', '上传', '回复', '登录','登出'];
 
 // 操作状态标识
 export const BADGE_STATUS = state => {

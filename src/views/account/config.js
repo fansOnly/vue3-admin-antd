@@ -82,7 +82,7 @@ export default {
 		EXCEL_NAME: '管理员导出-'+ formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss')
 	},
 	optionList: {
-		SHOWAREA: true,
+		SHOW_FILTER_AREA: true,
 		SHOW_OPTION_BAR: true,
 		SHOW_MODAL: true,
 		EDIT_ABLE: true,

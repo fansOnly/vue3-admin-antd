@@ -15,12 +15,13 @@
         >
             <template v-if="!uploadList.length">
                 <div v-if="textType === 'button'">
-                    <a-button><a-icon type="upload" />{{ $t("GLOBAL.TEXT_UPLOAD") }}</a-button>
+                    <a-button><UploadOutlined />上传</a-button>
                     <span class="upload-tip">允许上传 {{acceptList.join(', ')}}</span>
                 </div>
                 <div v-else>
-                    <a-icon :type="uploading ? 'loading' : 'plus'" />
-                    <div class="ant-upload-text">{{$t('GLOBAL.TEXT_UPLOAD')}}</div>
+                    <LoadingOutlined v-if="uploading" />
+                    <PlusOutlined v-else />
+                    <div class="ant-upload-text">上传</div>
                 </div>
             </template>
         </a-upload>
@@ -30,8 +31,9 @@
     </div>
 </template>
 <script>
-import { uploadUrl, uploadHeaders } from 'config/baseUrl'
-import { getImgAbsPath, deepCopy, download } from 'utils/util'
+import { UploadOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons-vue'
+import { uploadUrl, uploadHeaders } from '@/config/baseUrl'
+import { getImgAbsPath, deepCopy, download } from '@/utils/util'
 
 // function getBase64(img, callback) {
 //     const reader = new FileReader();
@@ -62,25 +64,20 @@ export default {
         },
         listType: {
             type: String,
-            default: function() {
-                return 'picture-card';
-            }
+            default: 'picture-card'
         },
         textType: {
             type: String,
-            default: function() {
-                return 'text'
-            }
+            default: 'text'
         },
         fileType: {
             type: String,
-            default: function() {
-                return 'image';
-            }
+            default: 'image'
         },
     },
     data() {
         return {
+            getImgAbsPath,
             uploadUrl,
             uploadHeaders,
             uploading: false,  // 上传中
@@ -99,7 +96,7 @@ export default {
         },
         _savedIds: {
             get() {
-                return this.savedIds;
+                return this.savedIds || [];
             },
             set(val) {
                 this._savedIds = val;
@@ -107,7 +104,7 @@ export default {
         },
         _deletedIds: {
             get() {
-                return this.deletedIds;
+                return this.deletedIds || [];
             },
             set(val) {
                 this._deletedIds = val;
@@ -142,7 +139,6 @@ export default {
             return typeValidate && fileSizeLimit;
         },
         remove(file) {
-            // console.log('remove: ', file);
             if (this.originalIds.includes(file.id)) {
                 this._deletedIds.push(file.id);
             }
@@ -247,6 +243,11 @@ export default {
             }
             return {type: _type, list: _list};
         }
+    },
+    components: {
+        UploadOutlined,
+        LoadingOutlined,
+        PlusOutlined
     }
 };
 </script>

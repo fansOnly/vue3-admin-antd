@@ -1,21 +1,21 @@
 <template>
     <div class="container">
-        <a-form-model ref="passForm" :model="viewData" :rules="rules" :layout="layout" :colon="colon">
+        <a-form ref="passForm" :model="viewData" :rules="rules" :layout="layout" :colon="colon">
             <a-row :gutter="50">
                 <a-col :span="12">
-                    <a-form-model-item class="input-password" :label="$t('GLOBAL.USER_OLD_PASS')" prop="oldPass">
+                    <a-form-item class="input-password" :label="$t('GLOBAL.USER_OLD_PASS')" prop="oldPass">
                         <a-input-password v-model="viewData.oldPass" type="password" autocomplete="off" placeholder="original password" />
-                    </a-form-model-item>
-                    <a-form-model-item class="input-password" :label="$t('GLOBAL.USER_NEW_PASS')" prop="newPass">
+                    </a-form-item>
+                    <a-form-item class="input-password" :label="$t('GLOBAL.USER_NEW_PASS')" prop="newPass">
                         <a-input-password v-model="viewData.newPass" type="password" autocomplete="off" placeholder="new password" />
-                    </a-form-model-item>
-                    <a-form-model-item class="input-password" :label="$t('GLOBAL.USER_CONFIRM_PASS')" prop="confirmPass">
+                    </a-form-item>
+                    <a-form-item class="input-password" :label="$t('GLOBAL.USER_CONFIRM_PASS')" prop="confirmPass">
                         <a-input-password v-model="viewData.confirmPass" type="password" autocomplete="off" placeholder="confirm new password" />
-                    </a-form-model-item>
+                    </a-form-item>
                     <a-button type="primary" :loading="submitDisabled" @click="handleSubmit('passForm')">{{$t('GLOBAL.TEXT_SAVE')}}</a-button>
                 </a-col>
             </a-row>
-        </a-form-model>
+        </a-form>
 	</div>
 </template>
 

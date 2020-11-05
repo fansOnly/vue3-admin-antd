@@ -1,13 +1,13 @@
 <template>
     <export-excel
-        :fields="EXCEL_FIELDS"
-        :data="excelData"
+        :fields="fields"
+        :data="data"
         :before-generate="startDownload"
         :before-finish="finishDownload"
-        :name="EXCEL_NAME"
+        :name="name"
         type="xls"
     >
-        <a-button>{{btnName}}</a-button>
+        <a-button>{{buttonText}}</a-button>
     </export-excel>
 </template>
 
@@ -15,39 +15,35 @@
 import JsonExcel from 'vue-json-excel'
 
 export default {
-    name: 'ExportExcel',
+    name: 'exportExcel',
     components: {
         'export-excel': JsonExcel
     },
     props: {
-        EXCEL_FIELDS: {
+        fields: {
             type: Object,
             default: function() {
                 return {};
             }
         },
-        excelData: {
+        data: {
             type: Array,
             default: function() {
                 return [];
             }
         },
-        EXCEL_NAME: {
+        name: {
             type: String,
-            default: function() {
-                return '';
-            }
+            default: ''
         },
-        btnName: {
+        buttonText: {
             type: String,
-            default: function() {
-                return '导出';
-            }
+            default: '导出'
         }
     },
     methods: {
         startDownload() {
-            this.$emit('export-excel');
+            // this.$emit('export-excel')
         },
         finishDownload() {}
     }

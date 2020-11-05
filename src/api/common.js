@@ -19,4 +19,4 @@ export const checkLoginStatus = () => post('/common/checkloginstatus')
 // 获取未读消息
 export const getUnReadmsgCount = () => post('/common/unreadmsgcount')
 // 获取用户权限
-export const getAuthorityList = () => post('/common/getauthority')
+export const getAuthorityList = () => post('/common/authority')

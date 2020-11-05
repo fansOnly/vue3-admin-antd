@@ -25,7 +25,8 @@ export default {
                 title: '',
                 keywords: '',
                 description: ''
-            }
+            },
+            hotwords: {}
         })
         const submiting = ref(false)
 

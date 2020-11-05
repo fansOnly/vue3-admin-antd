@@ -3,9 +3,9 @@ import { getUrlParams } from 'utils/util';
 
 /**
  * 获取管理员列表
- * @param {Number} page
- * @param {Number} pageSize
- * @param {Number} state
+ * @param {number} page
+ * @param {number} pageSize
+ * @param {number} state
  */
 const getAdminList = config => {
     const params = getUrlParams(config.url);
@@ -52,7 +52,7 @@ Mock.mock(/\/admin\/index/, /get|post/i, getAdminList);
 
 /**
  * 获取管理员详情
- * @param {String} id
+ * @param {string} id
  */
 const getAdminDetail = config => {
     const params = getUrlParams(config.url);
@@ -102,9 +102,9 @@ Mock.mock(/\/admin\/add/, /get|post/i, addAdmin);
 
 /**
  * 修改管理员提交
- * @param {String} username
- * @param {String} password
- * @param {String} name
+ * @param {string} username
+ * @param {string} password
+ * @param {string} name
  * @param {*} others
  */
 const updateAdmin = config => {
@@ -139,9 +139,9 @@ Mock.mock(/\/admin\/delete/, /get|post/i, deleteAdmin);
 
 /**
  * 获取管理员分类列表
- * @param {Number} page
- * @param {Number} pageSize
- * @param {Number} state
+ * @param {number} page
+ * @param {number} pageSize
+ * @param {number} state
  */
 const getRoleList = config => {
     const params = getUrlParams(config.url);
@@ -194,7 +194,7 @@ Mock.mock(/\/role\/index/, /get|post/i, getRoleList);
 
 /**
  * 获取管理员分类详情
- * @param {String} id
+ * @param {string} id
  */
 const getRoleDetail = config => {
     const params = getUrlParams(config.url);
@@ -234,7 +234,7 @@ Mock.mock(/\/role\/detail/, /get|post/i, getRoleDetail);
 
 /**
  * 新增管理员分类提交
- * @param {String} name
+ * @param {string} name
  * @param {Array} permission
  */
 const addRole = config => {
@@ -252,7 +252,7 @@ Mock.mock(/\/role\/add/, /get|post/i, addRole);
 
 /**
  * 修改管理员分类提交
- * @param {String} name
+ * @param {string} name
  * @param {Array} permission
  */
 const updateRole = config => {
@@ -474,7 +474,7 @@ Mock.mock(/\/admin\/permission\/tree/, /get|post/i, getPermissionTree);
 
 /**
  * 获取权限详情
- * @param {String} id
+ * @param {string} id
  */
 const getPermissionDetail = config => {
     const params = getUrlParams(config.url);
@@ -498,7 +498,7 @@ Mock.mock(/\/admin\/permission\/detail/, /get|post/i, getPermissionDetail);
 
 /**
  * 更新权限详情
- * @param {String} name
+ * @param {string} name
  * @param {Array} permission
  */
 const updatePermissionDetail = config => {

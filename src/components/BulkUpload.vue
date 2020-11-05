@@ -14,12 +14,13 @@
         >
             <template v-if="showUploadBtn">
                 <div v-if="textType === 'button'">
-                    <a-button><a-icon type="upload" />{{ $t("GLOBAL.TEXT_UPLOAD") }}</a-button>
+                    <a-button><UploadOutlined />上传</a-button>
                     <span class="upload-tip">只能上传 {{acceptList}}</span>
                 </div>
                 <div v-else>
-                    <a-icon :type="uploading ? 'loading' : 'plus'" />
-                    <div class="ant-upload-text">{{$t('GLOBAL.TEXT_UPLOAD')}}</div>
+                    <LoadingOutlined v-if="uploading" />
+                    <PlusOutlined v-else />
+                    <div class="ant-upload-text">上传</div>
                 </div>
             </template>
         </a-upload>
@@ -33,6 +34,7 @@
     </div>
 </template>
 <script>
+import { UploadOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons-vue'
 import { uploadMultiFile } from '@/api/common'
 import { getImgAbsPath, deepCopy } from 'utils/util'
 
@@ -102,6 +104,7 @@ export default {
     },
     data() {
         return {
+            getImgAbsPath,
             uploading: false,  // 上传中
 			bulkUploadReadyCount: 0,
             photoPreviewVisible: false,
@@ -252,6 +255,11 @@ export default {
                 return 'file';
             }
         },
+    },
+    components: {
+        UploadOutlined,
+        LoadingOutlined,
+        PlusOutlined
     }
 };
 </script>

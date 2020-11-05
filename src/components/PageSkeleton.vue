@@ -1,95 +1,75 @@
 <template>
     <div class="container">
         <!-- 筛选区域 -->
-        <a-form-model v-if="optionList.SHOWAREA" ref="filterForm" :model="filterValues" layout="horizontal" :colon="true" label-align="right" class="ant-advanced-search-form">
+        <a-form v-if="panelGroup.SHOW_FILTER_AREA" ref="filterForm" layout="horizontal" :colon="true" label-align="right" class="ant-advanced-search-form">
             <a-row :gutter="24">
                 <a-col v-if="filterList.FILTER_ID" :span="6">
-                    <a-form-model-item :label="$t('GLOBAL.DATA_ID')">
-                        <a-input v-model="filterValues.fid" :placeholder="$t('GLOBAL.OPTION_INPUT') + $t('GLOBAL.DATA_ID')" />
-                    </a-form-model-item>
+                    <a-form-item label="数据ID">
+                        <a-input v-model:value="filterRef.fid" allow-clear placeholder="请输入数据ID" />
+                    </a-form-item>
                 </a-col>
-                <slot name="filterBeforeSlot" :filterValues="filterValues"></slot>
                 <a-col v-if="filterList.FILTER_TITLE" :span="6">
-                    <a-form-model-item :label="$t('GLOBAL.DATA_TITLE')">
-                        <a-input v-model="filterValues.ftitle" :placeholder="$t('GLOBAL.OPTION_INPUT') + $t('GLOBAL.DATA_TITLE')" />
-                    </a-form-model-item>
-                </a-col>
-                <a-col v-if="filterList.FILTER_NAME" :span="6">
-                    <a-form-model-item :label="$t('GLOBAL.DATA_NAME')">
-                        <a-input v-model="filterValues.fname" :placeholder="$t('GLOBAL.OPTION_INPUT') + $t('GLOBAL.DATA_NAME')" />
-                    </a-form-model-item>
-                </a-col>
-                <slot name="filterAfterSlot" :filterValues="filterValues"></slot>
-                <a-col v-if="filterList.FILTER_PHONE" :span="6">
-                    <a-form-model-item :label="$t('GLOBAL.PHONE')">
-                        <a-input v-model="filterValues.fphone" :placeholder="$t('GLOBAL.OPTION_INPUT') + $t('GLOBAL.PHONE')" />
-                    </a-form-model-item>
+                    <a-form-item label="数据标题">
+                        <a-input v-model:value="filterRef.ftitle" allow-clear placeholder="请输入数据标题" />
+                    </a-form-item>
                 </a-col>
                 <a-col v-if="filterList.FILTER_CREATE_TIME" :span="6">
-                    <a-form-model-item :label="$t('GLOBAL.CREATE_DATE')">
-                        <a-date-picker v-model="filterValues.fcreate_time" :placeholder="$t('GLOBAL.OPTION_INPUT') + $t('GLOBAL.CREATE_DATE')" style="width: 100%" />
-                    </a-form-model-item>
+                    <a-form-item label="创建日期">
+                        <a-date-picker v-model:value="filterRef.fcreate_time" placeholder="请选择创建日期" style="width: 100%" />
+                    </a-form-item>
                 </a-col>
                 <a-col v-if="filterList.FILTER_STATE" :span="6">
-                    <a-form-model-item :label="$t('GLOBAL.STATE')">
-                        <a-select v-model="filterValues.fstate" :placeholder="$t('GLOBAL.OPTION_SELECT') + $t('GLOBAL.STATE')">
-                            <a-select-option value="">{{$t('GLOBAL.TEXT_ALL')}}</a-select-option>
+                    <a-form-item label="数据状态">
+                        <a-select v-model:value="filterRef.fstate" placeholder="请选择数据状态">
+                            <a-select-option value="">全部</a-select-option>
                             <template v-for="(item, index) in filterList.STATUS" :key="index">
                                 <a-select-option :value="index">{{item}}</a-select-option>
                             </template>
                         </a-select>
-                    </a-form-model-item>
+                    </a-form-item>
                 </a-col>
+                <slot name="filterSlot" :filterValues="filterRef"></slot>
             </a-row>
             <a-row>
                 <a-col :span="24">
-                    <a-form-model-item style="margin-bottom:0;text-align: right;">
-                        <a-button type="primary" @click="handleFilterSubmit('filterForm')">{{$t('GLOBAL.TEXT_SEARCH')}}</a-button>
-                        <a-button :style="{ marginLeft: '8px' }" @click="handleFilterReset('filterForm')">{{$t('GLOBAL.TEXT_RESET')}}</a-button>
-                    </a-form-model-item>
+                    <a-form-item style="margin-bottom:0;text-align: right;">
+                        <a-button type="primary" @click="handleFilterSubmit">搜索</a-button>
+                        <a-button :style="{ marginLeft: '8px' }" @click="handleFilterReset">重置</a-button>
+                    </a-form-item>
                 </a-col>
             </a-row>
-        </a-form-model>
+        </a-form>
         <!-- 内容操作区域 -->
-        <div v-if="optionList.SHOW_OPTION_BAR" class="option-bar">
-            <slot name="optionSlot"></slot>
-            <a-button v-if="optionList.ADD_ABLE" style="margin-right:10px;" type="primary" @click="handleModalShow('add')">{{$t('GLOBAL.TEXT_ADD')}}</a-button>
+        <div v-if="panelGroup.SHOW_OPTION_BAR" class="option-bar">
+            <slot name="operateSlot"></slot>
+            <a-button v-if="panelGroup.SHOW_OPTION_ADD" v-operate-auth="'add'" style="margin-right:10px;" type="primary" @click="handleRoute('add')">新增</a-button>
             <template v-if="selectedRowKeys.length">
-                <div v-if="excelConfig.SHOW_EXPORT" style="margin-right:10px;">
-                    <export-excel :EXCEL_FIELDS="excelConfig.EXCEL_FIELDS" :excelData="excelData" :EXCEL_NAME="excelConfig.EXCEL_NAME" :btnName="$t('GLOBAL.TEXT_EXPORT') + ' Excel'" @exportExcel="exportExcel" ></export-excel>
+                <div v-operate-auth="'export'" style="margin-right:10px;">
+                    <!-- TODO vue3.0 不兼容？？？ -->
+                    <!-- <ExportExcel :data="exportData" :fields="excelConfig.fields" :name="excelConfig.name" button-text="导出 Excel" @export-excel="exportExcel" /> -->
                 </div>
-                <a-button style="margin-right:10px;" type="danger" @click="handleBulkDelete">{{$t('GLOBAL.TEXT_BATCH_DELETE')}}</a-button>
-                <slot name="bulkOptionSlot"></slot>
-                <div v-html="$t('GLOBAL.DATA_CURRENTLY_SELECT', [selectedRowKeys.length])"></div>
+                <a-button v-operate-auth="'delete'" style="margin-right:10px;" type="danger" @click="handleBulkDelete">删除</a-button>
+                <div>已选择 {{selectedRowKeys.length}} 条数据</div>
             </template>
         </div>
         <!-- 列表数据展示区域 -->
         <slot name="tableSlot"></slot>
-        <!-- 信息查看/修改弹窗 -->
-        <template v-if="optionList.SHOW_MODAL">
-            <a-modal :visible="modalVisible" width="50%" :okButtonProps="{props: {disabled: submitDisabled}}" :maskClosable="false" @cancel="handleModalCancel" @ok="handleModalSubmit">
-                <div class="modal-header">
-                    <div class="modal-header_title">{{modalTitle}}</div>
-                </div>
-                <slot name="viewSlot"></slot>
-            </a-modal>
-        </template>
         <!-- 图片预览弹窗 -->
-        <a-modal :visible="photoPreviewVisible" :zIndex=1001 :footer="null" @cancel="handlePhotopreviewCancel">
+        <a-modal :visible="previewVisible" :zIndex=1001 :footer="null" @cancel="handlePreviewCancel">
             <img alt="" style="width: 100%" :src="getImgAbsPath(previewPhoto)" />
         </a-modal>
     </div>
 </template>
 
 <script>
-    import ExportExcel from 'components/ExportExcel.vue'
+    // import ExportExcel from 'components/ExportExcel.vue'
     import { getImgAbsPath } from '@/utils/util'
+    import { getCurrentInstance, reactive, ref, toRaw, toRefs } from 'vue'
+    import { useForm } from '@ant-design-vue/use'
+    import { Modal } from 'ant-design-vue'
 
     export default {
         name: 'pageSkeleton',
-        components: {
-            ExportExcel
-        },
         props: {
             dataList: {  // 表单数据
                 type: Array,
@@ -97,7 +77,7 @@
                     return []
                 }
             },
-            optionList: {
+            panelGroup: {
                 type: Object,
                 default: function() {
                     return {}
@@ -121,108 +101,82 @@
                     return []
                 }
             },
-            photoPreviewVisible: {
+            previewVisible: {
                 type: Boolean,
-                default: function () {
-                    return false
-                }
+                default: false
             },
             previewPhoto: {
                 type: String,
-                default: function () {
-                    return ''
-                }
-            },
-            modalVisible: {
-                type: Boolean,
-                default: function () {
-                    return false
-                }
-            },
-            modalTitle: {
-                type: String,
-                default: function () {
-                    return ''
-                }
-            },
-            submitDisabled: {
-                type: Boolean,
-                default: function () {
-                    return false
-                }
-            },
-        },
-        data() {
-            return {
-                excelData: [],
-                filterValues: {},  // 筛选的值
+                default: ''
             }
         },
-        methods: {
-            exportExcel() {
-                let exportList = this.dataList.filter(item => this.selectedRowKeys.includes(item.id));
+        setup(props, { emit }) {
+            const { ctx } = getCurrentInstance()
+            const { dataList, selectedRowKeys } = toRefs(props)
+
+            const filterRef = reactive({
+                fid: '',
+                ftitle: '',
+                fcreate_time: '',
+                fstate: ''
+            })
+
+            const { resetFields } = useForm(filterRef, reactive({}))
+
+            const handleFilterSubmit = async () => {
+                const filterValues = toRaw(filterRef)
+                filterValues.fcreate_time = typeof filterValues.fcreate_time === 'object' ? filterValues.fcreate_time.format('YYYY-MM-DD') : filterValues.fcreate_time
+                emit('handle-filter', filterValues)
+            }
+
+            const handleFilterReset = async () => {
+                resetFields()
+                emit('handle-filter')
+            }
+
+            const handlePreviewCancel = () => {
+                emit('update:previewVisible', false)
+            }
+
+            const handleRoute = type => {
+                emit('handle-route', type)
+            }
+
+            const excelData = ref([])
+            const exportExcel = () => {
+                const exportList = dataList.filter(v => selectedRowKeys.includes(v.id))
                 if (!exportList.length) {
-                    this.$message.info(this.$t('GLOBAL.OPTION_CHECK_NONE'));
+                    ctx.$message.info('没有选中数据');
                     return;
                 }
-                this.excelData = exportList;
-            },
-			handleBulkDelete() {
-				const that = this;
-				this.$confirm({
-					title: this.$t('GLOBAL.OPTION_DELETE_REMIND'),
-					content: this.$t('GLOBAL.OPTION_DELETE_CONFIRM'),
+                excelData.value = exportList
+            }
+
+            const handleBulkDelete = () => {
+                Modal.confirm({
+                    title: '删除提醒',
+					content: '确认删除当前选中的信息吗?',
 					okType: 'danger',
 					onOk() {
-                        that.$emit('delete-multi-items');
+                        emit('handle-bulk-delete');
 					},
-                });
-            },
-            handlePhotopreviewCancel() {
-				this.$emit('handle-photopreview-cancel');
-            },
-            handleModalShow (action) {
-                this.$emit('show-modal', action);
-            },
-            handleModalCancel () {
-                this.$emit('handle-modal-cancel');
-            },
-            handleModalSubmit () {
-                this.$emit('handle-modal-submit');
-            },
-            handleFilterSubmit(formName) {
-                this.$refs[formName].validate(valid => {
-                    if (!valid) return;
-                    const values = {
-                        id: this.filterValues['fid'],
-                        admin_username: this.filterValues['fadminusername'],
-                        admin_nickname: this.filterValues['fadminnickname'],
-                        member_nickname: this.filterValues['fmembernickname'],
-                        phone: this.filterValues['fphone'],
-                        class_id: this.filterValues['fparent'],
-                        section_id: this.filterValues['fsectionid'],
-                        category_id: this.filterValues['fcatogoryid'],
-                        name: this.filterValues['fname'],
-                        nickname: this.filterValues['fnickname'],
-                        title: this.filterValues['ftitle'],
-                        admin_id: this.filterValues['fadminid'],
-                        admin: this.filterValues['fadmin'],
-                        operation: this.filterValues['foperation'],
-                        object_table: this.filterValues['fobjecttable'],
-                        state: this.filterValues['fstate'],
-                        create_time: this.filterValues['fcreate_time'] && this.filterValues['fcreate_time'].format('YYYY-MM-DD'),
-                        update_time: this.filterValues['fupdate_time'] && this.filterValues['fupdate_time'].format('YYYY-MM-DD'),
-                        delete_time: this.filterValues['fdelete_time'] && this.filterValues['fdelete_time'].format('YYYY-MM-DD'),
-                    };
-                    // console.log('filterValues:', values);
-                    this.$emit('handle-filter-submit', values);
                 })
-            },
-            handleFilterReset (formName) {
-                this.$refs[formName].resetFields();
-                this.filterValues = {};
-                this.$emit('handle-filter-reset');
-            },
+            }
+
+            return {
+                getImgAbsPath,
+                filterRef,
+                excelData,
+                handleFilterSubmit,
+                handleFilterReset,
+                handlePreviewCancel,
+                exportExcel,
+                handleBulkDelete,
+                handleRoute
+            }
+        },
+        components: {
+            // ExportExcel
         }
     }
 </script>

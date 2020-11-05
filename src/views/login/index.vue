@@ -1,32 +1,4 @@
-<template>
-    <div class="login-wrap">
-        <div class="logo-box">
-            <img class="logo" src="../../assets/images/logo.png" alt="">
-            <div class="en-logo">fans-admin</div>
-        </div>
-        <div class="title">fans-admin</div>
-        <a-form class="login-form" ref="loginForm">
-            <a-form-item v-bind="validateInfos.username">
-                <a-input v-model:value="formRef.username" placeholder="用户名：test" >
-                    <template v-slot:prefix><UserOutlined type="user"/></template>
-                </a-input>
-            </a-form-item>
-            <a-form-item v-bind="validateInfos.password">
-                <a-input v-model:value="formRef.password" type="password" placeholder="密码：123456" >
-                    <template v-slot:prefix><LockOutlined type="user"/></template>
-                </a-input>
-            </a-form-item>
-            <a-form-item>
-                <div class="login-form_rem">
-                    <a-checkbox>记住账号</a-checkbox >
-                    <router-link to="">忘记密码</router-link>
-                </div>
-                <a-button type="primary" size="large" block :loading="submiting" @click="handleSubmit">登陆</a-button>
-            </a-form-item>
-        </a-form>
-        <div class="footer"><BaseFooter /></div>
-    </div>
-</template>
+<template src="./index.html"></template>
 
 <script>
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
@@ -35,6 +7,7 @@ import BaseFooter from '@/components/Layouts/Footer.vue'
 import { reactive, ref, getCurrentInstance } from 'vue'
 import { useRouter } from 'vue-router'
 import { useForm } from '@ant-design-vue/use'
+import { useStore } from 'vuex'
 
 import { login } from '@/api/common'
 import config from './config'
@@ -44,6 +17,7 @@ export default {
     setup() {
         const { ctx } = getCurrentInstance()
         const router = useRouter()
+        const store = useStore()
 
         const submiting = ref(false)
         const formRef = reactive({
@@ -60,6 +34,7 @@ export default {
                 submiting.value = true
                 const data = await login(params)
                 if (data.code == '200') {
+                    await store.dispatch('authority/SET_AUTH')
                     ctx.$message.success(data.msg, 1, () => {
                         submiting.value = false
                         sessionStorage.setItem('user', JSON.stringify(data.data))

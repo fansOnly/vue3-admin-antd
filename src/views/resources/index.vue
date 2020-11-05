@@ -23,7 +23,7 @@
                     <a-badge :status="action | BADGE_STATUS" :text="filterList.STATUS[action]" />
                 </span>
                 <span slot="actionSlot" slot-scope="action, record">
-                    <a-popconfirm :title="$t('GLOBAL.OPTION_DELETE_CONFIRM')" @confirm="() => delItem(record.id)">
+                    <a-popconfirm :title="$t('GLOBAL.OPTION_DELETE_CONFIRM')" @confirm="delItem(record.id)">
                         <a-button size="small" type="danger" >{{$t('GLOBAL.TEXT_DELETE')}}</a-button>
                     </a-popconfirm>
                 </span> -->
@@ -35,7 +35,7 @@
 <script>
 import PageSkeleton from 'components/PageSkeleton.vue'
 
-import { getAssetsList as getDataList, deleteAssets as deleteDataList } from '@/api/setting'
+import { getAssetsList as getDataList, deleteAssets as deleteData } from '@/api/setting'
 import config from './config'
 
 export default {

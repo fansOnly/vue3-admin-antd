@@ -1,28 +1,28 @@
 <template>
 	<div class="container">
-        <a-form-model ref="viewForm" :model="viewData" :rules="rules" :layout="layout" :colon="colon">
+        <a-form ref="viewForm" :model="viewData" :rules="rules" :layout="layout" :colon="colon">
 			<a-row :gutter="50">
 				<a-col :span="12">
-					<a-form-model-item :label="$t('GLOBAL.NICK_NAME')" prop="nickname">
+					<a-form-item :label="$t('GLOBAL.NICK_NAME')" prop="nickname">
 						<a-input v-model="viewData.nickname" :placeholder="$t('GLOBAL.OPTION_INPUT') + $t('GLOBAL.NICK_NAME')" />
-					</a-form-model-item>
-					<a-form-model-item :label="$t('GLOBAL.PHONE')" prop="phone">
+					</a-form-item>
+					<a-form-item label="手机号码" prop="phone">
 						<a-input v-model="viewData.phone" maxLength="11" :placeholder="$t('GLOBAL.OPTION_INPUT') + $t('GLOBAL.PHONE')">
 							<!-- <a-select slot="addonBefore" v-model="viewData.phonePrefix" style="width: 70px" >
 								<a-select-option value="86">+86</a-select-option>
 								<a-select-option value="87">+87</a-select-option>
 							</a-select> -->
 						</a-input>
-					</a-form-model-item>
-					<a-form-model-item :label="$t('GLOBAL.EMAIL')" prop="email">
+					</a-form-item>
+					<a-form-item :label="$t('GLOBAL.EMAIL')" prop="email">
 						<a-input v-model="viewData.email" :placeholder="$t('GLOBAL.OPTION_INPUT') + $t('GLOBAL.EMAIL')" />
-					</a-form-model-item>
-					<a-form-model-item :label="$t('GLOBAL.USER_NOTE')">
+					</a-form-item>
+					<a-form-item :label="$t('GLOBAL.USER_NOTE')">
 						<a-textarea v-model="viewData.intro" :rows="4" :placeholder="$t('GLOBAL.OPTION_INPUT') + $t('GLOBAL.USER_NOTE')" />
-					</a-form-model-item>
-					<a-form-model-item>
+					</a-form-item>
+					<a-form-item>
 						<a-button type="primary" :loading="submitDisabled" @click="handleSubmit('viewForm')">{{$t('GLOBAL.TEXT_SAVE')}}</a-button>
-					</a-form-model-item>
+					</a-form-item>
 				</a-col>
 				<a-col :span="12">
 					<div class="avatarBox" @mouseover="() => this.maskVisible = true" @mouseout="() => this.maskVisible = false" @click="openUpload">
@@ -33,7 +33,7 @@
 					</div>
 				</a-col>
 			</a-row>
-		</a-form-model>
+		</a-form>
 		<avatar-upload :visible="uploadVisible" @cropperDone="cropperDone" @cancel="cropperCancel" ></avatar-upload>
 	</div>
 </template>

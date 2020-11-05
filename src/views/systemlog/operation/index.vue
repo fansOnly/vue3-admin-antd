@@ -12,36 +12,36 @@
         <!-- 渲染筛选条件 -->
         <template #filterBeforeSlot="{ filterValues }">
             <a-col v-if="filterList.FILTER_OPERATOR" :span="6">
-                <a-form-model-item :label="$t('GLOBAL.DATA_OPERATOR')">
+                <a-form-item :label="$t('GLOBAL.DATA_OPERATOR')">
                     <a-select v-model="filterValues.fadminid" :placeholder="$t('GLOBAL.OPTION_SELECT') + $t('GLOBAL.DATA_OPERATOR')">
                         <a-select-option value="">{{$t('GLOBAL.TEXT_ALL')}}</a-select-option>
                         <template v-for="item in adminList" :key="item.id">
                             <a-select-option :value="item.id">{{item.nickname}}</a-select-option>
                         </template>
                     </a-select>
-                </a-form-model-item>
+                </a-form-item>
             </a-col>
             <a-col v-if="filterList.FILTER_OBJECT_TABLE" :span="6">
-                <a-form-model-item :label="$t('GLOBAL.DATA_TABLE')">
+                <a-form-item :label="$t('GLOBAL.DATA_TABLE')">
                     <a-input v-model="filterValues.fobjecttable" :placeholder="$t('GLOBAL.OPTION_INPUT') + $t('GLOBAL.DATA_TABLE')" />
-                </a-form-model-item>
+                </a-form-item>
             </a-col>
             <a-col v-if="filterList.FILTER_OPERATION" :span="6">
-                <a-form-model-item :label="$t('GLOBAL.DATA_OPERATION')">
+                <a-form-item :label="$t('GLOBAL.DATA_OPERATION')">
                     <a-select v-model="filterValues.foperation" :placeholder="$t('GLOBAL.OPTION_SELECT') + $t('GLOBAL.DATA_OPERATION')">
                         <a-select-option value="">{{$t('GLOBAL.TEXT_ALL')}}</a-select-option>
-                        <template v-for="(item, index) in OPERATION_ITEMS" :key="index">
+                        <template v-for="(item, index) in OPERATION_GROUP" :key="index">
                             <a-select-option :value="item">{{item}}</a-select-option>
                         </template>
                     </a-select>
-                </a-form-model-item>
+                </a-form-item>
             </a-col>
         </template>
         <!-- 渲染数据 -->
         <template v-slot:tableSlot>
             <a-table row-key="id" :loading="loading" :columns="columnList" :data-source="dataList" :pagination="pagination" :row-selection="rowSelection" bordered @change="handleTableChange" >
                 <!-- <span slot="actionSlot" slot-scope="action, record">
-                    <a-popconfirm :title="$t('GLOBAL.OPTION_DELETE_CONFIRM')" @confirm="() => delItem(record.id)">
+                    <a-popconfirm :title="$t('GLOBAL.OPTION_DELETE_CONFIRM')" @confirm="delItem(record.id)">
                         <a-button size="small" type="danger" >{{$t('GLOBAL.TEXT_DELETE')}}</a-button>
                     </a-popconfirm>
                 </span> -->
@@ -53,7 +53,7 @@
 <script>
     import PageSkeleton from 'components/PageSkeleton.vue'
 
-    import { getOperationlogList as getDataList, deleteOperationlog as deleteDataList } from '@/api/systemlog'
+    import { getOperationlogList as getDataList, deleteOperationlog as deleteData } from '@/api/systemlog'
     import { getAdminList } from '@/api/admin'
     import config from './config'
     import { pluck } from 'utils/util'
@@ -70,7 +70,7 @@
                 columnList: config.columnList,
                 filterList: config.filterList,
                 pagination: config.pagination,
-                OPERATION_ITEMS: config.OPERATION_ITEMS,
+                OPERATION_GROUP: config.OPERATION_GROUP,
                 adminList: [],
                 dataList: [],
                 loading: true,

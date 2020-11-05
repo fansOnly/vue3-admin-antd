@@ -3,9 +3,9 @@ import { getUrlParams } from 'utils/util';
 
 /**
  * 获取留言列表
- * @param {Number} page
- * @param {Number} pageSize
- * @param {Number} state
+ * @param {number} page
+ * @param {number} pageSize
+ * @param {number} state
  */
 const getMessageList = config => {
     const params = getUrlParams(config.url);
@@ -74,7 +74,7 @@ Mock.mock(/\/message\/list/, /get|post/i, getMessageList);
 
 /**
  * 获取留言详情
- * @param {String} id
+ * @param {string} id
  */
 const getMessageView = config => {
     const params = getUrlParams(config.url);
@@ -139,8 +139,8 @@ Mock.mock(/\/message\/detail/, /get|post/i, getMessageView);
 
 /**
  * 回复留言
- * @param {String} id
- * @param {String} reply
+ * @param {string} id
+ * @param {string} reply
  * @param {*} others
  */
 const updateMessage = config => {

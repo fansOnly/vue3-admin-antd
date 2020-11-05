@@ -23,7 +23,7 @@
                 <span slot="actionSlot" slot-scope="action, record">
                     <a-button size="small" :disabled="(role_id != 1 && record.id == 1) || ![1, 2].includes(role_id)" @click="routePage('edit', record.id)">{{$t('GLOBAL.TEXT_EDIT')}}</a-button>
                     <span>&nbsp;</span>
-                    <a-popconfirm :title="$t('GLOBAL.OPTION_DELETE_CONFIRM')" @confirm="() => delItem(record.id)">
+                    <a-popconfirm :title="$t('GLOBAL.OPTION_DELETE_CONFIRM')" @confirm="delItem(record.id)">
                         <a-button size="small" type="danger" >{{$t('GLOBAL.TEXT_DELETE')}}</a-button>
                     </a-popconfirm>
                 </span> -->
@@ -34,7 +34,7 @@
 
 <script>
     import PageSkeleton from 'components/PageSkeleton.vue'
-    import { getRoleList as getDataList, deleteRole as deleteDataList } from '@/api/admin'
+    import { getRoleList as getDataList, deleteRole as deleteData } from '@/api/admin'
 
 	import { createNamespacedHelpers } from 'vuex'
 	const { mapState } = createNamespacedHelpers('common')

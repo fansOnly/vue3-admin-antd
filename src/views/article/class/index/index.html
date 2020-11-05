@@ -1,0 +1,23 @@
+<div>
+    <PageSkeleton :data-list="dataList" :panel-group="panelGroup" v-model:preview-visible="previewVisible"
+        :preview-photo="previewPhoto" @handle-route="handleClickItem">
+        <!-- 渲染数据 -->
+        <template #tableSlot>
+            <a-table row-key="id" :loading="loading" :columns="columnList" :data-source="dataList" :pagination="false" :row-selection="null" bordered>
+                <template #thumb="{ text }">
+                    <span v-if="!text || !text.length">暂无</span>
+                    <a v-else-if="text[0].state == 1" href="javascript:;"><img :src="text[0].path"
+                            style="width:30px;height:30px;" alt="" @click="handlePhotoPreview(text[0].path)"></a>
+                    <span style="color:red;" v-else>文件缺失</span>
+                </template>
+                <template #action="{ text, record }">
+                    <a-button class="table-action-btn-space" size="small" @click="handleClickItem('add', record.id)">新增</a-button>
+                    <a-button class="table-action-btn-space" size="small" @click="handleClickItem('edit', record.id)">编辑</a-button>
+                    <a-popconfirm title="确定要删除当前信息吗？" @confirm="handleClickItem('delete', record.id)">
+                        <a-button size="small" type="danger">删除</a-button>
+                    </a-popconfirm>
+                </template>
+            </a-table>
+        </template>
+    </PageSkeleton>
+</div>

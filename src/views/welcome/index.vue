@@ -31,7 +31,7 @@
         getSearchHot,
     } from '@/api/statics'
     import { getMessageList } from '@/api/message'
-    import { getProductList } from '@/api/product'
+    import { getArticleList } from '@/api/article'
     import { reactive, ref, onMounted, readonly } from 'vue'
     import { toThousandFilter } from '@/utils/util'
 
@@ -58,7 +58,7 @@
             const messageList = ref([])
 
             let pagination = reactive({
-                page: 1,
+                current: 1,
                 pageSize: 4
             })
 
@@ -74,10 +74,7 @@
 
             const handleTableChange = page => {
                 if (!searchList.value.length) return
-                pagination = {
-                    page: page.current,
-                    pageSize: page.pageSize,
-                }
+                pagination.current = page.current
                 apiGetSearchHot()
             }
 
@@ -91,13 +88,10 @@
             }
 
             const apiGetSearchHot = async () => {
-                const { page, pageSize } = pagination
-                const data = await getSearchHot({page, pageSize})
-                searchList.value = data.data
-                pagination = {
-                    ...pagination,
-                    total: data.total
-                }
+                const { current, pageSize } = pagination
+                const { data = [], total = 0 } = await getSearchHot({page: current, pageSize})
+                searchList.value = data
+                pagination.total = total
             }
             const apiGetMessageList = async () => {
                 const params = { page: 1, pageSize: 2 }
@@ -106,7 +100,7 @@
             }
             const apiGetProductList = async () => {
                 const params = { page: 1, pageSize: 5 }
-                const data = await getProductList(params)
+                const data = await getArticleList(params)
                 newsList.value = data.data
             }
             apiGetSearchHot()

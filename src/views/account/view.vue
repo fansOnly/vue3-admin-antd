@@ -1,63 +1,63 @@
 <template>
     <div class="container">
-        <a-form-model ref="viewForm" :model="viewData" :rules="rules" :layout="layout" :colon="colon" :label-align="labelAlign">
+        <a-form ref="viewForm" :model="viewData" :rules="rules" :layout="layout" :colon="colon" :label-align="labelAlign">
             <a-row :gutter="16">
                 <a-col :span="13">
-                    <a-form-model-item v-if="!!id" :label="$t('GLOBAL.DATA_ID')">
+                    <a-form-item v-if="!!id" label="数据ID">
                         <a-input v-model="viewData.id" disabled />
-                    </a-form-model-item>
+                    </a-form-item>
                 </a-col>
                 <a-col :span="13">
-                    <a-form-model-item :label="$t('GLOBAL.USER_NAME')" prop="username">
+                    <a-form-item :label="$t('GLOBAL.USER_NAME')" prop="username">
                         <a-input v-model="viewData.username" :placeholder="$t('GLOBAL.OPTION_INPUT') + $t('GLOBAL.USER_NAME')" autocomplete="off" />
-                    </a-form-model-item>
+                    </a-form-item>
                 </a-col>
                 <a-col :span="13">
-                    <a-form-model-item :label="$t('GLOBAL.PASSWORD')" prop="password">
+                    <a-form-item :label="$t('GLOBAL.PASSWORD')" prop="password">
                         <a-input :type="showPass ? 'text' : 'password'" v-model="viewData.password" :placeholder="$t('GLOBAL.OPTION_INPUT') + $t('GLOBAL.PASSWORD')" autocomplete="off" :disabled="!!id">
                             <!-- <a-icon v-if="passwordVisible" :type="showPass ? 'eye' : 'eye-invisible'" slot="suffix" @click="togglePassword" />
                             <a-icon v-if="passwordEditable" type="sync" :spin="spin" slot="addonAfter" @click="createRandomPass" /> -->
                         </a-input>
-                    </a-form-model-item>
+                    </a-form-item>
                 </a-col>
                 <a-col :span="13">
-                    <a-form-model-item :label="$t('GLOBAL.NICK_NAME')" prop="nickname">
+                    <a-form-item :label="$t('GLOBAL.NICK_NAME')" prop="nickname">
                         <a-input v-model="viewData.nickname" :placeholder="$t('GLOBAL.OPTION_INPUT') + $t('GLOBAL.NICK_NAME')" />
-                    </a-form-model-item>
+                    </a-form-item>
                 </a-col>
                 <a-col :span="13">
-                    <a-form-model-item :label="$t('GLOBAL.PHONE')" prop="phone">
+                    <a-form-item label="手机号码" prop="phone">
                         <a-input v-model="viewData.phone" maxLength="11" :placeholder="$t('GLOBAL.OPTION_INPUT') + $t('GLOBAL.PHONE')" />
-                    </a-form-model-item>
+                    </a-form-item>
                 </a-col>
                 <a-col :span="13">
-                    <a-form-model-item :label="$t('GLOBAL.EMAIL')" prop="email">
+                    <a-form-item :label="$t('GLOBAL.EMAIL')" prop="email">
                         <a-input v-model="viewData.email" :placeholder="$t('GLOBAL.OPTION_INPUT') + $t('GLOBAL.EMAIL')" />
-                    </a-form-model-item>
+                    </a-form-item>
                 </a-col>
                 <a-col :span="13">
-                    <a-form-model-item :label="$t('GLOBAL.DATA_PARENT')" prop="role_id">
+                    <a-form-item :label="$t('GLOBAL.DATA_PARENT')" prop="role_id">
                         <a-select v-model="viewData.role_id" :placeholder="$t('GLOBAL.OPTION_SELECT') + $t('GLOBAL.DATA_PARENT')" :disabled="viewData.role_id == 1">
                             <a-select-option value="">{{$t('GLOBAL.OPTION_SELECT')}}</a-select-option>
                             <a-select-option v-for="(item, index) in roleList" :key="index" :value="item.id" :disabled="item.id == 1">{{item.name}}</a-select-option>
                         </a-select>
-                    </a-form-model-item>
+                    </a-form-item>
                 </a-col>
                 <a-col :span="13">
-                    <a-form-model-item :label="$t('GLOBAL.STATE')">
+                    <a-form-item label="数据状态">
                         <a-radio-group v-model="viewData.state" buttonStyle="solid" >
                             <a-radio-button v-for="(item, index) in ACCOUNT_STATUS" :key="index" :value="index">{{item}}</a-radio-button>
                         </a-radio-group>
-                    </a-form-model-item>
+                    </a-form-item>
                 </a-col>
                 <a-col :span="13">
-                    <a-form-model-item>
+                    <a-form-item>
                         <a-button v-if="!viewData.reply_time" type="primary" :loading="submitDisabled" @click="handleSubmit('viewForm')">{{$t('GLOBAL.TEXT_SAVE')}}</a-button>
                         <a-button style="margin-left:10px;" @click="() => {$router.back()}">{{$t('GLOBAL.TEXT_BACK')}}</a-button>
-                    </a-form-model-item>
+                    </a-form-item>
                 </a-col>
             </a-row>
-        </a-form-model>
+        </a-form>
     </div>
 </template>
 

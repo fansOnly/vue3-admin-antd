@@ -1,0 +1,44 @@
+<div class="container">
+    <a-form ref="viewForm" v-bind="formLeftLayout">
+        <a-row>
+            <a-col :span="15">
+                <a-form-item v-if="id" label="数据ID">
+                    <a-input :value="id" disabled />
+                </a-form-item>
+                <a-form-item label="数据序号" v-bind="validateInfos.sortnum">
+                    <a-input v-model:value.number="viewData.sortnum" placeholder="请输入序号" />
+                </a-form-item>
+                <a-form-item label="数据标题" v-bind="validateInfos.name">
+                    <a-input v-model:value="viewData.name" placeholder="请输入标题" />
+                </a-form-item>
+                <a-form-item label="上级分类" v-bind="validateInfos.parent_id">
+                    <a-tree-select style="width: 100%" v-model:value="viewData.parent_id"
+                        :dropdown-style="{ maxHeight: '200px', overflow: 'auto' }"
+                        placeholder="请选择上级分类" allow-clear tree-default-expand-all
+                        tree-data-simple-mode :tree-data="parentList" />
+                </a-form-item>
+                <a-form-item label="简要描述">
+                    <a-textarea v-model:value="viewData.intro" placeholder="请输入简要描述"
+                        :auto-size="{ minRows: 2, maxRows: 4 }" />
+                </a-form-item>
+                <a-form-item label="数据状态" v-bind="validateInfos.state">
+                    <a-radio-group v-model:value="viewData.state" buttonStyle="solid">
+                        <a-radio-button v-for="(item, index) in INFO_CLASS_STATUS" :key="index" :value="index">{{item}}
+                        </a-radio-button>
+                    </a-radio-group>
+                </a-form-item>
+                <a-form-item :wrapper-col="{ offset: 4 }">
+                    <a-button type="primary" :loading="loading" @click="handleSubmit">保存</a-button>
+                    <a-button style="margin-left:10px;" @click="() => $router.back(-1)">返回</a-button>
+                </a-form-item>
+            </a-col>
+            <a-col span="8" :offset="1">
+                <a-form-item label="缩略图" :label-col="formRightLayout.labelCol" :wrapper-col="formRightLayout.wrapperCol"
+                    v-bind="validateInfos.photos">
+                    <SingleUpload v-if="loaded || !id" :data-list="viewData.photos" :savedIds="savedIds" :deletedIds="deletedIds"
+                        @change="handleUpload($event, 'photos')" />
+                </a-form-item>
+            </a-col>
+        </a-row>
+    </a-form>
+</div>

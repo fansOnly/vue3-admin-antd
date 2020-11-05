@@ -1,0 +1,31 @@
+<div>
+    <PageSkeleton :data-list="dataList" :selected-row-keys="selectedRowKeys" :panel-group="panelGroup"
+        :filter-list="filterList" :excel-config="excelConfig" v-model:preview-visible="previewVisible"
+        :preview-photo="previewPhoto" @handle-bulk-delete="handleBulkDelete" @handle-route="handleClickItem"
+        @handle-filter="handleFilter">
+        <!-- 渲染数据 -->
+        <template #tableSlot>
+            <a-table row-key="id" :loading="loading" :columns="columnList" :data-source="dataList"
+                :pagination="pagination" :row-selection="rowSelection" bordered @change="handleTableChange">
+                <template #thumb="{ text }">
+                    <span v-if="!text || !text.length">暂无</span>
+                    <a v-else-if="text[0].state == 1" href="javascript:;"><img :src="text[0].path"
+                            style="width:30px;height:30px;" alt="" @click="handlePhotoPreview(text[0].path)"></a>
+                    <span style="color:red;" v-else>文件缺失</span>
+                </template>
+                <template #tags="{ text }">
+                    <a-tag v-for="(item, index) in text" :key="item" color="blue">{{item}}</a-tag>
+                </template>
+                <template #state="{ text }">
+                    <a-badge :status="BADGE_STATUS(text)" :text="filterList.STATUS[text]" />
+                </template>
+                <template #action="{ text, record }">
+                    <a-button class="table-action-btn-space" size="small" @click="handleClickItem('edit', record.id)">编辑</a-button>
+                    <a-popconfirm title="确定要删除当前信息吗？" @confirm="handleClickItem('delete', record.id)">
+                        <a-button size="small" type="danger">删除</a-button>
+                    </a-popconfirm>
+                </template>
+            </a-table>
+        </template>
+    </PageSkeleton>
+</div>

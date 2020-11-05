@@ -26,7 +26,7 @@
 
             <template v-else>
                 <!-- 包含二级分类 -->
-                <a-sub-menu :key="item.meta.key" v-auth="['admin']">
+                <a-sub-menu :key="item.meta.key" v-menu-auth="item.meta.key">
                     <template v-slot:title>
                         <MenuIconRender :icon="item.meta.icon" />
                         <span>{{item.meta.breadcrumbName}}</span>

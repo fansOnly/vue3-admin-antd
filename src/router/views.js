@@ -71,322 +71,174 @@ const viewRoutes = [
             },
         ]
     },
-    // {
-    //     path: '/admin/banner',
-    //     name: 'banners',
-    //     component: () => import('views/index/view.vue'),
-    //     meta: {
-    //         key: 'banners',
-    //         icon: 'picture',
-    //         breadcrumbName: '幻灯片中心', // 幻灯片中心
-    //         // breadcrumbName: 'MENU.MENU13', // 幻灯片中心
-    //         depth: 1,
-    //     },
-    //     children: [
-    //         {
-    //             path: '/admin/banner/list',
-    //             name: 'banner',
-    //             component: () => import('views/banner/index.vue'),
-    //             meta: {
-    //                 key: 'banner.index',
-    //                 breadcrumbName: '幻灯片列表', // 幻灯片列表
-    //                 // breadcrumbName: 'MENU.MENU13_1', // 幻灯片列表
-    //                 depth: 2,
-    //                 hiddenChildren: true,
-    //                 optionList: ['查看', '新增', '修改', '删除']
-    //             },
-    //         },
-    //         {
-    //             path: '/admin/banner/edit/:id',
-    //             name: 'bannerEdit',
-    //             component: () => import('views/banner/view.vue'),
-    //             meta: {
-    //                 key: 'banner.index',
-    //                 breadcrumbName: '编辑幻灯片', // 编辑幻灯片
-    //                 // breadcrumbName: 'MENU.MENU13_2', // 编辑幻灯片
-    //                 depth: 3,
-    //                 hidden: true
-    //             },
-    //         },
-    //         {
-    //             path: '/admin/banner/add',
-    //             name: 'bannerAdd',
-    //             component: () => import('views/banner/view.vue'),
-    //             meta: {
-    //                 key: 'banner.index',
-    //                 breadcrumbName: '新增幻灯片', // 新增幻灯片
-    //                 // breadcrumbName: 'MENU.MENU13_3', // 新增幻灯片
-    //                 depth: 3,
-    //                 hidden: true
-    //             },
-    //         },
-    //         {
-    //             path: '/admin/banner/class',
-    //             name: 'bannerClass',
-    //             component: () => import('views/banner/class/index.vue'),
-    //             meta: {
-    //                 key: 'banner.class',
-    //                 breadcrumbName: '幻灯片分类', // 幻灯片分类
-    //                 // breadcrumbName: 'MENU.MENU13_4', // 幻灯片分类
-    //                 depth: 2,
-    //                 hiddenChildren: true,
-    //                 optionList: ['查看', '新增', '修改', '删除']
-    //             },
-    //         }
-    //     ]
-    // },
-    // {
-    //     path: '/admin/member',
-    //     name: 'members',
-    //     component: () => import('views/index/view.vue'),
-    //     meta: {
-    //         key: 'members',
-    //         icon: 'user',
-    //         breadcrumbName: '会员中心', // 会员中心
-    //         // breadcrumbName: 'MENU.MENU3', // 会员中心
-    //         depth: 1,
-    //     },
-    //     children: [
-    //         {
-    //             path: '/admin/member/list',
-    //             name: 'member',
-    //             component: () => import('views/member/index.vue'),
-    //             meta: {
-    //                 key: 'member.index',
-    //                 breadcrumbName: '会员列表', // 会员列表
-    //                 // breadcrumbName: 'MENU.MENU3_1', // 会员列表
-    //                 depth: 2,
-    //                 hiddenChildren: true,
-    //                 optionList: ['查看', '新增', '修改', '删除']
-    //             },
-
-    //         },
-    //         {
-    //             path: '/admin/member/edit/:id',
-    //             name: 'memberEdit',
-    //             component: () => import('views/member/view.vue'),
-    //             meta: {
-    //                 key: 'member.index',
-    //                 breadcrumbName: '编辑会员', // 编辑会员
-    //                 // breadcrumbName: 'MENU.MENU3_2', // 编辑会员
-    //                 depth: 3,
-    //                 hidden: true
-    //             },
-    //         },
-    //         {
-    //             path: '/admin/member/add',
-    //             name: 'memberAdd',
-    //             component: () => import('views/member/view.vue'),
-    //             meta: {
-    //                 key: 'member.index',
-    //                 breadcrumbName: '新增会员', // 新增会员
-    //                 // breadcrumbName: 'MENU.MENU3_3', // 新增会员
-    //                 depth: 3,
-    //                 hidden: true
-    //             },
-    //         },
-    //     ]
-    // },
-    // {
-    //     path: '/admin/article',
-    //     name: 'articles',
-    //     component: () => import('views/index/view.vue'),
-    //     meta: {
-    //         key: 'articles',
-    //         icon: 'table',
-    //         breadcrumbName: '文章中心', // 文章中心
-    //         // breadcrumbName: 'MENU.MENU4', // 文章中心
-    //         depth: 1,
-    //     },
-    //     children: [
-    //         {
-    //             path: '/admin/article/list',
-    //             name: 'article',
-    //             component: () => import('views/article/index.vue'),
-    //             meta: {
-    //                 key: 'article.index',
-    //                 breadcrumbName: '文章列表', // 文章列表
-    //                 // breadcrumbName: 'MENU.MENU4_2', // 文章列表
-    //                 depth: 2,
-    //                 hiddenChildren: true,
-    //                 optionList: ['查看', '新增', '修改', '删除']
-    //             },
-    //         },
-    //         {
-    //             path: '/admin/article/edit/:id',
-    //             name: 'articleEdit',
-    //             component: () => import('views/article/view.vue'),
-    //             meta: {
-    //                 key: 'article.index',
-    //                 breadcrumbName: '编辑文章', // 编辑文章
-    //                 // breadcrumbName: 'MENU.MENU4_3', // 编辑文章
-    //                 depth: 3,
-    //                 hidden: true
-    //             },
-    //         },
-    //         {
-    //             path: '/admin/article/add',
-    //             name: 'articleAdd',
-    //             component: () => import('views/article/view.vue'),
-    //             meta: {
-    //                 key: 'article.index',
-    //                 breadcrumbName: '新增文章', // 新增文章
-    //                 // breadcrumbName: 'MENU.MENU4_4', // 新增文章
-    //                 depth: 3,
-    //                 hidden: true
-    //             },
-    //         },
-    //         {
-    //             path: '/admin/article/section/list',
-    //             name: 'section',
-    //             component: () => import('views/article/section/index.vue'),
-    //             meta: {
-    //                 key: 'article.section',
-    //                 breadcrumbName: '文章分类', // 文章分类
-    //                 // breadcrumbName: 'MENU.MENU4_1', // 文章分类
-    //                 depth: 2,
-    //                 hiddenChildren: true,
-    //                 optionList: ['查看', '新增', '修改', '删除']
-    //             },
-    //         },
-    //         {
-    //             path: '/admin/article/section/edit/:id',
-    //             name: 'sectionEdit',
-    //             component: () => import('views/article/section/view.vue'),
-    //             meta: {
-    //                 key: 'article.section',
-    //                 breadcrumbName: '编辑文章分类', // 编辑文章分类
-    //                 // breadcrumbName: 'MENU.MENU4_6', // 编辑文章分类
-    //                 depth: 3,
-    //                 hidden: true
-    //             },
-    //         },
-    //         {
-    //             path: '/admin/article/section/add',
-    //             name: 'sectionAdd',
-    //             component: () => import('views/article/section/view.vue'),
-    //             meta: {
-    //                 key: 'article.section',
-    //                 breadcrumbName: '新增文章分类', // 新增文章分类
-    //                 // breadcrumbName: 'MENU.MENU4_7', // 新增文章分类
-    //                 depth: 3,
-    //                 hidden: true
-    //             },
-    //         },
-    //         {
-    //             path: '/admin/article/recycle',
-    //             name: 'articleRecycle',
-    //             component: () => import('views/article/recycle/index.vue'),
-    //             meta: {
-    //                 key: 'article.recycle',
-    //                 breadcrumbName: '回收站', // 回收站
-    //                 // breadcrumbName: 'MENU.MENU4_5', // 回收站
-    //                 depth: 2,
-    //                 optionList: ['还原', '删除', '清空']
-    //             },
-    //         },
-    //     ]
-    // },
-    // {
-    //     path: '/admin/product',
-    //     name: 'products',
-    //     component: () => import('views/index/view.vue'),
-    //     meta: {
-    //         key: 'products',
-    //         icon: 'project',
-    //         breadcrumbName: '产品中心', // 产品中心
-    //         // breadcrumbName: 'MENU.MENU11', // 产品中心
-    //         depth: 1,
-    //     },
-    //     children: [
-    //         {
-    //             path: '/admin/product/list',
-    //             name: 'product',
-    //             component: () => import('views/product/index.vue'),
-    //             meta: {
-    //                 key: 'product.index',
-    //                 breadcrumbName: '产品列表', // 产品列表
-    //                 // breadcrumbName: 'MENU.MENU11_2', // 产品列表
-    //                 depth: 2,
-    //                 hiddenChildren: true,
-    //                 optionList: ['查看', '新增', '修改', '删除']
-    //             },
-    //         },
-    //         {
-    //             path: '/admin/product/edit/:id',
-    //             name: 'productEdit',
-    //             component: () => import('views/product/view.vue'),
-    //             meta: {
-    //                 key: 'product.index',
-    //                 breadcrumbName: '编辑产品', // 编辑产品
-    //                 // breadcrumbName: 'MENU.MENU11_3', // 编辑产品
-    //                 depth: 3,
-    //                 hidden: true
-    //             },
-    //         },
-    //         {
-    //             path: '/admin/product/add',
-    //             name: 'productAdd',
-    //             component: () => import('views/product/view.vue'),
-    //             meta: {
-    //                 key: 'product.index',
-    //                 breadcrumbName: '新增产品', // 新增产品
-    //                 // breadcrumbName: 'MENU.MENU11_4', // 新增产品
-    //                 depth: 3,
-    //                 hidden: true
-    //             },
-    //         },
-    //         {
-    //             path: '/admin/product/category/list',
-    //             name: 'category',
-    //             component: () => import('views/product/category/index.vue'),
-    //             meta: {
-    //                 key: 'product.category',
-    //                 breadcrumbName: '产品分类', // 产品分类
-    //                 // breadcrumbName: 'MENU.MENU11_1', // 产品分类
-    //                 depth: 2,
-    //                 hiddenChildren: true,
-    //                 optionList: ['查看', '新增', '修改', '删除']
-    //             },
-    //         },
-    //         {
-    //             path: '/admin/product/category/edit/:id',
-    //             name: 'categoryEdit',
-    //             component: () => import('views/product/category/view.vue'),
-    //             meta: {
-    //                 key: 'product.category',
-    //                 breadcrumbName: '编辑产品分类', // 编辑产品分类
-    //                 // breadcrumbName: 'MENU.MENU11_6', // 编辑产品分类
-    //                 depth: 3,
-    //                 hidden: true
-    //             },
-    //         },
-    //         {
-    //             path: '/admin/product/category/add',
-    //             name: 'categoryAdd',
-    //             component: () => import('views/product/category/view.vue'),
-    //             meta: {
-    //                 key: 'product.category',
-    //                 breadcrumbName: '新增产品分类', // 新增产品分类
-    //                 // breadcrumbName: 'MENU.MENU11_7', // 新增产品分类
-    //                 depth: 3,
-    //                 hidden: true
-    //             },
-    //         },
-    //         {
-    //             path: '/admin/product/recycle',
-    //             name: 'productRecycle',
-    //             component: () => import('views/product/recycle/index.vue'),
-    //             meta: {
-    //                 key: 'product.recycle',
-    //                 breadcrumbName: '回收站', // 回收站
-    //                 // breadcrumbName: 'MENU.MENU11_5', // 回收站
-    //                 depth: 2,
-    //                 optionList: ['还原', '删除', '清空']
-    //             },
-    //         },
-    //     ]
-    // },
+    {
+        path: '/admin/banner',
+        name: 'banners',
+        component: () => import(/** webpackChunkName: "banner" */ 'views/index/view.vue'),
+        meta: {
+            key: 'banners',
+            icon: 'picture',
+            breadcrumbName: '幻灯片中心',
+            depth: 1,
+        },
+        children: [
+            {
+                path: '/admin/banner/list',
+                name: 'banner',
+                component: () => import(/** webpackChunkName: "banner" */ 'views/banner/index/index.vue'),
+                meta: {
+                    key: 'banner.index',
+                    breadcrumbName: '幻灯片列表',
+                    depth: 2,
+                    hiddenChildren: true,
+                },
+            },
+            {
+                path: '/admin/banner/edit',
+                name: 'bannerEdit',
+                component: () => import(/** webpackChunkName: "banner" */ 'views/banner/detail/index.vue'),
+                meta: {
+                    key: 'banner.index',
+                    breadcrumbName: '编辑幻灯片',
+                    depth: 3,
+                    hidden: true
+                },
+            },
+            {
+                path: '/admin/banner/add',
+                name: 'bannerAdd',
+                component: () => import(/** webpackChunkName: "banner" */ 'views/banner/detail/index.vue'),
+                meta: {
+                    key: 'banner.index',
+                    breadcrumbName: '新增幻灯片',
+                    depth: 3,
+                    hidden: true
+                },
+            },
+            {
+                path: '/admin/banner/class',
+                name: 'bannerClass',
+                component: () => import(/** webpackChunkName: "banner" */ 'views/banner/class/index/index.vue'),
+                meta: {
+                    key: 'banner.class',
+                    breadcrumbName: '幻灯片分类',
+                    depth: 2,
+                    hiddenChildren: true,
+                },
+            },
+            {
+                path: '/admin/banner/class/edit',
+                name: 'bannerClassEdit',
+                component: () => import(/** webpackChunkName: "banner" */ 'views/banner/class/detail/index.vue'),
+                meta: {
+                    key: 'banner.class',
+                    breadcrumbName: '编辑幻灯片分类',
+                    depth: 3,
+                    hidden: true
+                },
+            },
+            {
+                path: '/admin/banner/class/add',
+                name: 'bannerClassAdd',
+                component: () => import(/** webpackChunkName: "banner" */ 'views/banner/class/detail/index.vue'),
+                meta: {
+                    key: 'banner.class',
+                    breadcrumbName: '新增幻灯片分类',
+                    depth: 3,
+                    hidden: true
+                },
+            },
+        ]
+    },
+    {
+        path: '/admin/article',
+        name: 'articles',
+        component: () => import(/** webpackChunkName: "article" */ 'views/index/view.vue'),
+        meta: {
+            key: 'articles',
+            icon: 'table',
+            breadcrumbName: '文章中心',
+            depth: 1,
+        },
+        children: [
+            {
+                path: '/admin/article/list',
+                name: 'article',
+                component: () => import(/** webpackChunkName: "article" */ 'views/article/index/index.vue'),
+                meta: {
+                    key: 'article.index',
+                    breadcrumbName: '文章列表',
+                    depth: 2,
+                    hiddenChildren: true,
+                },
+            },
+            {
+                path: '/admin/article/edit',
+                name: 'articleEdit',
+                component: () => import(/** webpackChunkName: "article" */ 'views/article/detail/index.vue'),
+                meta: {
+                    key: 'article.index',
+                    breadcrumbName: '编辑文章',
+                    depth: 3,
+                    hidden: true
+                },
+            },
+            {
+                path: '/admin/article/add',
+                name: 'articleAdd',
+                component: () => import(/** webpackChunkName: "article" */ 'views/article/detail/index.vue'),
+                meta: {
+                    key: 'article.index',
+                    breadcrumbName: '新增文章',
+                    depth: 3,
+                    hidden: true
+                },
+            },
+            {
+                path: '/admin/article/class/list',
+                name: 'articleClass',
+                component: () => import(/** webpackChunkName: "article" */ 'views/article/class/index/index.vue'),
+                meta: {
+                    key: 'article.class',
+                    breadcrumbName: '文章分类',
+                    depth: 2,
+                    hiddenChildren: true
+                },
+            },
+            {
+                path: '/admin/article/class/edit',
+                name: 'articleClassEdit',
+                component: () => import(/** webpackChunkName: "article" */ 'views/article/class/detail/index.vue'),
+                meta: {
+                    key: 'article.class',
+                    breadcrumbName: '编辑文章分类',
+                    depth: 3,
+                    hidden: true
+                },
+            },
+            {
+                path: '/admin/article/class/add',
+                name: 'articleClassAdd',
+                component: () => import(/** webpackChunkName: "article" */ 'views/article/class/detail/index.vue'),
+                meta: {
+                    key: 'article.class',
+                    breadcrumbName: '新增文章分类',
+                    depth: 3,
+                    hidden: true
+                },
+            },
+            {
+                path: '/admin/article/recycle',
+                name: 'articleRecycle',
+                component: () => import(/** webpackChunkName: "article" */ 'views/article/recycle/index.vue'),
+                meta: {
+                    key: 'article.recycle',
+                    breadcrumbName: '回收站',
+                    depth: 2
+                },
+            },
+        ]
+    },
     // {
     //     path: '/admin/message',
     //     name: 'messages',

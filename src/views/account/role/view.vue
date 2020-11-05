@@ -1,32 +1,32 @@
 <template>
 	<div class="container">
-        <a-form-model ref="viewForm" :model="viewData" :rules="rules" :layout="layout" :colon="colon" :label-align="labelAlign">
+        <a-form ref="viewForm" :model="viewData" :rules="rules" :layout="layout" :colon="colon" :label-align="labelAlign">
 			<a-row>
 				<a-col :span="15">
-					<a-form-model-item v-if="id" :label="$t('GLOBAL.DATA_ID')">
+					<a-form-item v-if="id" label="数据ID">
 						<a-input v-model="viewData.id" disabled />
-					</a-form-model-item>
-					<a-form-model-item :label="$t('GLOBAL.DATA_NAME')" prop="name">
+					</a-form-item>
+					<a-form-item label="数据名称" prop="name">
 						<a-input v-model="viewData.name" :placeholder="$t('GLOBAL.OPTION_INPUT') + $t('GLOBAL.DATA_NAME')" />
-					</a-form-model-item>
-					<a-form-model-item :label="$t('GLOBAL.DATA_DESC')">
+					</a-form-item>
+					<a-form-item :label="$t('GLOBAL.DATA_DESC')">
 						<a-textarea v-model="viewData.content" :placeholder="$t('GLOBAL.OPTION_INPUT') + $t('GLOBAL.DATA_DESC')" :auto-size="{ minRows: 2, maxRows: 4 }" />
-					</a-form-model-item>
-					<a-form-model-item label="角色权限">
+					</a-form-item>
+					<a-form-item label="角色权限">
 						<auth-picker v-if="authorityLoaded || !id" :auth-list="viewData.authority" @update="handleAuth" ></auth-picker>
-					</a-form-model-item>
-					<a-form-model-item :label="$t('GLOBAL.STATE')">
+					</a-form-item>
+					<a-form-item label="数据状态">
 						<a-radio-group v-model="viewData.state" buttonStyle="solid" >
 							<a-radio-button v-for="(item, index) in ROLE_STATUS" :key="index" :value="index">{{item}}</a-radio-button>
 						</a-radio-group>
-					</a-form-model-item>
-                    <a-form-model-item >
+					</a-form-item>
+                    <a-form-item >
                         <a-button type="primary" :loading="submitDisabled" @click="handleSubmit('viewForm')">{{$t('GLOBAL.TEXT_SAVE')}}</a-button>
                         <a-button style="margin-left:10px;" @click="() => {$router.back()}">{{$t('GLOBAL.TEXT_BACK')}}</a-button>
-                    </a-form-model-item>
+                    </a-form-item>
 				</a-col>
 			</a-row>
-		</a-form-model>
+		</a-form>
 	</div>
 </template>
 <script>

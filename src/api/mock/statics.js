@@ -93,9 +93,8 @@ Mock.mock(/\/statics\/searchAvg/, /get|post/i, getSearchAvgByWeek);
  * 获取全部搜索热词
  */
 const getSearchHot = config => {
-    const params = getUrlParams(config.url);
-    const { page, pageSize } = params;
-    const randomLen = 79;
+    const { page = 1, pageSize = 99 } = JSON.parse(config.body) ?? {};
+    const randomLen = 31;
     const len = randomLen - pageSize * (page - 1) < pageSize ? randomLen - pageSize * (page - 1) : randomLen;
     let _data = [];
     for (let i = 0; i < len; i++) {

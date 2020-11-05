@@ -24,7 +24,11 @@ import {
     Table,
     List,
     Tabs,
-    Tag
+    Tag,
+    DatePicker,
+    Popconfirm,
+    Upload,
+    TreeSelect
 } from 'ant-design-vue'
 
 const components = {
@@ -53,7 +57,11 @@ const components = {
     Table,
     List,
     Tabs,
-    Tag
+    Tag,
+    DatePicker,
+    Popconfirm,
+    Upload,
+    TreeSelect
 }
 
 function install(Vue) {

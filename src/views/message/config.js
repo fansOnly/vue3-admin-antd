@@ -5,7 +5,7 @@ import { date2Timestamp, formatDate } from 'utils/util'
 export default {
     columnList: [
         {
-			title: i18n.t('GLOBAL.DATA_ID'),
+			title: '数据ID',
             dataIndex: 'id',
             width: '100px'
         },
@@ -22,19 +22,19 @@ export default {
 			dataIndex: 'email',
         },
         {
-			title: i18n.t('GLOBAL.CREATE_DATE'),
+			title: '创建日期',
 			dataIndex: 'create_time',
 			sorter: (a, b) => date2Timestamp(a.create_time) - date2Timestamp(b.create_time),
             width: '200px',
 		},
 		{
-			title: i18n.t('GLOBAL.STATE'),
+			title: '状态',
 			dataIndex: 'state',
 			scopedSlots: { customRender: 'stateSlot' },
 			width: '100px',
 		},
 		{
-			title: i18n.t('GLOBAL.DATA_OPTION'),
+			title: '操作',
 			dataIndex: 'action',
 			scopedSlots: { customRender: 'actionSlot' },
 			width: '150px'
@@ -63,7 +63,7 @@ export default {
 	},
 	actionList: ['回复','删除'],
 	optionList: {
-		SHOWAREA: true,
+		SHOW_FILTER_AREA: true,
 		SHOW_OPTION_BAR: true,
 		SHOW_MODAL: true,
 		EDIT_ABLE: false,

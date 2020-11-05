@@ -1,67 +1,67 @@
 <template>
     <div class="container">
-        <a-form-model ref="viewForm" :model="viewData" :rules="rules" :layout="layout" :colon="colon" :label-align="labelAlign">
+        <a-form ref="viewForm" :model="viewData" :rules="rules" :layout="layout" :colon="colon" :label-align="labelAlign">
             <a-row :gutter="16">
                 <a-col :span="13">
-                    <a-form-model-item :label="$t('GLOBAL.DATA_ID')">
+                    <a-form-item label="数据ID">
                         <a-input v-model="viewData.id" disabled />
-                    </a-form-model-item>
+                    </a-form-item>
                 </a-col>
                 <a-col :span="13">
-                    <a-form-model-item :label="$t('GLOBAL.NICK_NAME')">
+                    <a-form-item :label="$t('GLOBAL.NICK_NAME')">
                         <a-input v-model="viewData.nickname" disabled />
-                    </a-form-model-item>
+                    </a-form-item>
                 </a-col>
                 <a-col :span="13">
-                    <a-form-model-item :label="$t('GLOBAL.PHONE')">
+                    <a-form-item label="手机号码">
                         <a-input v-model="viewData.phone" disabled />
-                    </a-form-model-item>
+                    </a-form-item>
                 </a-col>
                 <a-col :span="13">
-                    <a-form-model-item :label="$t('GLOBAL.EMAIL')">
+                    <a-form-item :label="$t('GLOBAL.EMAIL')">
                         <a-input v-model="viewData.email" disabled />
-                    </a-form-model-item>
+                    </a-form-item>
                 </a-col>
                 <a-col :span="13">
-                    <a-form-model-item :label="$t('GLOBAL.CREATE_DATE')">
+                    <a-form-item label="创建日期">
                         <a-input v-model="viewData.create_time" disabled />
-                    </a-form-model-item>
+                    </a-form-item>
                 </a-col>
                 <a-col :span="13">
-                    <a-form-model-item :label="$t('GLOBAL.DATA_CONTENT')">
+                    <a-form-item :label="$t('GLOBAL.DATA_CONTENT')">
                         <a-textarea v-model="viewData.content" :auto-size="{minRows:2, maxRows:6}" disabled />
-                    </a-form-model-item>
+                    </a-form-item>
                 </a-col>
                 <a-col :span="13" v-if="viewData.more && viewData.more.length">
-                    <a-form-model-item :label="$t('GLOBAL.ANNEX_FILE')">
+                    <a-form-item :label="$t('GLOBAL.ANNEX_FILE')">
                         <a-upload list-type="picture-card" disabled :file-list="viewData.more" @preview="handlePhotoPreview" />
-                    </a-form-model-item>
+                    </a-form-item>
                 </a-col>
                 <a-col :span="13">
-                    <a-form-model-item :label="$t('GLOBAL.TEXT_REPLY')" prop="reply">
+                    <a-form-item :label="$t('GLOBAL.TEXT_REPLY')" prop="reply">
                         <a-textarea v-model="viewData.reply" :auto-size="{minRows:2, maxRows:6}" :disabled="!!viewData.reply_time" />
-                    </a-form-model-item>
+                    </a-form-item>
                 </a-col>
                 <a-col :span="13" v-if="!!viewData.reply_time">
-                    <a-form-model-item :label="$t('GLOBAL.REPLY_DATE')">
+                    <a-form-item :label="$t('GLOBAL.REPLY_DATE')">
                         <a-input v-model="viewData.reply_time" disabled />
-                    </a-form-model-item>
+                    </a-form-item>
                 </a-col>
                 <a-col :span="13">
-                    <a-form-model-item :label="$t('GLOBAL.STATE')">
+                    <a-form-item label="数据状态">
                         <a-radio-group v-model="viewData.state" disabled buttonStyle="solid" >
                             <a-radio-button v-for="(item, index) in MESSAGE_STATUS" :key="index" :value="index">{{item}}</a-radio-button>
                         </a-radio-group>
-                    </a-form-model-item>
+                    </a-form-item>
                 </a-col>
                 <a-col :span="13">
-                    <a-form-model-item>
+                    <a-form-item>
                         <a-button v-if="!viewData.reply_time" type="primary" style="margin-right:10px;" :loading="submitDisabled" @click="handleSubmit('viewForm')">{{$t('GLOBAL.TEXT_REPLY')}}</a-button>
                         <a-button @click="() => {$router.back()}">{{$t('GLOBAL.TEXT_BACK')}}</a-button>
-                    </a-form-model-item>
+                    </a-form-item>
                 </a-col>
             </a-row>
-        </a-form-model>
+        </a-form>
         <a-modal :visible="photoPreviewVisible" :zIndex=1001 :footer="null" @cancel="handlePhotopreviewCancel">
             <img alt="" style="width: 100%" :src="previewPhoto" />
         </a-modal>

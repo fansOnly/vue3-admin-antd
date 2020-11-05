@@ -96,16 +96,7 @@
                         </a-col>
                     </a-row>
                     <div class="search-table">
-                        <a-table rowKey='id' :columns="searchHotColumns" :dataSource="searchList" :pagination="pagination" size="small" @change="handleTableChange">
-                            <!-- <template #title="{ text }">
-                                <a href="javascript:;">{{text}}</a>
-                            </template>
-                            <template #status="{ text, record, index }">
-                                <span>{{text}}%</span>
-                                <CaretUpOutlined v-if="record.status == 1" style="color:#f5222d;" />
-                                <CaretDownOutlined v-else style="color:#52c41a;" />
-                            </template> -->
-                        </a-table>
+                        <a-table rowKey='id' :columns="searchHotColumns" :dataSource="searchList" :pagination="pagination" size="small" @change="handleTableChange"></a-table>
                     </div>
                 </a-card>
             </a-col>

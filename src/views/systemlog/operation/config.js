@@ -1,4 +1,4 @@
-import { PAGINATION, FILTER_ITEMS, OPERATION_ITEMS } from 'config/setting'
+import { PAGINATION, FILTER_ITEMS, OPERATION_GROUP } from 'config/setting'
 import { date2Timestamp, formatDate } from 'utils/util'
 
 export default {
@@ -59,7 +59,7 @@ export default {
 		FILTER_OBJECT_TABLE: true,  // 操作库
 		FILTER_OPERATION: true,  // 操作类型
 	},
-	OPERATION_ITEMS,
+	OPERATION_GROUP,
 	excelConfig: {
 		SHOW_EXPORT: true,
 		EXCEL_FIELDS: {
@@ -76,7 +76,7 @@ export default {
 	},
 	actionList: ['删除'],
 	optionList: {
-		SHOWAREA: true,
+		SHOW_FILTER_AREA: true,
 		SHOW_OPTION_BAR: true,
 		SHOW_MODAL: false,
 		EDIT_ABLE: false,

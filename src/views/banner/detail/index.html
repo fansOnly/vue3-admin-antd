@@ -1,0 +1,57 @@
+<div class="container">
+    <a-form ref="viewForm" v-bind="formLeftLayout">
+        <a-row>
+            <a-col :span="15">
+                <a-form-item v-if="id" label="数据ID">
+                    <a-input :value="id" disabled />
+                </a-form-item>
+                <a-form-item label="序号" v-bind="validateInfos.sortnum">
+                    <a-input v-model:value.number="viewData.sortnum" placeholder="请输入序号" />
+                </a-form-item>
+                <a-form-item label="数据标题" v-bind="validateInfos.title">
+                    <a-input v-model:value="viewData.title" placeholder="请输入标题"/>
+                </a-form-item>
+                <a-form-item label="上级分类" v-bind="validateInfos.classid">
+                    <a-select v-model:value="viewData.classid" placeholder="请选择上级分类">
+                        <a-select-option value="">请选择</a-select-option>
+                        <a-select-option v-for="(item, index) in parentList" :key="item.id" :value="item.id">{{item.name}}
+                        </a-select-option>
+                    </a-select>
+                </a-form-item>
+                <a-form-item label="链接地址">
+                    <a-input v-model:value="viewData.url" placeholder="请输入链接地址" />
+                </a-form-item>
+                <a-form-item label="打开方式">
+                    <a-radio-group v-model:value="viewData.blank" buttonStyle="solid">
+                        <a-radio-button v-for="(item, index) in WINDOW_OPEN_GROUP" :key="index" :value="index">{{item}}
+                        </a-radio-button>
+                    </a-radio-group>
+                </a-form-item>
+                <a-form-item label="简要描述">
+                    <a-textarea v-model:value="viewData.content" placeholder="请输入简要描述" :auto-size="{ minRows: 2, maxRows: 4 }" />
+                </a-form-item>
+                <a-form-item label="数据状态" v-bind="validateInfos.state">
+                    <a-radio-group v-model:value="viewData.state" buttonStyle="solid">
+                        <a-radio-button v-for="(item, index) in BANNER_STATUS" :key="index" :value="index">{{item}}
+                        </a-radio-button>
+                    </a-radio-group>
+                </a-form-item>
+                <a-form-item :wrapper-col="{ offset: 4 }">
+                    <a-button type="primary" :loading="loading" @click="handleSubmit">保存</a-button>
+                    <a-button style="margin-left:10px;" @click="() => $router.back(-1)">返回</a-button>
+                </a-form-item>
+            </a-col>
+            <a-col :span="8" :offset="1">
+                <a-form-item label="缩略图" :label-col="formRightLayout.labelCol" :wrapper-col="formRightLayout.wrapperCol" v-bind="validateInfos.photos">
+                    <SingleUpload v-if="loaded || !id" :data-list="viewData.photos" :savedIds="savedIds"
+                        :deletedIds="deletedIds" @change="handleUpload($event, 'photos')" />
+                </a-form-item>
+                <a-form-item label="附件" v-bind="formRightLayout">
+                    <single-upload v-if="loaded || !id" text-type="button" list-type="text" file-type="video"
+                        :data-list="viewData.file" :savedIds="savedIds" :deletedIds="deletedIds"
+                        @change="handleUpload($event, 'file')"></single-upload>
+                </a-form-item>
+            </a-col>
+        </a-row>
+    </a-form>
+</div>

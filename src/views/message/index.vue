@@ -26,7 +26,7 @@
                 <span slot="actionSlot" slot-scope="action, record">
                     <a-button size="small" @click="routePage('view', record.id)">{{$t('GLOBAL.TEXT_EDIT') }}</a-button>
                     <span>&nbsp;</span>
-                    <a-popconfirm :title="$t('GLOBAL.OPTION_DELETE_CONFIRM')" @confirm="() => delItem(record.id)">
+                    <a-popconfirm :title="$t('GLOBAL.OPTION_DELETE_CONFIRM')" @confirm="delItem(record.id)">
                         <a-button size="small" type="danger" >{{$t('GLOBAL.TEXT_DELETE')}}</a-button>
                     </a-popconfirm>
                 </span> -->
@@ -38,7 +38,7 @@
 <script>
 import PageSkeleton from 'components/PageSkeleton.vue'
 
-import { getMessageList as getDataList, deleteMessage as deleteDataList } from '@/api/message'
+import { getMessageList as getDataList, deleteMessage as deleteData } from '@/api/message'
 import config from './config'
 
 export default {

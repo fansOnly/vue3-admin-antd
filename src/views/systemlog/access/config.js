@@ -56,7 +56,7 @@ export default {
 	},
 	actionList: ['删除'],
 	optionList: {
-		SHOWAREA: true,
+		SHOW_FILTER_AREA: true,
 		SHOW_OPTION_BAR: true,
 		SHOW_MODAL: false,
 		EDIT_ABLE: false,
