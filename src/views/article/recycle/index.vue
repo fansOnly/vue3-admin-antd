@@ -2,17 +2,16 @@
 
 <script>
 import PageSkeleton from '@/components/PageSkeleton.vue'
+import { Modal } from 'ant-design-vue'
 
 import { getArticleRecycleList as getDataList, restoreArticle, clearArticle, clearAllArticle } from '@/api/article'
 import config from './config'
 import { computed, getCurrentInstance, reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
 
 export default {
     name: 'articleRecycleList',
     setup() {
         const { ctx } = getCurrentInstance()
-        const router = useRouter()
 
         const dataList = ref([])
         const pagination = reactive(config.pagination)
@@ -47,6 +46,17 @@ export default {
                 apiDeleteData([id])
             } else if (type === 'restore') {
                 apiRestoreData([id])
+            } else if (type === 'clearAll') {
+                Modal.confirm({
+                    title: '删除提醒',
+					content: '被删除的数据将无法找回，确认清空回收站吗?',
+					okType: 'danger',
+					onOk() {
+                        apiClearAllArticle()
+					},
+                })
+            } else {
+                ctx.$message('非法操作')
             }
         }
 
@@ -119,9 +129,25 @@ export default {
             }
         }
 
+        const apiClearAllArticle = async () => {
+            loading.value = true
+            const { code, msg } = await clearAllArticle()
+            if (code == '200') {
+                ctx.$message.success(msg, 1, () => {
+                    loading.value = false
+                    selectedRowKeys.value = []
+                    apiGetDataList()
+                })
+            } else {
+                ctx.$message.error(msg)
+                loading.value = false
+            }
+        }
+
         return {
             panelGroup: Object.freeze(config.panelGroup),
             filterList: Object.freeze(config.filterList),
+            BADGE_STATUS: config.BADGE_STATUS,
             columnList: config.columnList,
             dataList,
             pagination,

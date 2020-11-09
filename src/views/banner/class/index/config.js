@@ -1,11 +1,12 @@
-import { PAGINATION, FILTER_ITEMS, BANNER_CLASS_STATUS, BADGE_STATUS } from '@/config/setting'
+import { PAGINATION, FILTER_ITEMS, PANEL_GROUP, BANNER_CLASS_STATUS, BADGE_STATUS } from '@/config/setting'
 import { date2Timestamp, formatDate } from '@/utils/util'
 
 export default {
     columnList: [
 		{
-			title: '数据ID',
-            dataIndex: 'id'
+            title: '数据ID',
+            dataIndex: 'id',
+            width: '200px'
         },
 		{
 			title: '数据标题',
@@ -38,12 +39,11 @@ export default {
         ...PAGINATION
     },
     panelGroup: {
-        SHOW_FILTER_AREA: true,
-        SHOW_OPTION_BAR: true,
-        SHOW_OPTION_ADD: true
+        ...PANEL_GROUP,
     },
     filterList: {
         ...FILTER_ITEMS,
+        FILTER_STATE: false,
         STATUS: BANNER_CLASS_STATUS,
     },
     BADGE_STATUS,

@@ -1,128 +1,105 @@
-<template>
-<div>
-    <bread-crumb show-breadcrumb :routes="[{name: 'admin', path: '/', meta: {depth: 0, breadcrumbName: 'MENU.MENU1'}}, {name: 'search', path: '/search', meta: {depth: 1, breadcrumbName: 'MENU.MENU10'}}]" ></bread-crumb>
-	<page-skeleton
-        :data-list="dataList"
-        :option-list="optionList"
-        :filter-list="filterList"
-        :excel-config="excelConfig"
-        @handle-filter-submit="handleFilterSubmit"
-        @handle-filter-reset="handleFilterReset"
-    >
-        <!-- 渲染数据 -->
-        <!-- <template slot="tableSlot">
-            <a-table row-key="id" :loading="loading" :columns="columnList" :data-source="dataList" :pagination="pagination" :rowSelection="null" bordered @change="handleTableChange" >
-                <span slot="titleSlot" slot-scope="action">
-                    <span v-html="action"></span>
-                </span>
-                <span slot="stateSlot" slot-scope="action">
-                    <a-badge :status="action | BADGE_STATUS" :text="filterList.STATUS[action]" />
-                </span>
-                <span slot="actionSlot" slot-scope="action, record">
-                    <a-button size="small" @click="routePage('edit', record.id)">{{$t('GLOBAL.TEXT_VIEW')}}</a-button>
-                </span>
-            </a-table>
-        </template> -->
-    </page-skeleton>
-</div>
-</template>
+<template src="./index.html"></template>
 
 <script>
-    import BreadCrumb from '@/components/Layouts/Breadcrumb.vue'
-    import PageSkeleton from 'components/PageSkeleton.vue'
+    import PageSkeleton from '@/components/PageSkeleton.vue'
 
     import { searchGlobal as getDataList } from '@/api/common'
     import config from './config'
-
+    import { computed, getCurrentInstance, reactive, ref } from 'vue'
+    import { useRoute, useRouter } from 'vue-router'
 
     export default {
-        name: 'search',
-        components: {
-            BreadCrumb,
-            PageSkeleton,
-        },
-        data () {
-            return {
-                optionList: config.optionList,
-                excelConfig: config.excelConfig,
-                columnList: config.columnList,
-                filterList: config.filterList,
-                pagination: config.pagination,
-                keywordtemp: sessionStorage.getItem('keyword'),
-                dataList: [],
-                loading: true,
-                filterValues: {}, // 筛选条件
-            }
-        },
-        watch: {
-            '$route'(to, from) {
-                if (to.name === 'search' || (to.name === 'search' && from.name !== 'search')) {
-                    this.keywordtemp = to.query.keyword;
+        name: 'searchList',
+        setup() {
+            const { ctx } = getCurrentInstance()
+            const router = useRouter()
+            const route = useRoute()
+
+            const keyword = route.query.keyword
+            const dataList = ref([])
+            const pagination = reactive(config.pagination)
+            const loading = ref(false)
+            const selectedRowKeys = ref([])
+
+            const rowSelection = computed(() => {
+                return {
+                    onChange: selectedKeys => {
+                        selectedRowKeys.value = selectedKeys
+                    }
                 }
-            },
-            keywordtemp: {
-                handler: function(val) {
-                    val && this.getDataListFn();
-                },
-                immediate: true
+            })
+
+            let filterValues = reactive({
+                keyword
+            })
+            const handleFilter = (values = {}) => {
+                filterValues = values
+                pagination.current = 1
+                apiGetDataList(values)
             }
-        },
-        created () {
-            if (!this.keywordtemp) {
-                this.loading = false;
+
+            const handleTableChange = page => {
+                if (!dataList.value.length) return;
+				loading.value = true
+                pagination.current = page.current
+                apiGetDataList()
             }
-        },
-        methods: {
-            handleFilterSubmit (values = {}) {
-                // console.log('handleFilterValues', values);
-                this.filterValues = values;
-                this.pagination = {
-                    ...this.pagination,
-                    current: 1
-                };
-                this.getDataListFn();
-            },
-            handleFilterReset () {
-                this.handleFilterSubmit();
-            },
-            handleTableChange (pagination) {
-                if (!this.dataList.length) return;
-				this.loading = true;
-                this.pagination = pagination;
-                this.getDataListFn();
-			},
-            routePage (option, editId) {
-                this.$router.push({name: 'productEdit', params: {id: editId}});
-            },
-            highlightKeyword(val) {
-                let keyword = this.keywordtemp;
+
+            const handleClickItem = (type, id) => {
+                if (type === 'edit') {
+					router.push({name: 'articleEdit', query: {id}})
+                } else {
+                    ctx.$message.error('非法操作')
+                }
+            }
+
+            const highlightKeyword = val => {
                 if (val.indexOf(keyword) !== -1) {
                     const reg = new RegExp(keyword, 'g');
-                    return val.replace(reg, `<font class='ant-btn-primary'>${keyword}</font>`)
+                    return val.replace(reg, `<span class='ant-btn-primary'>${keyword}</span>`)
                 } else {
                     return val
                 }
-            },
-            async getDataListFn () {
-                const { current, pageSize } = this.pagination;
-                const params = { page:current, pageSize, keyword: this.keywordtemp, ...this.filterValues };
+            }
+
+            const apiGetDataList = async () => {
+                const { current, pageSize } = pagination
+                const params = { page: current, pageSize, ...filterValues }
+                loading.value = true
                 try {
-                    const res = await getDataList(params);
-                    this.loading = false;
-                    if (res.code == 200) {
-                        res.data.map(item => {
-                            item.title = this.highlightKeyword(item.title);
+                    const { code, data = [], total = 0 } = await getDataList(params)
+                    loading.value = false
+                    if (code == 200) {
+                        dataList.value = data.map(v => {
+                            v.title = highlightKeyword(v.title)
+                            return v
                         })
-                        this.dataList = res.data;
-                        this.pagination = {
-                            ...this.pagination,
-                            total: res.total,
-                        };
+                        pagination.total = total
                     }
                 } catch (error) {
-                    this.loading = false;
+                    loading.value = false
                 }
-            },
+            }
+            apiGetDataList()
+
+            return {
+                panelGroup: Object.freeze(config.panelGroup),
+                excelConfig: Object.freeze(config.excelConfig),
+                filterList: Object.freeze(config.filterList),
+                BADGE_STATUS: config.BADGE_STATUS,
+                columnList: config.columnList,
+                dataList,
+                pagination,
+                loading,
+                rowSelection,
+                selectedRowKeys,
+                handleFilter,
+                handleTableChange,
+                handleClickItem,
+            }
+        },
+        components: {
+            PageSkeleton,
         }
     }
 </script>

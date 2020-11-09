@@ -15,7 +15,7 @@ export default {
         const router = useRouter()
 
         const id = ref('')
-        id.value = route.query.id
+        id.value = route.query?.id
         const loading = ref(false)
         let viewData = reactive({
             title: '',
@@ -51,7 +51,7 @@ export default {
         id.value && apiGetData()
 
         const apiUpdateData = async params => {
-            const { code, msg } = await updateData({id, ...params})
+            const { code, msg } = await updateData({id: id.value, ...params})
             ctx.$message[code == '200' ? 'success': 'error'](msg, 1, () => {
                 loading.value = false
             })

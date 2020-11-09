@@ -35,4 +35,4 @@ export const restoreArticle = params => post('/article/restore', params)
 // 清除文章
 export const clearArticle = params => post('/article/clear', params)
 // 清空回收站
-export const clearAllArticle = params => post('/article/clearAll', params)
+export const clearAllArticle = () => post('/article/clearAll')

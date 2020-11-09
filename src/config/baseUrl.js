@@ -10,8 +10,8 @@
 //     return _result
 // }
 
-const base_url = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://49.235.46.25:7001';
-const resource_url = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://49.235.46.25:7001/resources';
+const base_url = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://localhost:3000';
+const resource_url = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://localhost:3000/resources';
 
 export const apiUrl = base_url;
 export const uploadUrl = base_url + '/common/upload';

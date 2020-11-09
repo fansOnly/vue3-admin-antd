@@ -1,6 +1,5 @@
 import Mock from 'mockjs';
 import dayjs from 'dayjs';
-import { getUrlParams } from 'utils/util';
 
 /**
  * 获取一周访问量统计

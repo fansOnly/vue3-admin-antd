@@ -5,7 +5,7 @@
         @handle-filter="handleFilter">
         <!-- 操作按钮 -->
         <template #operateSlot>
-            <a-button v-operate-auth="'clear'" style="margin-right:10px;" type="danger" @click="handleClickItem('clear')">清空</a-button>
+            <a-button v-operate-auth="'clear'" style="margin-right:10px;" type="danger" @click="handleClickItem('clearAll')">清空</a-button>
         </template>
         <!-- 渲染数据 -->
         <template #tableSlot>
@@ -16,6 +16,9 @@
                     <a v-else-if="text[0].state == 1" href="javascript:;"><img :src="text[0].path"
                             style="width:30px;height:30px;" alt="" @click="handlePhotoPreview(text[0].path)"></a>
                     <span style="color:red;" v-else>文件缺失</span>
+                </template>
+                <template #state="{ text }">
+                    <a-badge :status="BADGE_STATUS(text)" :text="filterList.STATUS[text]" />
                 </template>
                 <template #action="{ text, record }">
                     <a-popconfirm class="table-action-btn-space" title="确定要还原当前信息吗？" @confirm="handleClickItem('restore', record.id)">

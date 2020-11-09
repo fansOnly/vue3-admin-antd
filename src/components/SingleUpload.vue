@@ -30,6 +30,7 @@
         </a-modal>
     </div>
 </template>
+
 <script>
 import { UploadOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons-vue'
 import { uploadUrl, uploadHeaders } from '@/config/baseUrl'
@@ -119,7 +120,7 @@ export default {
         })
     },
     methods: {
-		beforeUpload (file, fileList) {
+		beforeUpload (file) {
             // console.log('beforeUpload', file, fileList);
             const regExpList = this.acceptType.split(',');
             let _reg = '';
@@ -149,7 +150,7 @@ export default {
             this.uploadList = [];
             this.$emit('change', {uploadList: [], savedIds: this._savedIds, deletedIds: this._deletedIds});
         },
-        handleFileUpload({ file, fileList, event }) {
+        handleFileUpload({ file, fileList }) {
             // console.log('handleFileUpload:', file, fileList, event);
 			if (file.status === 'uploading') {
                 this.uploading = true;
@@ -159,6 +160,7 @@ export default {
                 this.uploading = false;
                 if (file.response.code == 200) {
                     const data = file.response.data;
+                    this.$message.success('上传成功');
                     const resFile = {
                         id: data.id,
                         uid: file.uid,
@@ -184,7 +186,8 @@ export default {
                 this.$message.error(`${file.name} file upload failed.`);
             }
         },
-        transformFile(file) {
+        transformFile() {
+            // console.log('file: ', file);
             // return new Promise(resolve => {
             //     const reader = new FileReader();
             //     reader.readAsDataURL(file);

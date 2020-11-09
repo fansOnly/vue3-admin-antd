@@ -5,18 +5,20 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import BaseFooter from '@/components/Layouts/Footer.vue'
 
 import { reactive, ref, getCurrentInstance } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useForm } from '@ant-design-vue/use'
 import { useStore } from 'vuex'
 
 import { login } from '@/api/common'
 import config from './config'
+import { MD5 } from '@/utils/secret'
 
 export default {
     name: 'login',
     setup() {
         const { ctx } = getCurrentInstance()
         const router = useRouter()
+        const route = useRoute()
         const store = useStore()
 
         const submiting = ref(false)
@@ -30,19 +32,24 @@ export default {
         const handleSubmit = async e => {
             e.preventDefault()
             try {
-                const params = await validate()
+                await validate()
+                const params = {
+                    username: formRef.username,
+                    password: MD5(formRef.password)
+                }
                 submiting.value = true
-                const data = await login(params)
-                if (data.code == '200') {
+                const { code, msg, token, id } = await login(params)
+                if (code == '200') {
                     await store.dispatch('authority/SET_AUTH')
-                    ctx.$message.success(data.msg, 1, () => {
+                    await store.dispatch('user/UPDATE_USER', {id})
+                    ctx.$message.success(msg, 1, () => {
                         submiting.value = false
-                        sessionStorage.setItem('user', JSON.stringify(data.data))
-                        sessionStorage.setItem('token', data.token)
-                        router.push('/admin/index')
+                        sessionStorage.setItem('token', token)
+                        const redirect = decodeURIComponent(route.query.redirect) || '/admin'
+                        router.push(redirect)
                     })
                 } else {
-                    ctx.$message.error(data.msg, 1, () => {
+                    ctx.$message.error(msg, 1, () => {
                         submiting.value = false
                     })
                 }

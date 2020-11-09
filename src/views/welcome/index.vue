@@ -30,8 +30,6 @@
         getSalesByWeek,
         getSearchHot,
     } from '@/api/statics'
-    import { getMessageList } from '@/api/message'
-    import { getArticleList } from '@/api/article'
     import { reactive, ref, onMounted, readonly } from 'vue'
     import { toThousandFilter } from '@/utils/util'
 
@@ -93,19 +91,7 @@
                 searchList.value = data
                 pagination.total = total
             }
-            const apiGetMessageList = async () => {
-                const params = { page: 1, pageSize: 2 }
-                const data = await getMessageList(params)
-                messageList.value = data.data
-            }
-            const apiGetProductList = async () => {
-                const params = { page: 1, pageSize: 5 }
-                const data = await getArticleList(params)
-                newsList.value = data.data
-            }
             apiGetSearchHot()
-            apiGetMessageList()
-            apiGetProductList()
 
             onMounted(() => {
                 // 渲染访问量统计

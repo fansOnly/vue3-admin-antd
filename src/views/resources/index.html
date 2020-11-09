@@ -1,0 +1,25 @@
+<div>
+    <PageSkeleton :data-list="dataList" :selected-row-keys="selectedRowKeys" :panel-group="panelGroup"
+        :filter-list="filterList" :excel-config="excelConfig" v-model:preview-visible="previewVisible"
+        :preview-photo="previewPhoto" @handle-bulk-delete="handleBulkDelete" @handle-filter="handleFilter">
+        <!-- 渲染数据 -->
+        <template #tableSlot>
+            <a-table row-key="id" :loading="loading" :columns="columnList" :data-source="dataList"
+                :pagination="pagination" :row-selection="rowSelection" bordered @change="handleTableChange">
+                <template #resource="{ text, record }">
+                    <a v-if="!/^image/.test(record.mimetype)" :href="text[0].path" target="_blank">预览</a>
+                    <a v-else-if="text[0].state == 1" href="javascript:;" @click="handlePhotoPreview(text[0].path)"><img :src="text[0].path" style="width:30px;height:30px;" /></a>
+                    <span style="color:red;" v-else>文件缺失</span>
+                </template>
+                <template #state="{ text }">
+                    <a-badge :status="BADGE_STATUS(text)" :text="filterList.STATUS[text]" />
+                </template>
+                <template #action="{ text, record }">
+                    <a-popconfirm title="确定要删除当前信息吗？" @confirm="handleClickItem('delete', record.id)">
+                        <a-button size="small" type="danger">删除</a-button>
+                    </a-popconfirm>
+                </template>
+            </a-table>
+        </template>
+    </PageSkeleton>
+</div>

@@ -3,6 +3,14 @@
         :filter-list="filterList" :excel-config="excelConfig" v-model:preview-visible="previewVisible"
         :preview-photo="previewPhoto" @handle-bulk-delete="handleBulkDelete" @handle-route="handleClickItem"
         @handle-filter="handleFilter">
+        <!-- 筛选区域 -->
+        <template #filterSlot="{ filterValues }">
+            <a-col :span="6">
+                <a-form-item label="发布日期">
+                    <a-date-picker v-model:value="filterValues.publish_time" placeholder="请选择发布日期" style="width: 100%" />
+                </a-form-item>
+            </a-col>
+        </template>
         <!-- 渲染数据 -->
         <template #tableSlot>
             <a-table row-key="id" :loading="loading" :columns="columnList" :data-source="dataList"

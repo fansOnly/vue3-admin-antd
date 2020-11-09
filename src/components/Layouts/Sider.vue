@@ -114,7 +114,7 @@ export default {
         let openKeysRef = ref([])
 
         const routes = deepCopy(viewRoutes)
-        const menus = computed(() => routes.filter(v => !v.hidden))
+        const menus = computed(() => routes.filter(v => !v.meta.hidden))
         const rootKeys = computed(() => menus.value.map(v => v.meta.key))
 
         let selectedKeys = computed({

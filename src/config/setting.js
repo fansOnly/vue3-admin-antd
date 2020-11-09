@@ -61,10 +61,21 @@ export const FILTER_ITEMS = {
 }
 
 /**
+ * 默认的操作栏
+ */
+export const PANEL_GROUP = {
+    SHOW_FILTER_AREA: true, // 筛选区域
+    SHOW_OPTION_BAR: true, // 操作区域
+    SHOW_BATCH_BTN: true, // 批量操作
+    SHOW_OPTION_ADD: true, // 新增按钮
+    SHOW_EXPORT: true // 导出按钮
+}
+
+/**
  * 全局状态管理
  */
 // 管理员状态管理 admin
-export const ACCOUNT_STATUS = ['禁用', '正常'];
+export const ADMIN_STATUS = ['禁用', '正常', '', '未激活'];
 
 // 角色状态管理 role
 export const ROLE_STATUS = ['禁用', '正常'];
@@ -106,7 +117,7 @@ export const GENDER_GROUP = ['男', '女'];
 export const WINDOW_OPEN_GROUP = ['当前窗口', '新窗口'];
 
 // 操作日志类型
-export const OPERATION_GROUP = ['新增', '更新', '删除', '还原', '清空', '上传', '回复', '登录','登出'];
+export const OPERATION_GROUP = ['新增', '更新', '删除', '还原', '清空', '上传', '回复', '登录', '登出'];
 
 // 操作状态标识
 export const BADGE_STATUS = state => {

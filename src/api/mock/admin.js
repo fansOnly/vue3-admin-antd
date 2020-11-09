@@ -1,5 +1,4 @@
 import Mock from 'mockjs';
-import { getUrlParams } from 'utils/util';
 
 /**
  * 获取管理员列表
@@ -8,13 +7,11 @@ import { getUrlParams } from 'utils/util';
  * @param {number} state
  */
 const getAdminList = config => {
-    const params = getUrlParams(config.url);
-    const { page, pageSize, state } = params;
+    const { page = 1, pageSize = 99, state = null } = JSON.parse(config.body) ?? {};
     const randomLen = 8;
     const len = randomLen - pageSize * (page - 1) < pageSize ? randomLen - pageSize * (page - 1) : pageSize;
-    const states = ['0', '1'];
+    const states = ['0', '1', '3'];
     let _data = [];
-    if (states.indexOf(state) != '-1' || typeof state === 'undefined' || state == '') {
         for (let i = 0; i < len; i++) {
             _data.push(
                 Mock.mock({
@@ -22,18 +19,18 @@ const getAdminList = config => {
                     'username': '@word(5,10)',
                     'nickname': '@cname',
                     'phone': /^1[3456789]\d{9}$/,
+                    'avatar': 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
                     'create_time': '@datetime',
                     'last_login_time': '@datetime',
-                    'last_login_ip': '127.0.0.1',
+                    'last_login_ip': '@ip',
                     'role_name|1': ['超级管理员', '系统管理员', '审核管理员', '普通管理员'],
                     'state': function () {
-                        const random = Math.floor(Math.random() * states.length);
-                        return states[typeof state !== 'undefined' && state != '' ? states.indexOf(state) : random];
+                        const random = Mock.Random.integer(0, states.length - 1);
+                        return state ?? states[random];
                     },
                 })
             )
         }
-    }
 
     let _total = 0;
     _total = states.indexOf(state) != '-1' ? Math.floor(Math.random() * randomLen) : randomLen;
@@ -55,8 +52,7 @@ Mock.mock(/\/admin\/index/, /get|post/i, getAdminList);
  * @param {string} id
  */
 const getAdminDetail = config => {
-    const params = getUrlParams(config.url);
-    const { id } = params;
+    const { id = '' } = JSON.parse(config.body) ?? {};
     const success = id;
 
     let _data = {
@@ -64,15 +60,16 @@ const getAdminDetail = config => {
         'username': '@word(5,10)',
         'password': '@string(10)',
         'nickname': '@cname',
-        'avatar': '@image',
+        'avatar': 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
         'phone': /^1[3456789]\d{9}$/,
         'email': '@email',
         'intro': '@cparagraph(2)',
         'create_time': '@datetime',
         'last_login_time': '@datetime',
         'last_login_ip': '127.0.0.1',
+        'role_id': '@integer(1, 4)',
         'role_name|1': ['超级管理员', '系统管理员', '审核管理员', '普通管理员'],
-        'state|1': ['禁用', '正常'],
+        'state|1': ['0', '1', '3'],
     };
 
     return Mock.mock({
@@ -89,12 +86,13 @@ Mock.mock(/\/admin\/detail/, /get|post/i, getAdminDetail);
  * @param {Array} ids
  */
 const addAdmin = config => {
-    const { username, password, name } = JSON.parse(config.body);
-    const success = username && password && name;
+    const { username = '', password = '', nickname = '' } = JSON.parse(config.body) ?? {};
+    const success = username && password && nickname;
 
     return Mock.mock({
         'code': success ? '200' : '400',
         'msg': success ? 'sucesss' : '缺少参数',
+        'id': '@id'
     })
 }
 
@@ -104,13 +102,12 @@ Mock.mock(/\/admin\/add/, /get|post/i, addAdmin);
  * 修改管理员提交
  * @param {string} username
  * @param {string} password
- * @param {string} name
+ * @param {string} nickname
  * @param {*} others
  */
 const updateAdmin = config => {
-    const params = JSON.parse(config.body);
-    const { id, username, password, name } = params;
-    const success = id && username && password && name;
+    const { id = '', username = '', password = '', nickname = '' } = JSON.parse(config.body) ?? {};
+    const success = id && username && password && nickname;
 
     return Mock.mock({
         'code': success ? '200' : '400',
@@ -125,8 +122,7 @@ Mock.mock(/\/admin\/update/, /get|post/i, updateAdmin);
  * @param {Array} ids
  */
 const deleteAdmin = config => {
-    const params = JSON.parse(config.body);
-    const { ids } = params;
+    const { ids = [] } = JSON.parse(config.body) ?? {};
     const success = ids.length;
 
     return Mock.mock({
@@ -144,18 +140,16 @@ Mock.mock(/\/admin\/delete/, /get|post/i, deleteAdmin);
  * @param {number} state
  */
 const getRoleList = config => {
-    const params = getUrlParams(config.url);
-    const { page, pageSize, state } = params;
+    const { page = 1, pageSize = 99, state = null } = JSON.parse(config.body) ?? {};
     const randomLen = 4;
     const len = randomLen - pageSize * (page - 1) < pageSize ? randomLen - pageSize * (page - 1) : pageSize;
     const states = ['0', '1'];
     let _data = [];
-    if (states.indexOf(state) != '-1' || typeof state === 'undefined' || state == '') {
         for (let i = 0; i < len; i++) {
             _data.push(
                 Mock.mock({
-                    'id': '@id',
-                    'name': ['超级管理员', '系统管理员', '审核管理员', '普通管理员'][i],
+                    'id': i+1,
+                    'title': ['超级管理员', '系统管理员', '审核管理员', '普通管理员'][i],
                     'permission': function () {
                         const status = [{menu: '基本设置', options: ['修改', '删除']}, {menu: '幻灯片管理', options: ['修改', '删除']}, {menu: '信息发布', options: ['修改', '删除']}, {menu: '会员管理', options: ['修改', '删除']}, {menu: '信息删除', options: ['修改', '删除']}];
                         const randomIndex = Math.floor(Math.random() * status.length);
@@ -169,13 +163,12 @@ const getRoleList = config => {
                     },
                     'create_time': '@datetime',
                     'state': function () {
-                        const random = Math.floor(Math.random() * states.length);
-                        return states[typeof state !== 'undefined' && state != '' ? states.indexOf(state) : random];
+                        const random = Mock.Random.integer(0, states.length - 1);
+                        return state ?? states[random];
                     },
                 })
             )
         }
-    }
 
     let _total = 0;
     _total = states.indexOf(state) != '-1' ? Math.floor(Math.random() * randomLen) : randomLen;
@@ -197,17 +190,12 @@ Mock.mock(/\/role\/index/, /get|post/i, getRoleList);
  * @param {string} id
  */
 const getRoleDetail = config => {
-    const params = getUrlParams(config.url);
-    const { id } = params;
+    const { id = '' } = JSON.parse(config.body) ?? {};
     const success = id;
 
     let _data = {
         'id': '@id',
-        'name': function () {
-            const status = ['超级管理员', '系统管理员', '审核管理员', '普通管理员'];
-            const randomIndex = Math.floor(Math.random() * status.length);
-            return status[randomIndex - 1];
-        },
+        'title|1': ['超级管理员', '系统管理员', '审核管理员', '普通管理员'],
         'permission': function () {
             const arr = ['1', '3', '4', '5', '6', '7', '8', '51', '52', '11', '12', '81', '82', '821', '822', '823'];
             const randomIndex = Math.floor(Math.random() * arr.length);
@@ -234,13 +222,12 @@ Mock.mock(/\/role\/detail/, /get|post/i, getRoleDetail);
 
 /**
  * 新增管理员分类提交
- * @param {string} name
+ * @param {string} title
  * @param {Array} permission
  */
 const addRole = config => {
-    const params = JSON.parse(config.body);
-    const { name, permission } = params;
-    const success = name && permission.length;
+    const { title = '', permission = [] } = JSON.parse(config.body) ?? {};
+    const success = title && permission.length;
 
     return Mock.mock({
         'code': success ? '200' : '400',
@@ -252,13 +239,12 @@ Mock.mock(/\/role\/add/, /get|post/i, addRole);
 
 /**
  * 修改管理员分类提交
- * @param {string} name
+ * @param {string} title
  * @param {Array} permission
  */
 const updateRole = config => {
-    const params = JSON.parse(config.body);
-    const { id, name, permission } = params;
-    const success = id && name && permission.length;
+    const { id = '', title = '', permission = [] } = JSON.parse(config.body);
+    const success = id && title && permission.length;
 
     return Mock.mock({
         'code': success ? '200' : '400',
@@ -273,8 +259,7 @@ Mock.mock(/\/role\/update/, /get|post/i, updateRole);
  * @param {Array} ids
  */
 const deleteRole = config => {
-    const params = JSON.parse(config.body);
-    const { ids } = params;
+    const { ids = [] } = JSON.parse(config.body) ?? {};
     const success = ids.length;
 
     return Mock.mock({
@@ -477,7 +462,7 @@ Mock.mock(/\/admin\/permission\/tree/, /get|post/i, getPermissionTree);
  * @param {string} id
  */
 const getPermissionDetail = config => {
-    const params = getUrlParams(config.url);
+    const params = JSON.parse(config.body);
     const { id } = params;
     const success = id;
 

@@ -1,0 +1,40 @@
+<div>
+    <PageSkeleton :data-list="dataList" :selected-row-keys="selectedRowKeys" :panel-group="panelGroup"
+        :filter-list="filterList" :excel-config="excelConfig" @handle-bulk-delete="handleBulkDelete"
+        @handle-route="handleClickItem" @handle-filter="handleFilter">
+        <!-- 筛选区域 -->
+        <template #filterSlot="{ filterValues }">
+            <a-col :span="6">
+                <a-form-item label="操作用户">
+                    <a-input v-model:value="filterValues.adminid" allow-clear placeholder="请输入操作用户ID" />
+                </a-form-item>
+            </a-col>
+            <a-col :span="6">
+                <a-form-item label="操作对象">
+                    <a-input v-model:value="filterValues.objectid" allow-clear placeholder="请输入操作对象ID" />
+                </a-form-item>
+            </a-col>
+            <a-col :span="6">
+                <a-form-item label="操作类型">
+                    <a-select v-model:value="filterValues.type" placeholder="请选择操作类型">
+                        <a-select-option value="">全部</a-select-option>
+                        <template v-for="(item, index) in filterList.OPERATION_GROUP" :key="item">
+                            <a-select-option :value="item">{{item}}</a-select-option>
+                        </template>
+                    </a-select>
+                </a-form-item>
+            </a-col>
+        </template>
+        <!-- 渲染数据 -->
+        <template #tableSlot>
+            <a-table row-key="id" :loading="loading" :columns="columnList" :data-source="dataList"
+                :pagination="pagination" :row-selection="rowSelection" bordered @change="handleTableChange">
+                <template #action="{ text, record }">
+                    <a-popconfirm title="确定要删除当前信息吗？" @confirm="handleClickItem('delete', record.id)">
+                        <a-button size="small" type="danger">删除</a-button>
+                    </a-popconfirm>
+                </template>
+            </a-table>
+        </template>
+    </PageSkeleton>
+</div>

@@ -1,0 +1,39 @@
+<div class="container">
+    <a-form ref="viewForm" v-bind="formLeftLayout">
+        <a-row>
+            <a-col :span="15">
+                <a-form-item label="用户昵称" v-bind="validateInfos.nickname">
+                    <a-input v-model:value="viewData.nickname" placeholder="请输入用户昵称" />
+                </a-form-item>
+                <a-form-item label="手机号码" v-bind="validateInfos.phone">
+                    <a-input :value="viewData.phone" :maxlength="13" placeholder="请输入手机号码" @change="onPhoneChange" />
+                </a-form-item>
+                <a-form-item label="电子邮箱" v-bind="validateInfos.email">
+                    <a-input v-model:value="viewData.email" placeholder="请输入电子邮箱" />
+                </a-form-item>
+                <a-form-item label="用户角色">
+                    <a-input v-if="parentList.length" :value="getNameById(parentList, 'id', viewData.role_id, 'title')" readonly />
+                </a-form-item>
+                <a-form-item label="简要描述">
+                    <a-textarea v-model:value="viewData.intro" placeholder="请输入简要描述"
+                        :auto-size="{ minRows: 2, maxRows: 4 }" />
+                </a-form-item>
+                <a-form-item :wrapper-col="{ offset: 4 }">
+                    <a-button type="primary" :loading="loading" @click="handleSubmit">保存</a-button>
+                </a-form-item>
+            </a-col>
+            <a-col :span="8" :offset="1">
+                <div class="avatarBox" @mouseover="maskVisible = true" @mouseout="maskVisible = false"
+                    @click="uploadVisible = true">
+                    <div v-show="maskVisible" class="mask">
+                        <PlusOutlined style='color:#fff;font-size:35px;' />
+                    </div>
+                    <img v-if="!viewData.avatar" class="avatar" src="https://preview.pro.loacg.com/avatar2.jpg" alt="">
+                    <img v-else class="avatar" :src="viewData.avatar" alt="">
+                    <CloudUploadOutlined class="upload-icon" />
+                </div>
+            </a-col>
+        </a-row>
+    </a-form>
+    <AvatarUpload :visible="uploadVisible" @cropperDone="cropperDone" @cancel="uploadVisible = false" />
+</div>

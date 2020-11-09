@@ -20,3 +20,9 @@ export const checkLoginStatus = () => post('/common/checkloginstatus')
 export const getUnReadmsgCount = () => post('/common/unreadmsgcount')
 // 获取用户权限
 export const getAuthorityList = () => post('/common/authority')
+
+
+// 获取密码
+// export const getAdminPass = params => post('/common/getpass', params)
+// 更新密码
+export const updateAdminPass = params => post('/common/changepass', params)

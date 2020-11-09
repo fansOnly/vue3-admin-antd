@@ -1,47 +1,52 @@
-import { PAGINATION, FILTER_ITEMS, INFO_STATUS } from 'config/setting'
-import { date2Timestamp, formatDate } from 'utils/util'
+import { PAGINATION, FILTER_ITEMS, PANEL_GROUP, INFO_STATUS, BADGE_STATUS } from '@/config/setting'
+import { date2Timestamp, formatDate } from '@/utils/util'
 
 export default {
     columnList: [
         {
 			title: '数据ID',
             dataIndex: 'id',
-            width: '80px'
+            width: '200px'
         },
 		{
 			title: '数据标题',
 			dataIndex: 'title',
-			scopedSlots: { customRender: 'titleSlot' },
+			slots: { customRender: 'titlex' },
         },
         {
 			title: '创建时间',
 			dataIndex: 'create_time',
-			sorter: (a, b) => date2Timestamp(a.publish_time) - date2Timestamp(b.publish_time),
-            width: '190px',
+            sorter: (a, b) => date2Timestamp(a.create_time) - date2Timestamp(b.create_time),
+            width: '180px',
 		},
 		{
 			title: '状态',
 			dataIndex: 'state',
-			scopedSlots: { customRender: 'stateSlot' },
+			slots: { customRender: 'state' },
 			width: '100px',
 		},
 		{
 			title: '操作',
 			dataIndex: 'action',
-			scopedSlots: { customRender: 'actionSlot' },
+			slots: { customRender: 'action' },
 			width: '100px'
 		}
 	],
 	pagination: {
 		...PAGINATION
 	},
-	filterList: {
-		...FILTER_ITEMS,
-		STATUS: INFO_STATUS,
-	},
+    panelGroup: {
+        ...PANEL_GROUP,
+        SHOW_OPTION_ADD: false,
+        SHOW_BATCH_BTN: false
+    },
+    filterList: {
+        ...FILTER_ITEMS,
+        STATUS: INFO_STATUS,
+    },
+    BADGE_STATUS,
 	excelConfig: {
-		SHOW_EXPORT: false,
-		EXCEL_FIELDS: {
+		fields: {
 			'ID': 'id',
 			'标题': 'title',
 			'创建时间': 'create_time',
@@ -52,15 +57,6 @@ export default {
                 }
 			},
 		},
-		EXCEL_NAME: '搜索结果导出-'+ formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss')+ '.xls'
-	},
-	actionList: ['查看'],
-	optionList: {
-		SHOW_FILTER_AREA: true,
-		SHOW_OPTION_BAR: false,
-		SHOW_MODAL: false,
-		EDIT_ABLE: false,
-		ADD_ABLE: false,
-		SHOW_ALL_SELECT: false,
+		name: '搜索结果导出-'+ formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss')+ '.xls'
 	},
 }

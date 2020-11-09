@@ -1,4 +1,4 @@
-import { FORM_CONFIG, BANNER_CLASS_STATUS } from 'config/setting'
+import { FORM_CONFIG, BANNER_CLASS_STATUS } from '@/config/setting'
 
 export default {
     ...FORM_CONFIG,

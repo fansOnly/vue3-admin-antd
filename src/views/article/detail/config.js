@@ -17,7 +17,7 @@ export default {
 		publish_time: [
 			{ required: true, message: '请选择发布时间', trigger: 'change' }
         ],
-        photos: [
+        thumbnail: [
             { required: true, type: 'array', message: '请上传缩略图', trigger: 'change' },
         ],
 		state: [

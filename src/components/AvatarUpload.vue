@@ -3,7 +3,9 @@
         <div class="wrap">
             <a-spin :spinning="spinning">
                 <div class="cropperBox">
-                    <vueCropper
+                    <div style="height:280px">vue-cropper 3.0 不兼容</div>
+                    <!-- vue-cropper 3.0 不兼容 -->
+                    <!-- <VueCropper
                         ref="cropper"
                         :img="getImgAbsPath(img)"
                         :outputSize="outputSize"
@@ -25,7 +27,7 @@
                         :fixedBox="fixedBox"
                         :mode="mode"
                         @realTime="realTime"
-                    />
+                    /> -->
                     <div class="optionBox">
                         <a-upload
                             name="file"
@@ -33,12 +35,12 @@
                             :before-upload="beforeUpload"
                             @change="upload"
                         >
-                            <a-button icon="upload">选择图片</a-button>
+                            <a-button><template #icon><UploadOutlined /></template>选择图片</a-button>
                         </a-upload>
-                        <a-button icon="plus" @click="zoomBig"></a-button>
-                        <a-button icon="minus" @click="zoomSmall"></a-button>
-                        <a-button icon="redo" @click="rotateForward"></a-button>
-                        <a-button icon="undo" @click="rotateReverse"></a-button>
+                        <a-button @click="zoomBig"><template #icon><ZoomInOutlined /></template></a-button>
+                        <a-button @click="zoomSmall"><template #icon><ZoomOutOutlined /></template></a-button>
+                        <a-button @click="rotateForward"><template #icon><RedoOutlined /></template></a-button>
+                        <a-button @click="rotateReverse"><template #icon><UndoOutlined /></template></a-button>
                     </div>
                 </div>
                 <div class="previewBox">
@@ -51,9 +53,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import VueCropper from 'vue-cropper'
-Vue.use(VueCropper)
+import { UploadOutlined, ZoomInOutlined, ZoomOutOutlined, RedoOutlined, UndoOutlined } from '@ant-design/icons-vue'
 
 import { uploadFile } from '@/api/common'
 import { updateAdmin } from '@/api/admin'
@@ -179,6 +179,13 @@ export default {
             if (!this.img) return;
             this.$refs.cropper.rotateLeft();
         },
+    },
+    components: {
+        UploadOutlined,
+        ZoomInOutlined,
+        ZoomOutOutlined,
+        RedoOutlined,
+        UndoOutlined
     }
 };
 </script>

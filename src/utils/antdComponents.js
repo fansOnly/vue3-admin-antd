@@ -28,7 +28,8 @@ import {
     DatePicker,
     Popconfirm,
     Upload,
-    TreeSelect
+    TreeSelect,
+    Spin
 } from 'ant-design-vue'
 
 const components = {
@@ -61,7 +62,8 @@ const components = {
     DatePicker,
     Popconfirm,
     Upload,
-    TreeSelect
+    TreeSelect,
+    Spin
 }
 
 function install(Vue) {

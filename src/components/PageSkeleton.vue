@@ -5,22 +5,23 @@
             <a-row :gutter="24">
                 <a-col v-if="filterList.FILTER_ID" :span="6">
                     <a-form-item label="数据ID">
-                        <a-input v-model:value="filterRef.fid" allow-clear placeholder="请输入数据ID" />
+                        <a-input v-model:value="filterRef.id" allow-clear placeholder="请输入数据ID" />
                     </a-form-item>
                 </a-col>
                 <a-col v-if="filterList.FILTER_TITLE" :span="6">
                     <a-form-item label="数据标题">
-                        <a-input v-model:value="filterRef.ftitle" allow-clear placeholder="请输入数据标题" />
+                        <a-input v-model:value="filterRef.title" allow-clear placeholder="请输入数据标题" />
                     </a-form-item>
                 </a-col>
+                <slot name="filterSlot" :filterValues="filterRef"></slot>
                 <a-col v-if="filterList.FILTER_CREATE_TIME" :span="6">
                     <a-form-item label="创建日期">
-                        <a-date-picker v-model:value="filterRef.fcreate_time" placeholder="请选择创建日期" style="width: 100%" />
+                        <a-date-picker v-model:value="filterRef.create_time" placeholder="请选择创建日期" style="width: 100%" />
                     </a-form-item>
                 </a-col>
                 <a-col v-if="filterList.FILTER_STATE" :span="6">
                     <a-form-item label="数据状态">
-                        <a-select v-model:value="filterRef.fstate" placeholder="请选择数据状态">
+                        <a-select v-model:value="filterRef.state" placeholder="请选择数据状态">
                             <a-select-option value="">全部</a-select-option>
                             <template v-for="(item, index) in filterList.STATUS" :key="index">
                                 <a-select-option :value="index">{{item}}</a-select-option>
@@ -28,7 +29,6 @@
                         </a-select>
                     </a-form-item>
                 </a-col>
-                <slot name="filterSlot" :filterValues="filterRef"></slot>
             </a-row>
             <a-row>
                 <a-col :span="24">
@@ -43,13 +43,20 @@
         <div v-if="panelGroup.SHOW_OPTION_BAR" class="option-bar">
             <slot name="operateSlot"></slot>
             <a-button v-if="panelGroup.SHOW_OPTION_ADD" v-operate-auth="'add'" style="margin-right:10px;" type="primary" @click="handleRoute('add')">新增</a-button>
-            <template v-if="selectedRowKeys.length">
-                <div v-operate-auth="'export'" style="margin-right:10px;">
-                    <!-- TODO vue3.0 不兼容？？？ -->
-                    <!-- <ExportExcel :data="exportData" :fields="excelConfig.fields" :name="excelConfig.name" button-text="导出 Excel" @export-excel="exportExcel" /> -->
+            <template v-if="panelGroup.SHOW_BATCH_BTN && selectedRowKeys.length">
+                <div v-if="panelGroup.SHOW_EXPORT" v-operate-auth="'export'" style="margin-right:10px;">
+                    <JsonExcel
+                        :fields="excelConfig.fields"
+                        :data="excelData"
+                        :name="excelConfig.name"
+                        type="xls"
+                        :before-generate="exportExcel"
+                    >
+                        <a-button>导出 Excel</a-button>
+                    </JsonExcel>
                 </div>
                 <a-button v-operate-auth="'delete'" style="margin-right:10px;" type="danger" @click="handleBulkDelete">删除</a-button>
-                <div>已选择 {{selectedRowKeys.length}} 条数据</div>
+                <div>已选择 <a href="javascript:;" style="cursor:inherit;">{{selectedRowKeys.length}}</a> 条数据</div>
             </template>
         </div>
         <!-- 列表数据展示区域 -->
@@ -62,7 +69,7 @@
 </template>
 
 <script>
-    // import ExportExcel from 'components/ExportExcel.vue'
+    import JsonExcel from '@/components/JsonExcel.vue'
     import { getImgAbsPath } from '@/utils/util'
     import { getCurrentInstance, reactive, ref, toRaw, toRefs } from 'vue'
     import { useForm } from '@ant-design-vue/use'
@@ -73,33 +80,23 @@
         props: {
             dataList: {  // 表单数据
                 type: Array,
-                default: function () {
-                    return []
-                }
+                default: () => []
             },
             panelGroup: {
                 type: Object,
-                default: function() {
-                    return {}
-                }
+                default: () => {}
             },
             filterList: {
                 type: Object,
-                default: function() {
-                    return {}
-                }
+                default: () => {}
             },
             excelConfig: {
                 type: Object,
-                default: function() {
-                    return {}
-                }
+                default: () => {}
             },
             selectedRowKeys: {
                 type: Array,
-                default: function () {
-                    return []
-                }
+                default: () => []
             },
             previewVisible: {
                 type: Boolean,
@@ -115,17 +112,24 @@
             const { dataList, selectedRowKeys } = toRefs(props)
 
             const filterRef = reactive({
-                fid: '',
-                ftitle: '',
-                fcreate_time: '',
-                fstate: ''
+                id: '',
+                title: '',
+                create_time: '',
+                publish_time: '',
+                state: '',
+                memberid: '',
+                depth: '',
+                adminid: '',
+                objectid: '',
+                type: ''
             })
 
             const { resetFields } = useForm(filterRef, reactive({}))
 
             const handleFilterSubmit = async () => {
                 const filterValues = toRaw(filterRef)
-                filterValues.fcreate_time = typeof filterValues.fcreate_time === 'object' ? filterValues.fcreate_time.format('YYYY-MM-DD') : filterValues.fcreate_time
+                filterValues.create_time = typeof filterValues.create_time === 'object' ? filterValues.create_time.format('YYYY-MM-DD') : filterValues.create_time
+                filterValues.publish_time = typeof filterValues.publish_time === 'object' ? filterValues.publish_time.format('YYYY-MM-DD') : filterValues.publish_time
                 emit('handle-filter', filterValues)
             }
 
@@ -142,9 +146,9 @@
                 emit('handle-route', type)
             }
 
-            const excelData = ref([])
+            let excelData = ref([])
             const exportExcel = () => {
-                const exportList = dataList.filter(v => selectedRowKeys.includes(v.id))
+                const exportList = dataList.value.filter(v => selectedRowKeys.value.includes(v.id))
                 if (!exportList.length) {
                     ctx.$message.info('没有选中数据');
                     return;
@@ -176,7 +180,7 @@
             }
         },
         components: {
-            // ExportExcel
+            JsonExcel
         }
     }
 </script>

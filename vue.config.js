@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+const TerserPlugin = require('terser-webpack-plugin')
 const path = require('path')
 
 function resolve(dir) {
@@ -36,7 +37,27 @@ module.exports = {
             },
         }
     },
-    // configureWebpack: {},
+    configureWebpack: () => {
+        if(process.env.NODE_ENV === 'production') {
+            return {
+                optimization: {
+                    minimizer: [
+                        new TerserPlugin({
+                            sourceMap: false,
+                            terserOptions: {
+                                compress: {
+                                    // warnings: false,
+                                    drop_console: true, //注释console
+                                    drop_debugger: true,
+                                    pure_funcs: ['console.log'] //移除console
+                                }
+                            }
+                        })
+                    ]
+                }
+            }
+        }
+    },
     chainWebpack: config => {
         config.plugin('html')
             .tap(options => {

@@ -201,7 +201,7 @@ const isEmptyObject = obj => {
  * @return {string}
  */
 const getImgAbsPath = path => {
-    if (path && path.indexOf('http') === -1) {
+    if (path && !(/^http(s)?/).test(path)) {
         return resourcePath + path;
     }
     return path;
@@ -243,19 +243,6 @@ const htmlDecode = strHtml => {
 	return html;
 }
 
-/**
- * 手机号码校验
- * @param {*} rule
- * @param {*} value
- * @param {*} callback
- */
-const validatePhone = (rule, value, callback) => {
-    if (!!value && !(/^1[3456789]\d{9}$/.test(value))) {
-        callback('请输入正确的手机号');
-    } else {
-        callback();
-    }
-}
 
 /**
  * 防抖函数
@@ -270,6 +257,16 @@ const debounce = (fn, wait = 500) => {
             fn.apply(this, arguments)
         }, wait);
     }
+}
+
+/**
+ * 格式化手机号码
+ * @param {*} val
+ */
+const formatPhone = val => {
+    return val.replace(/\s/g, '').replace(/^(\d{3})(\d{0,4})(\d{0,4})/g, function (match, p1, p2, p3) {
+        return `${p1} ${p2}${p3 ? ' ' : ''}${p3}`
+    })
 }
 
 export {
@@ -288,6 +285,6 @@ export {
 	htmlEncode,
 	htmlDecode,
 	formatDate,
-    validatePhone,
-    debounce
+    debounce,
+    formatPhone
 }

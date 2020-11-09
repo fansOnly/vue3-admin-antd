@@ -1,4 +1,5 @@
 import Mock from 'mockjs';
+import { ARTICLE_TAGS } from '@/config/setting'
 
 /**
  * 获取文章分类列表
@@ -292,55 +293,52 @@ Mock.mock(/\/article\/class\/tree/, /get|post/i, getArticleClassTree);
  * 获取文章列表
  */
 const getArticleList = config => {
-    const { page = 1, pageSize = 99, state = '', delete_time = '' } = JSON.parse(config.body) ?? {};
-    const randomLen = 170;
+    const { page = 1, pageSize = 99, state = null, delete_time = '' } = JSON.parse(config.body) ?? {};
+    const randomLen = 132;
     const len = randomLen - pageSize * (page - 1) < pageSize ? randomLen - pageSize * (page - 1) : pageSize;
     const states = ['0', '1', '2', '3'];
     let _data = [];
-    if (states.indexOf(state) != '-1' || typeof state === 'undefined' || state == '') {
-        for (let i = 0; i < len; i++) {
-            _data.push(
-                Mock.mock({
-                    'id': '@id',
-                    'adminid': '@id',
-                    'sortnum': 10 * (pageSize * (page - 1) + i + 1),
-                    'classid': '@id',
-                    'title': '@ctitle',
-                    'views': ~~(Math.random() * 9999),
-                    'thumbnail': [{
-                        'uid': '@id',
-                        'path': 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-                        'name': '@ctitle',
-                        'type': 'image/png',
-                        'size': 18888,
-                        'status': 'done',
-                        'width': 100,
-                        'height': 100,
-                        'state': 1
-                    }],
-                    'publish_time': '@datetime',
-                    'create_time': '@datetime',
-                    'delete_time': function () {
-                        return delete_time == 0 ? 0 : Mock.mock('@datetime');
-                    },
-                    'tags': function () {
-                        const arr = ['热点', '技术', '分享', '生活', '教程'];
-                        const random = Math.min(Math.floor(Math.random() * arr.length), 3);
-                        let _data = [];
-                        for (var i = 0; i < arr.length; i++) {
-                            if (i <= random) {
-                                _data.push(arr[i]);
-                            }
+    for (let i = 0; i < len; i++) {
+        _data.push(
+            Mock.mock({
+                'id': '@id',
+                'adminid': '@id',
+                'sortnum': 10 * (pageSize * (page - 1) + i + 1),
+                'classid': '@id',
+                'title': '@ctitle',
+                'views': '@integer(0, 9999)',
+                'thumbnail': [{
+                    'uid': '@id',
+                    'path': 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+                    'name': '@ctitle',
+                    'type': 'image/png',
+                    'size': 18888,
+                    'status': 'done',
+                    'width': 100,
+                    'height': 100,
+                    'state': 1
+                }],
+                'publish_time': '@datetime',
+                'create_time': '@datetime',
+                'delete_time': function () {
+                    return delete_time == 0 ? 0 : Mock.mock('@datetime');
+                },
+                'tags': function () {
+                    const random = Math.min(Math.floor(Math.random() * ARTICLE_TAGS.length), 3);
+                    let _data = [];
+                    for (var i = 0; i < ARTICLE_TAGS.length; i++) {
+                        if (i <= random) {
+                            _data.push(ARTICLE_TAGS[i]);
                         }
-                        return _data;
-                    },
-                    'state': function () {
-                        const random = Math.floor(Math.random() * states.length);
-                        return states[typeof state !== 'undefined' && state != '' ? states.indexOf(state) : random];
-                    },
-                })
-            )
-        }
+                    }
+                    return _data;
+                },
+                'state': function () {
+                    const random = Mock.Random.integer(0, states.length-1);
+                    return state ?? states[random];
+                },
+            })
+        )
     }
 
     let _total = 0;
@@ -494,12 +492,12 @@ Mock.mock(/\/article\/update/, /get|post/i, updateArticle);
  * 获取文章回收站列表
  */
 const getArticleRecycleList = config => {
-    const { page = 1, pageSize = 99, state = '' } = JSON.parse(config.body) ?? {};
+    const { page = 1, pageSize = 99, state = null } = JSON.parse(config.body) ?? {};
     const randomLen = 57;
     const len = randomLen - pageSize * (page - 1) < pageSize ? randomLen - pageSize * (page - 1) : pageSize;
     const states = ['0', '1', '2', '3'];
     let _data = [];
-    if (states.indexOf(state) != '-1' || typeof state === 'undefined' || state == '') {
+
         for (let i = 0; i < len; i++) {
             _data.push(
                 Mock.mock({
@@ -522,13 +520,12 @@ const getArticleRecycleList = config => {
                     'create_time': '@datetime',
                     'delete_time': '@datetime',
                     'state': function () {
-                        const random = Math.floor(Math.random() * states.length);
-                        return states[typeof state !== 'undefined' && state != '' ? states.indexOf(state) : random];
+                        const random = Mock.Random.integer(0, states.length - 1);
+                        return state ?? states[random];
                     },
                 })
             )
         }
-    }
 
     let _total = 0;
     _total = states.indexOf(state) != '-1' ? Math.floor(Math.random() * randomLen) : randomLen;
@@ -579,13 +576,11 @@ Mock.mock(/\/article\/restore/, /get|post/i, restoreArticle);
 
 /**
  * 清空回收站
- * @param {Array} ids
  */
 const clearAllArticle = () => {
-    const success = true
     return Mock.mock({
-        'code': success ? '200' : '400',
-        'msg': success ? 'sucesss' : '缺少参数',
+        'code': '200',
+        'msg': 'success'
     })
 }
 

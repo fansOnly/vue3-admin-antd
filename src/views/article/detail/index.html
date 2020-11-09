@@ -19,6 +19,9 @@
                         </a-select-option>
                     </a-select>
                 </a-form-item>
+                <a-form-item label="发布日期" v-bind="validateInfos.publish_time">
+                    <a-date-picker show-time :value="viewData.publish_time" valueFormat="YYYY-MM-DD HH:mm:ss" placeholder="请选择发布日期" style="width: 100%" @change="onPublishDateChange" />
+                </a-form-item>
                 <a-form-item label="简要描述">
                     <a-textarea v-model:value="viewData.intro" placeholder="请输入简要描述"
                         :auto-size="{ minRows: 2, maxRows: 4 }" />
@@ -30,6 +33,10 @@
                     <a-textarea v-model:value="viewData.content" placeholder="请输入简要描述"
                         :auto-size="{ minRows: 4, maxRows: 6 }" />
                 </a-form-item>
+                <a-form-item label="相册图集">
+                    <BulkUpload v-if="loaded || !id" :data-list="viewData.photos" :savedIds="savedIds"
+                        :deletedIds="deletedIds" @change="handleUpload($event, 'photos')" />
+                </a-form-item>
                 <a-form-item :wrapper-col="{ offset: 4 }">
                     <a-button type="primary" :loading="loading" @click="handleSubmit">保存</a-button>
                     <a-button style="margin-left:10px;" @click="() => $router.back(-1)">返回</a-button>
@@ -37,11 +44,11 @@
             </a-col>
             <a-col :span="8" :offset="1">
                 <a-form-item label="缩略图" :label-col="formRightLayout.labelCol" :wrapper-col="formRightLayout.wrapperCol"
-                    v-bind="validateInfos.photos">
-                    <SingleUpload v-if="loaded || !id" :data-list="viewData.photos" :savedIds="savedIds"
-                        :deletedIds="deletedIds" @change="handleUpload($event, 'photos')" />
+                    v-bind="validateInfos.thumbnail">
+                    <SingleUpload v-if="loaded || !id" :data-list="viewData.thumbnail" :savedIds="savedIds"
+                        :deletedIds="deletedIds" @change="handleUpload($event, 'thumbnail')" />
                 </a-form-item>
-                <a-form-item label="附件" v-bind="formRightLayout">
+                <a-form-item label="附件文件" v-bind="formRightLayout">
                     <single-upload v-if="loaded || !id" text-type="button" list-type="text" file-type="video"
                         :data-list="viewData.file" :savedIds="savedIds" :deletedIds="deletedIds"
                         @change="handleUpload($event, 'file')"></single-upload>

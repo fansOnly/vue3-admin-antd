@@ -16,7 +16,7 @@ export default {
         const router = useRouter()
 
         const id = ref('')
-        id.value = route.query.id
+        id.value = route.query?.id
         const loading = ref(false)
         let viewData = reactive({
             sortnum: '',
@@ -26,7 +26,6 @@ export default {
             state: 1,
             blank: 1
         })
-        const parentList = ref([])
 
         const ruleRef = reactive(config.rules)
         const { validate, validateInfos } = useForm(viewData, ruleRef)
@@ -56,6 +55,7 @@ export default {
 			savedIds.value = data.savedIds
         }
 
+        const parentList = ref([])
         const apiGetParentList = async () => {
             const { code, data } = await getParentList()
             if (code == '200') {
@@ -69,7 +69,7 @@ export default {
             if (code == '200') {
                 viewData.title = title
                 viewData.sortnum = sortnum
-                viewData.classid = classid || parentList.value[1].id
+                viewData.classid = classid
                 viewData.url = url
                 viewData.content = content
                 viewData.photos = photos
@@ -83,7 +83,7 @@ export default {
         id.value && apiGetData()
 
         const apiUpdateData = async params => {
-            const { code, msg } = await updateData({id, ...params})
+            const { code, msg } = await updateData({id: id.value, ...params})
             ctx.$message[code == '200' ? 'success': 'error'](msg, 1, () => {
                 loading.value = false
             })

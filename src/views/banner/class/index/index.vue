@@ -27,14 +27,6 @@ export default {
                 }
             })
 
-            const previewVisible = ref(false)
-            const previewPhoto = ref('')
-
-            const handlePhotoPreview = file => {
-                previewPhoto.value = file
-                previewVisible.value = true
-            }
-
             let filterValues = reactive({})
             const handleFilter = (values = {}) => {
                 filterValues = values
@@ -112,15 +104,12 @@ export default {
                 dataList,
                 pagination,
                 loading,
-                previewVisible,
-                previewPhoto,
                 rowSelection,
                 selectedRowKeys,
                 handleFilter,
                 handleTableChange,
                 handleBulkDelete,
-                handleClickItem,
-                handlePhotoPreview
+                handleClickItem
             }
         },
         components: {

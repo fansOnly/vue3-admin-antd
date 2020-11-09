@@ -13,11 +13,6 @@ export const updateAdmin = params => post('/admin/update', params)
 // 删除管理员
 export const deleteAdmin = params => post('/admin/delete', params)
 
-// 获取密码
-export const getAdminPass = params => post('/admin/getpass', params)
-// 更新密码
-export const updateAdminPass = params => post('/admin/changepass', params)
-
 
 // 获取管理员分类列表
 export const getRoleList = params => post('/role/index', params)

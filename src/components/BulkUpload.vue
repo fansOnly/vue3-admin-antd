@@ -29,7 +29,7 @@
             :footer="null"
             @cancel="handlePhotopreviewCancel"
         >
-            <img alt="" style="width: 100%" :src="previewPhoto" />
+            <img alt="" style="width: 100%" :src="getImgAbsPath(previewPhoto)" />
         </a-modal>
     </div>
 </template>
@@ -190,11 +190,13 @@ export default {
                 uploadReadyList.map(file => {
                     formData.append('files', file.originFileObj);
                 })
-                const res = await uploadMultiFile(formData);
+                const { code, msg, data } = await uploadMultiFile(formData);
                 this.uploading = false;
-                if (res.code == '200') {
+                if (code == '200') {
+                    this.$message.success(msg);
                     this.bulkUploadReadyCount = 0;
-                    res.data.map((file, index) => {
+                    data.map((file, index) => {
+                        console.log('file: ', file);
                         const resFile = {
                             id: file.id,
                             uid: uploadReadyList[index].uid,
@@ -214,7 +216,7 @@ export default {
                         this.$emit('change', {uploadList: _uploadList, savedIds: this._savedIds, deletedIds: this._deletedIds});
                     })
                 } else {
-                    this.$message.error(res.data.err.name + ': ' + res.data.err.message);
+                    this.$message.error(data.err.name + ': ' + data.err.message);
                 }
             }
         },

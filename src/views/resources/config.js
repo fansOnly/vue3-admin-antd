@@ -1,79 +1,73 @@
-import i18n from '@/i18n'
-import { PAGINATION, FILTER_ITEMS, ASSETS_STATUS } from 'config/setting'
-import { date2Timestamp, formatDate } from 'utils/util'
+import { PAGINATION, FILTER_ITEMS, PANEL_GROUP, ASSETS_STATUS, BADGE_STATUS } from '@/config/setting'
+import { date2Timestamp, formatDate } from '@/utils/util'
 
 export default {
     columnList: [
         {
 			title: '数据ID',
             dataIndex: 'id',
-            width: '100px'
+            width: '200px'
         },
 		{
-			title: i18n.t('GLOBAL.DATA_NAME'),
-			dataIndex: 'originalname',
+			title: '数据标题',
+            dataIndex: 'title',
         },
         {
-			title: i18n.t('GLOBAL.PATH'),
-            dataIndex: 'path',
-			scopedSlots: {customRender: 'pathSlot'},
+			title: '数据路径',
+            dataIndex: 'resource',
+            slots: { customRender: 'resource'},
+            width: '100px'
         },
         {
-			title: i18n.t('GLOBAL.MIME_TYPE'),
+			title: '数据格式',
             dataIndex: 'mimetype',
-			width: '120px'
-        },
-        {
-			title: i18n.t('GLOBAL.SUFFIX'),
-            dataIndex: 'suffix',
-			width: '120px'
+			width: '150px'
         },
         {
 			title: '创建日期',
 			dataIndex: 'create_time',
 			sorter: (a, b) => date2Timestamp(a.create_time) - date2Timestamp(b.create_time),
-            width: '200px',
+            width: '180px',
 		},
 		{
-			title: '状态',
+			title: '数据状态',
 			dataIndex: 'state',
-			scopedSlots: { customRender: 'stateSlot' },
+			slots: { customRender: 'state' },
 			width: '110px',
 		},
 		{
 			title: '操作',
 			dataIndex: 'action',
-			scopedSlots: { customRender: 'actionSlot' },
-			width: '70px'
+            slots: { customRender: 'action' },
+			width: '100px'
 		}
 	],
 	pagination: {
 		...PAGINATION
-	},
-	filterList: {
-		...FILTER_ITEMS,
-		STATUS: ASSETS_STATUS,
-		FILTER_ID: false,
-		FILTER_TITLE: false,
-		FILTER_OBJECT_ID: false,
-		FILTER_NAME: true,
-	},
+    },
+    panelGroup: {
+        ...PANEL_GROUP,
+        SHOW_OPTION_ADD: false
+    },
+    filterList: {
+        ...FILTER_ITEMS,
+        STATUS: ASSETS_STATUS,
+    },
+    BADGE_STATUS,
 	excelConfig: {
-		SHOW_EXPORT: true,
-		EXCEL_FIELDS: {
+		fields: {
 			'ID': 'object_id',
 			'名称': 'name',
-			'类型': 'type',
+            '路径': 'path',
+            '格式': 'suffix',
+            '创建日期': 'create_time',
+            '状态': {
+                field: 'state',
+                callback: (value) => {
+                    return ASSETS_STATUS[value];
+                }
+            },
 		},
-		EXCEL_NAME: '资源导出-'+ formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss')
-	},
-	actionList: ['删除'],
-	optionList: {
-		SHOW_FILTER_AREA: true,
-		SHOW_OPTION_BAR: true,
-		SHOW_MODAL: true,
-		EDIT_ABLE: false,
-		ADD_ABLE: false,
-		SHOW_ALL_SELECT: false,
+		name: '资源导出-'+ formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss')
 	},
 }

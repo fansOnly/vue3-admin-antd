@@ -1,0 +1,33 @@
+<div>
+    <PageSkeleton :data-list="dataList" :selected-row-keys="selectedRowKeys" :panel-group="panelGroup"
+        :filter-list="filterList" :excel-config="excelConfig" @handle-bulk-delete="handleBulkDelete"
+        @handle-route="handleClickItem" @handle-filter="handleFilter">
+        <!-- 筛选区域 -->
+        <template #filterSlot="{ filterValues }">
+            <a-col :span="6">
+                <a-form-item label="用户ID">
+                    <a-input v-model:value="filterValues.memberid" allow-clear placeholder="请输入用户ID" />
+                </a-form-item>
+            </a-col>
+            <a-col :span="6">
+                <a-form-item label="访问深度">
+                    <a-input v-model:value="filterValues.depth" allow-clear placeholder="请输入访问深度" />
+                </a-form-item>
+            </a-col>
+        </template>
+        <!-- 渲染数据 -->
+        <template #tableSlot>
+            <a-table row-key="id" :loading="loading" :columns="columnList" :data-source="dataList"
+                :pagination="pagination" :row-selection="rowSelection" bordered @change="handleTableChange">
+                <template #duration="{ text }">
+                    {{text}}s
+                </template>
+                <template #action="{ text, record }">
+                    <a-popconfirm title="确定要删除当前信息吗？" @confirm="handleClickItem('delete', record.id)">
+                        <a-button size="small" type="danger">删除</a-button>
+                    </a-popconfirm>
+                </template>
+            </a-table>
+        </template>
+    </PageSkeleton>
+</div>

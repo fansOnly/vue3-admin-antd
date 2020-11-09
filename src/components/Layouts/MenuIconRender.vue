@@ -9,9 +9,8 @@
     <FileSearchOutlined v-if="icon === 'file-search'" />
     <ClusterOutlined v-if="icon === 'team'" />
     <BarChartOutlined v-if="icon === 'bar-chart'" />
-    <CoffeeOutlined v-if="icon === 'export'" />
-    <FileDoneOutlined v-if="icon === 'exception'" />
-    <FileSearchOutlined v-if="icon === 'search'" />
+    <CoffeeOutlined v-if="icon === 'coffee'" />
+    <DeploymentUnitOutlined v-if="icon === 'system'" />
 </template>
 
 <script>
@@ -27,7 +26,7 @@ import {
     ClusterOutlined,
     BarChartOutlined,
     CoffeeOutlined,
-    FileDoneOutlined,
+    DeploymentUnitOutlined
 } from '@ant-design/icons-vue'
 
 export default {
@@ -49,7 +48,7 @@ export default {
         ClusterOutlined,
         BarChartOutlined,
         CoffeeOutlined,
-        FileDoneOutlined
+        DeploymentUnitOutlined
     }
 }
 </script>

@@ -16,7 +16,7 @@ export default {
         const router = useRouter()
 
         const id = ref('')
-        id.value = route.query.id
+        id.value = route.query?.id
         const parent_id = route.query.parent_id
         const loading = ref(false)
         let viewData = reactive({

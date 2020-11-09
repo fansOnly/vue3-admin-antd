@@ -1,4 +1,4 @@
-import { BADGE_STATUS } from '@/config/setting'
+import { PANEL_GROUP, BADGE_STATUS } from '@/config/setting'
 
 export default {
     columnList: [
@@ -10,6 +10,7 @@ export default {
         {
 			title: '数据ID',
             dataIndex: 'id',
+            width: '200px'
         },
 		{
 			title: '数据名称',
@@ -38,9 +39,8 @@ export default {
 		}
     ],
     panelGroup: {
+        ...PANEL_GROUP,
         SHOW_FILTER_AREA: false,
-        SHOW_OPTION_BAR: true,
-        SHOW_OPTION_ADD: true
     },
     BADGE_STATUS
 }

@@ -1,5 +1,5 @@
-import { PAGINATION, FILTER_ITEMS, BANNER_STATUS, BADGE_STATUS } from 'config/setting'
-import { date2Timestamp, formatDate } from 'utils/util'
+import { PAGINATION, FILTER_ITEMS, PANEL_GROUP, BANNER_STATUS, BADGE_STATUS } from '@/config/setting'
+import { date2Timestamp, formatDate } from '@/utils/util'
 
 export default {
     columnList: [
@@ -12,6 +12,7 @@ export default {
 		{
 			title: 'ID',
             dataIndex: 'id',
+            width: '200px'
 		},
 		{
 			title: '标题',
@@ -49,9 +50,7 @@ export default {
         ...PAGINATION
 	},
 	panelGroup: {
-		SHOW_FILTER_AREA: true,
-        SHOW_OPTION_BAR: true,
-        SHOW_OPTION_ADD: true
+        ...PANEL_GROUP
     },
 	filterList: {
 		...FILTER_ITEMS,
@@ -62,7 +61,14 @@ export default {
 			'ID': 'id',
 			'幻灯片名称': 'title',
 			'幻灯片链接': 'url',
-			'幻灯片图片': 'image',
+            '幻灯片图片': 'image',
+            '创建日期': 'create_time',
+            '状态': {
+                field: 'state',
+                callback: (value) => {
+                    return BANNER_STATUS[value];
+                }
+            },
 		},
 		name: '幻灯片导出-'+ formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss')
     },

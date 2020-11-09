@@ -1,16 +1,16 @@
 import { getAuthorityList } from '@/api/common'
 
 const state = {
-    MENU_AUTH_LIST: localStorage.getItem('MENU_AUTH_LIST') || [],
-    OPERATE_AUTH_LIST: localStorage.getItem('OPERATE_AUTH_LIST') || []
+    MENU_AUTH_LIST: JSON.parse(sessionStorage.getItem('MENU_AUTH_LIST')) ?? [],
+    OPERATE_AUTH_LIST: JSON.parse(sessionStorage.getItem('OPERATE_AUTH_LIST')) ?? []
 }
 
 const mutations = {
     SET_AUTH(state, { MENU_AUTH_LIST, OPERATE_AUTH_LIST }) {
         state.MENU_AUTH_LIST = MENU_AUTH_LIST
         state.OPERATE_AUTH_LIST = OPERATE_AUTH_LIST
-        localStorage.setItem('MENU_AUTH_LIST', MENU_AUTH_LIST)
-        localStorage.setItem('OPERATE_AUTH_LIST', OPERATE_AUTH_LIST)
+        sessionStorage.setItem('MENU_AUTH_LIST', JSON.stringify(MENU_AUTH_LIST))
+        sessionStorage.setItem('OPERATE_AUTH_LIST', JSON.stringify(OPERATE_AUTH_LIST))
     }
 }
 

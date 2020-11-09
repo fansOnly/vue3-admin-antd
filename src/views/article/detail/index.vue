@@ -2,7 +2,8 @@
 
 <script>
 import SingleUpload from '@/components/SingleUpload.vue'
-import { getArticleDetail as getData, addArticle as addData, updateArticle as updateData, getSectionIndex as getParentList } from '@/api/article'
+import BulkUpload from '@/components/BulkUpload.vue'
+import { getArticleDetail as getData, addArticle as addData, updateArticle as updateData, getArticleClassIndex as getParentList } from '@/api/article'
 import config from './config'
 import { useRoute, useRouter } from 'vue-router'
 import { getCurrentInstance, reactive, ref, toRaw } from 'vue'
@@ -15,14 +16,14 @@ export default {
         const route = useRoute()
         const router = useRouter()
 
-        const id = ref('')
-        id.value = route.query.id
+        const id = ref(route.query?.id ?? '')
         const loading = ref(false)
         let viewData = reactive({
             sortnum: '',
             title: '',
             classid: '',
-            photos: [],
+            publish_time: '',
+            thumbnail: [],
             tags: [],
             state: 1,
         })
@@ -65,14 +66,15 @@ export default {
         apiGetParentList()
 
         const apiGetData = async () => {
-            const { code, msg, data: { title, sortnum, classid, url, intro, content, photos, state, file, tags } } = await getData({id: id.value})
+            const { code, msg, data: { title, sortnum, classid, publish_time, intro, content, thumbnail, photos, state, file, tags } } = await getData({id: id.value})
             if (code == '200') {
                 viewData.title = title
                 viewData.sortnum = sortnum
-                viewData.classid = classid || parentList.value[1].id
-                viewData.url = url
+                viewData.classid = classid
+                viewData.publish_time = publish_time
                 viewData.intro = intro
                 viewData.content = content
+                viewData.thumbnail = thumbnail
                 viewData.photos = photos
                 viewData.tags = tags
                 viewData.file = file
@@ -85,7 +87,7 @@ export default {
         id.value && apiGetData()
 
         const apiUpdateData = async params => {
-            const { code, msg } = await updateData({id, ...params})
+            const { code, msg } = await updateData({id: id.value, ...params})
             ctx.$message[code == '200' ? 'success': 'error'](msg, 1, () => {
                 loading.value = false
             })
@@ -97,9 +99,13 @@ export default {
                 loading.value = false
                 if (code == '200') {
                     id.value = newId
-                    router.replace({name: 'articleClassEdit', query: {id: newId}})
+                    router.replace({name: 'articleEdit', query: {id: newId}})
                 }
             })
+        }
+
+        const onPublishDateChange = val => {
+            viewData.publish_time = val
         }
 
         return {
@@ -116,11 +122,13 @@ export default {
             deletedIds,
             validateInfos,
             handleSubmit,
-            handleUpload
+            handleUpload,
+            onPublishDateChange
         }
     },
 	components: {
-		SingleUpload
+        SingleUpload,
+        BulkUpload
     }
 };
 </script>

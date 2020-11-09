@@ -1,4 +1,4 @@
-import { PAGINATION, FILTER_ITEMS, INFO_STATUS, BADGE_STATUS } from '@/config/setting'
+import { PAGINATION, FILTER_ITEMS, PANEL_GROUP, INFO_STATUS, BADGE_STATUS } from '@/config/setting'
 import { htmlEncode, date2Timestamp, formatDate } from '@/utils/util'
 
 export default {
@@ -11,7 +11,8 @@ export default {
 		},
         {
 			title: '数据ID',
-			dataIndex: 'id'
+            dataIndex: 'id',
+            width: '200px'
 		},
 		{
 			title: '数据标题',
@@ -56,12 +57,11 @@ export default {
 		...PAGINATION
     },
     panelGroup: {
-        SHOW_FILTER_AREA: true,
-        SHOW_OPTION_BAR: true,
-        SHOW_OPTION_ADD: true
+        ...PANEL_GROUP
     },
 	filterList: {
-		...FILTER_ITEMS,
+        ...FILTER_ITEMS,
+        FILTER_CREATE_TIME: false,
 		STATUS: INFO_STATUS,
     },
     BADGE_STATUS,

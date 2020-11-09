@@ -142,7 +142,8 @@ const post = (url, params, options = {}) => {
 
 const upload = (url, params, options = {}) => {
 	return axios.post(url, params, {...options, headers: {'Content-Type': 'multipart/form-data'}})
-	.then(res => {
+    .then(res => {
+        console.log('response::', url, '=>', res.data)
 		const responseCode = res.data.code;
 		if (responseCode == 500) {
 			message.error(res.data.err.message || '上传错误')

@@ -12,7 +12,7 @@
 		</div>
 		<div class="header-right">
 			<div class="opt-search">
-				<a-input-search v-model:value="keyword" placeholder="input search text" @search="handleSearch" enterButton />
+				<a-input-search v-model:value="keyword" allow-clear placeholder="input search text" @search="handleSearch" enterButton />
 			</div>
 			<div class="ant-dropdown-menu-item opt-item" @click="handleDialogOpen('qrcode')">
                 <a-tooltip>

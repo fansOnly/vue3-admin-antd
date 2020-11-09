@@ -7,12 +7,10 @@ import Mock from 'mockjs';
  * @param {number} state
  */
 const getBannerClassList = config => {
-    const { page = 1, pageSize = 99, state = '' } = JSON.parse(config.body) ?? {};
+    const { page = 1, pageSize = 99 } = JSON.parse(config.body) ?? {};
     const randomLen = 6;
     const len = randomLen - pageSize * (page - 1) < pageSize ? randomLen - pageSize * (page - 1) : pageSize;
-    const states = ['0', '1'];
     let _data = [];
-    if (states.indexOf(state) != '-1' || typeof state === 'undefined' || state == '') {
         for (let i = 0; i < len; i++) {
             _data.push(
                 Mock.mock({
@@ -21,14 +19,13 @@ const getBannerClassList = config => {
                     'content': '@cparagraph(1)',
                     'create_time': '@datetime',
                     'update_time': '@datetime',
-                    'state': 1,
+                    'state': 1
                 })
             )
         }
-    }
 
     let _total = 0;
-    _total = states.indexOf(state) != '-1' ? Math.floor(Math.random() * randomLen) : randomLen;
+    _total = randomLen;
 
     return Mock.mock({
         'code': '200',
@@ -128,12 +125,12 @@ Mock.mock(/\/banner\/class\/delete/, /get|post/i, deleteBannerClass);
  * @param {number} state
  */
 const getBannerList = config => {
-    const { page = 1, pageSize = 99, state = '' } = JSON.parse(config.body) ?? {};
+    const { page = 1, pageSize = 99, state = null } = JSON.parse(config.body) ?? {};
     const randomLen = 32;
     const len = randomLen - pageSize * (page - 1) < pageSize ? randomLen - pageSize * (page - 1) : pageSize;
     const states = ['0', '1'];
     let _data = [];
-    if (states.indexOf(state) != '-1' || typeof state === 'undefined' || state == '') {
+
         for (let i = 0; i < len; i++) {
             _data.push(
                 Mock.mock({
@@ -155,11 +152,13 @@ const getBannerList = config => {
                         'state': 1
                     }],
                     'create_time': '@datetime',
-                    'state': 1,
+                    'state': function() {
+                        const random = Mock.Random.integer(0, states.length - 1);
+                        return state ?? states[random];
+                    }
                 })
             )
         }
-    }
 
     let _total = 0;
     _total = states.indexOf(state) != '-1' ? Math.floor(Math.random() * randomLen) : randomLen;
